@@ -12,9 +12,6 @@ namespace GoldenSpin.UIModule
 {
     public class RewardListItem : MonoBehaviour
     {
-        private const float APPEAR_SCALE_START = 0f;
-        private const float APPEAR_SCALE_END   = 1f;
-
         [SerializeField]
         private TMP_Text ui_text_reward_label_value;
         [SerializeField]
@@ -23,6 +20,9 @@ namespace GoldenSpin.UIModule
         private Image ui_image_reward_icon;
 
         private AsyncOperationHandle<Sprite> spriteHandle;
+
+        private const float APPEAR_SCALE_START = 0f;
+        private const float APPEAR_SCALE_END   = 1f;
 
         public void Initialize(RewardDTO dto)
         {

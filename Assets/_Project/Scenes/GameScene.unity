@@ -1828,7 +1828,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Zenject::Zenject.SceneContext
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 750917675}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -2479,8 +2480,8 @@ MonoBehaviour:
   wheelTransform: {fileID: 0}
   slicesContainer: {fileID: 0}
   indicatorTransform: {fileID: 0}
-  ui_button_spin: {fileID: 0}
-  ui_button_leave: {fileID: 0}
+  ui_button_spin: {fileID: 1498239215}
+  ui_button_leave: {fileID: 2005296275}
   ui_text_zone_type_value: {fileID: 0}
   ui_text_zone_number_value: {fileID: 0}
   ui_image_spin_background: {fileID: 0}
@@ -4039,9 +4040,9 @@ MonoBehaviour:
   ui_button_restart: {fileID: 0}
   ui_button_revive: {fileID: 0}
   ui_text_revive_cost_value: {fileID: 0}
-  ui_image_bomb_icon: {fileID: 0}
   ui_text_bomb_title: {fileID: 0}
   ui_text_bomb_subtitle: {fileID: 0}
+  ui_image_bomb_icon: {fileID: 0}
 --- !u!225 &1870259363
 CanvasGroup:
   m_ObjectHideFlags: 0

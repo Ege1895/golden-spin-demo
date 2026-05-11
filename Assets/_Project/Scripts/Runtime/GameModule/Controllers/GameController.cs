@@ -6,9 +6,12 @@ namespace GoldenSpin.GameModule
 {
     public class GameController : IGameController, IInitializable
     {
-        [Inject] private readonly IZoneController   zoneController;
-        [Inject] private readonly IWheelController  wheelController;
-        [Inject] private readonly IRewardController rewardController;
+        [Inject] 
+        private readonly IZoneController   zoneController;
+        [Inject] 
+        private readonly IWheelController  wheelController;
+        [Inject] 
+        private readonly IRewardController rewardController;
 
         public GameState CurrentState { get; private set; }
 

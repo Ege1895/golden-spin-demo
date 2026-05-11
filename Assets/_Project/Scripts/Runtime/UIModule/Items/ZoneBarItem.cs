@@ -9,9 +9,6 @@ namespace GoldenSpin.UIModule
 {
     public class ZoneBarItem : MonoBehaviour
     {
-        private const float HIGHLIGHT_SCALE    = 1.2f;
-        private const float HIGHLIGHT_DURATION = 0.2f;
-
         [SerializeField]
         private TMP_Text ui_text_zone_number_value;
         [SerializeField]
@@ -20,6 +17,9 @@ namespace GoldenSpin.UIModule
         private Image ui_image_zone_icon;
 
         public int ZoneNumber { get; private set; }
+        
+        private const float HIGHLIGHT_SCALE    = 1.2f;
+        private const float HIGHLIGHT_DURATION = 0.2f;
 
         public void Initialize(ZoneDTO zoneDTO)
         {

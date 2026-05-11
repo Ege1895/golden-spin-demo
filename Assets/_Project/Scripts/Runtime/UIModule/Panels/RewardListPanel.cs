@@ -8,8 +8,11 @@ namespace GoldenSpin.UIModule
 {
     public class RewardListPanel : BasePanel
     {
-        [Inject] private IRewardController     rewardController;
-        [Inject] private RewardListItemFactory rewardListItemFactory;
+        [Inject] 
+        private IRewardController     rewardController;
+        
+        [Inject] 
+        private RewardListItemFactory rewardListItemFactory;
 
         [SerializeField] private Transform rewardsContainer;
 
