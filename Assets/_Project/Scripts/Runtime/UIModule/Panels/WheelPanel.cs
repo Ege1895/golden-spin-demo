@@ -16,15 +16,22 @@ namespace GoldenSpin.UIModule
         [Inject] private IWheelController      wheelController;
         [Inject] private WheelSliceItemFactory sliceItemFactory;
 
-        [SerializeField] private Transform wheelTransform;
-        [SerializeField] private Transform slicesContainer;
-        [SerializeField] private Transform indicatorTransform;
-
-        [SerializeField] private Button   ui_button_spin;
-        [SerializeField] private Button   ui_button_leave;
-        [SerializeField] private TMP_Text ui_text_zone_type_value;
-        [SerializeField] private TMP_Text ui_text_zone_number_value;
-        [SerializeField] private Image    ui_image_spin_background;
+        [SerializeField]
+        private Transform wheelTransform;
+        [SerializeField]
+        private Transform slicesContainer;
+        [SerializeField]
+        private Transform indicatorTransform;
+        [SerializeField]
+        private Button ui_button_spin;
+        [SerializeField]
+        private Button ui_button_leave;
+        [SerializeField]
+        private TMP_Text ui_text_zone_type_value;
+        [SerializeField]
+        private TMP_Text ui_text_zone_number_value;
+        [SerializeField]
+        private Image ui_image_spin_background;
 
         private readonly List<WheelSliceItem> activeSliceItems = new List<WheelSliceItem>();
 

@@ -11,8 +11,10 @@ namespace GoldenSpin.UIModule
         [Inject] private IZoneController    zoneController;
         [Inject] private ZoneBarItemFactory zoneBarItemFactory;
 
-        [SerializeField] private Transform     zonesContainer;
-        [SerializeField] private RectTransform scrollContent;
+        [SerializeField]
+        private Transform zonesContainer;
+        [SerializeField]
+        private RectTransform scrollContent;
 
         private readonly List<ZoneBarItem> visibleItems = new List<ZoneBarItem>();
 

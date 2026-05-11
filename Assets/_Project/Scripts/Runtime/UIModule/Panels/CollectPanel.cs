@@ -9,17 +9,25 @@ namespace GoldenSpin.UIModule
 {
     public class CollectPanel : BasePanel
     {
-        private const float REWARD_COUNTER_DURATION = 1.5f;
-        private const float CONFETTI_DELAY          = 0.3f;
+        private const float  REWARD_COUNTER_DURATION = 1.5f;
+        private const float  CONFETTI_DELAY          = 0.3f;
+        private const string SUMMARY_ITEM_NAME       = "ui_text_summary_item";
 
-        [Inject] private IGameController   gameController;
-        [Inject] private IRewardController rewardController;
+        [Inject]
+        private IGameController gameController;
+        [Inject]
+        private IRewardController rewardController;
 
-        [SerializeField] private Button     ui_button_play_again;
-        [SerializeField] private Transform  rewardSummaryContainer;
-        [SerializeField] private TMP_Text   ui_text_collect_title;
-        [SerializeField] private TMP_Text   ui_text_total_rewards_value;
-        [SerializeField] private GameObject confettiEffect;
+        [SerializeField]
+        private Button ui_button_play_again;
+        [SerializeField]
+        private Transform rewardSummaryContainer;
+        [SerializeField]
+        private TMP_Text ui_text_collect_title;
+        [SerializeField]
+        private TMP_Text ui_text_total_rewards_value;
+        [SerializeField]
+        private GameObject confettiEffect;
 
         private void Start()
         {
@@ -67,7 +75,7 @@ namespace GoldenSpin.UIModule
 
             foreach (RewardDTO reward in collectedDTO.Rewards)
             {
-                GameObject summaryText = new GameObject("ui_text_summary_item");
+                GameObject summaryText = new GameObject(SUMMARY_ITEM_NAME);
                 summaryText.transform.SetParent(rewardSummaryContainer, false);
                 TextMeshProUGUI tmp = summaryText.AddComponent<TextMeshProUGUI>();
                 tmp.text = $"{reward.Label}: x{reward.Amount}";
