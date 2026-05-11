@@ -1,5 +1,6 @@
 using UnityEngine;
 using Zenject;
+using GoldenSpin.CoreModule;
 using GoldenSpin.ZoneModule;
 using GoldenSpin.RewardModule;
 using GoldenSpin.WheelModule;
