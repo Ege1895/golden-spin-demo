@@ -16,15 +16,15 @@ namespace GoldenSpin.UIModule
         private IRewardController rewardController;
 
         [SerializeField]
-        private Button ui_button_play_again;
+        private Button uiButtonPlayAgain;
         
         [SerializeField]
         private Transform rewardSummaryContainer;
         
         [SerializeField]
-        private TMP_Text ui_text_collect_title;
+        private TMP_Text uiTextCollectTitle;
         [SerializeField]
-        private TMP_Text ui_text_total_rewards_value;
+        private TMP_Text uiTextTotalRewardsValue;
         
         [SerializeField]
         private GameObject confettiEffect;
@@ -40,7 +40,7 @@ namespace GoldenSpin.UIModule
 
         private void ListenEvents()
         {
-            ui_button_play_again.onClick.AddListener(OnPlayAgainClicked);
+            uiButtonPlayAgain.onClick.AddListener(OnPlayAgainClicked);
 
             gameController.OnStateChanged       += HandleStateChanged;
             rewardController.OnRewardsCollected += HandleRewardsCollected;
@@ -75,7 +75,7 @@ namespace GoldenSpin.UIModule
             ClearRewardSummary();
 
             int totalCount = collectedDTO.Rewards.Count;
-            ui_text_total_rewards_value.text = totalCount.ToString();
+            uiTextTotalRewardsValue.text = totalCount.ToString();
 
             foreach (RewardDTO reward in collectedDTO.Rewards)
             {
@@ -104,7 +104,7 @@ namespace GoldenSpin.UIModule
                 x =>
                 {
                     counter = x;
-                    ui_text_total_rewards_value.text = Mathf.RoundToInt(counter).ToString();
+                    uiTextTotalRewardsValue.text = Mathf.RoundToInt(counter).ToString();
                 },
                 target,
                 REWARD_COUNTER_DURATION
@@ -118,7 +118,7 @@ namespace GoldenSpin.UIModule
 
         private void UnsubscribeFromEvents()
         {
-            ui_button_play_again.onClick.RemoveListener(OnPlayAgainClicked);
+            uiButtonPlayAgain.onClick.RemoveListener(OnPlayAgainClicked);
 
             gameController.OnStateChanged       -= HandleStateChanged;
             rewardController.OnRewardsCollected -= HandleRewardsCollected;
@@ -132,9 +132,9 @@ namespace GoldenSpin.UIModule
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (ui_button_play_again == null)
+            if (uiButtonPlayAgain == null)
             {
-                ui_button_play_again = transform.Find("ui_button_play_again")?.GetComponent<Button>();
+                uiButtonPlayAgain = transform.Find("ui_button_play_again")?.GetComponent<Button>();
             }
         }
 #endif

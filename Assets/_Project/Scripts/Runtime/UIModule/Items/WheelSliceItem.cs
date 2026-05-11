@@ -9,11 +9,11 @@ namespace GoldenSpin.UIModule
     public class WheelSliceItem : MonoBehaviour
     {
         [SerializeField]
-        private Image ui_image_slice_icon;
+        private Image uiImageSliceIcon;
         [SerializeField]
-        private TMP_Text ui_text_slice_label_value;
+        private TMP_Text uiTextSliceLabelValue;
         [SerializeField]
-        private Image ui_image_slice_background;
+        private Image uiImageSliceBackground;
         [SerializeField]
         private GameObject bombIndicator;
 
@@ -22,18 +22,18 @@ namespace GoldenSpin.UIModule
             bool isBomb = dto.ContentType == SliceContentType.Bomb;
 
             bombIndicator.SetActive(isBomb);
-            ui_image_slice_icon.gameObject.SetActive(!isBomb);
-            ui_text_slice_label_value.gameObject.SetActive(!isBomb);
+            uiImageSliceIcon.gameObject.SetActive(!isBomb);
+            uiTextSliceLabelValue.gameObject.SetActive(!isBomb);
 
             if (!isBomb && dto.Reward != null)
             {
-                ui_text_slice_label_value.text = $"x{dto.Reward.Amount}";
+                uiTextSliceLabelValue.text = $"x{dto.Reward.Amount}";
             }
         }
 
         public void SetHighlight(bool highlighted)
         {
-            ui_image_slice_background.color = highlighted ? Color.yellow : Color.white;
+            uiImageSliceBackground.color = highlighted ? Color.yellow : Color.white;
         }
 
         public class Factory : PlaceholderFactory<WheelSliceDTO, WheelSliceItem> { }
