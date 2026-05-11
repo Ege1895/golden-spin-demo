@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb4393671d9340fd9327b20ef48460d, type: 3}
+  m_Name: ZoneConfigSO
+  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.ZoneModule.ZoneConfigSO
+  NormalWheelConfig: {fileID: 11400000, guid: 7a1c94ae023874e7db8c95b8ba2135fa, type: 2}
+  SilverWheelConfig: {fileID: 11400000, guid: 0fb29ddcc67ea45e0bfe4e7056269c2a, type: 2}
+  GoldenWheelConfig: {fileID: 11400000, guid: 46bb1d610f2634ad68299df7ebdc1c1e, type: 2}

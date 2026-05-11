@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8beeadf85c05c4197961484f94388e7d, type: 3}
+  m_Name: SilverWheel_WheelConfigSO
+  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.WheelModule.WheelConfigSO
+  SpinType: 1
+  Slices:
+  - {fileID: 11400000, guid: 54257e999abd44087a151aea30f75ab9, type: 2}
+  - {fileID: 11400000, guid: 265740312558e4fac956b70380594efc, type: 2}
+  - {fileID: 11400000, guid: ed6af006b483d45549ab720d4d781e1e, type: 2}
+  - {fileID: 11400000, guid: 4032b7ec94794494b92b7f566bdddf42, type: 2}
+  - {fileID: 11400000, guid: 52c7cf1b4bd374b12b2bb88ac50ac24a, type: 2}
+  - {fileID: 11400000, guid: 1ce7ef3763c9f4e5d9874867e843a013, type: 2}
+  - {fileID: 11400000, guid: f5eb21f38cab3463386bb97d7d863903, type: 2}
+  - {fileID: 11400000, guid: a3b8d941b2c4d4952bb75c152515a977, type: 2}
