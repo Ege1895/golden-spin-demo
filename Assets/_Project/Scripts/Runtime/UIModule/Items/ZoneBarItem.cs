@@ -10,11 +10,11 @@ namespace GoldenSpin.UIModule
     public class ZoneBarItem : MonoBehaviour
     {
         [SerializeField]
-        private TMP_Text ui_text_zone_number_value;
+        private TMP_Text uiTextZoneNumberValue;
         [SerializeField]
-        private Image ui_image_zone_background;
+        private Image uiImageZoneBackground;
         [SerializeField]
-        private Image ui_image_zone_icon;
+        private Image uiImageZoneIcon;
 
         public int ZoneNumber { get; private set; }
         
@@ -24,7 +24,7 @@ namespace GoldenSpin.UIModule
         public void Initialize(ZoneDTO zoneDTO)
         {
             ZoneNumber = zoneDTO.ZoneNumber;
-            ui_text_zone_number_value.text = zoneDTO.ZoneNumber.ToString();
+            uiTextZoneNumberValue.text = zoneDTO.ZoneNumber.ToString();
             ApplyZoneTypeVisual(zoneDTO.Type);
         }
 
@@ -39,16 +39,16 @@ namespace GoldenSpin.UIModule
             switch (zoneType)
             {
                 case ZoneType.Super:
-                    ui_image_zone_background.color = Color.yellow;
-                    ui_image_zone_icon.gameObject.SetActive(true);
+                    uiImageZoneBackground.color = Color.yellow;
+                    uiImageZoneIcon.gameObject.SetActive(true);
                     break;
                 case ZoneType.Safe:
-                    ui_image_zone_background.color = Color.gray;
-                    ui_image_zone_icon.gameObject.SetActive(false);
+                    uiImageZoneBackground.color = Color.gray;
+                    uiImageZoneIcon.gameObject.SetActive(false);
                     break;
                 default:
-                    ui_image_zone_background.color = Color.white;
-                    ui_image_zone_icon.gameObject.SetActive(false);
+                    uiImageZoneBackground.color = Color.white;
+                    uiImageZoneIcon.gameObject.SetActive(false);
                     break;
             }
         }

@@ -13,11 +13,11 @@ namespace GoldenSpin.UIModule
     public class RewardListItem : MonoBehaviour
     {
         [SerializeField]
-        private TMP_Text ui_text_reward_label_value;
+        private TMP_Text uiTextRewardLabelValue;
         [SerializeField]
-        private TMP_Text ui_text_reward_amount_value;
+        private TMP_Text uiTextRewardAmountValue;
         [SerializeField]
-        private Image ui_image_reward_icon;
+        private Image uiImageRewardIcon;
 
         private AsyncOperationHandle<Sprite> spriteHandle;
 
@@ -26,8 +26,8 @@ namespace GoldenSpin.UIModule
 
         public void Initialize(RewardDTO dto)
         {
-            ui_text_reward_label_value.text  = dto.Label;
-            ui_text_reward_amount_value.text = $"x{dto.Amount}";
+            uiTextRewardLabelValue.text  = dto.Label;
+            uiTextRewardAmountValue.text = $"x{dto.Amount}";
 
             LoadSprite(dto.SpriteKey);
             PlayAppearAnimation();
@@ -45,7 +45,7 @@ namespace GoldenSpin.UIModule
             {
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
-                    ui_image_reward_icon.sprite = handle.Result;
+                    uiImageRewardIcon.sprite = handle.Result;
                 }
             };
         }
