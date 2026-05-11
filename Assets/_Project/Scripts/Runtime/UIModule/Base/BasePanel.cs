@@ -1,5 +1,5 @@
+using System.Collections;
 using UnityEngine;
-using DG.Tweening;
 using GoldenSpin.ConfigurationModule;
 
 namespace GoldenSpin.UIModule
@@ -8,7 +8,8 @@ namespace GoldenSpin.UIModule
     {
         [SerializeField] private CanvasGroup canvasGroup;
 
-        private bool isVisible;
+        private bool      isVisible;
+        private Coroutine fadeCoroutine;
 
         public bool IsVisible => isVisible;
 
@@ -31,8 +32,9 @@ namespace GoldenSpin.UIModule
 
             isVisible = true;
             gameObject.SetActive(true);
-            canvasGroup.alpha = 0f;
-            canvasGroup.DOFade(1f, UIConfig.PANEL_FADE_DURATION).SetEase(Ease.OutQuad);
+
+            StopFade();
+            fadeCoroutine = StartCoroutine(FadeTo(1f, UIConfig.PANEL_FADE_DURATION));
             OnShow();
         }
 
@@ -44,15 +46,16 @@ namespace GoldenSpin.UIModule
             }
 
             isVisible = false;
-            canvasGroup.DOFade(0f, UIConfig.PANEL_FADE_DURATION)
-                .SetEase(Ease.InQuad)
-                .OnComplete(() => gameObject.SetActive(false));
+
+            StopFade();
+            fadeCoroutine = StartCoroutine(FadeOutAndDeactivate(UIConfig.PANEL_FADE_DURATION));
             OnHide();
         }
 
         public void ShowImmediate()
         {
             isVisible = true;
+            StopFade();
             SetVisibilityImmediate(true);
             OnShow();
         }
@@ -60,6 +63,7 @@ namespace GoldenSpin.UIModule
         public void HideImmediate()
         {
             isVisible = false;
+            StopFade();
             SetVisibilityImmediate(false);
             OnHide();
         }
@@ -70,6 +74,38 @@ namespace GoldenSpin.UIModule
 
         protected virtual void OnHide()
         {
+        }
+
+        private void StopFade()
+        {
+            if (fadeCoroutine != null)
+            {
+                StopCoroutine(fadeCoroutine);
+                fadeCoroutine = null;
+            }
+        }
+
+        private IEnumerator FadeTo(float targetAlpha, float duration)
+        {
+            float startAlpha = canvasGroup.alpha;
+            float elapsed    = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed          += Time.deltaTime;
+                canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
+                yield return null;
+            }
+
+            canvasGroup.alpha = targetAlpha;
+            fadeCoroutine     = null;
+        }
+
+        private IEnumerator FadeOutAndDeactivate(float duration)
+        {
+            yield return FadeTo(0f, duration);
+            gameObject.SetActive(false);
+            fadeCoroutine = null;
         }
 
         private void SetVisibilityImmediate(bool visible)
