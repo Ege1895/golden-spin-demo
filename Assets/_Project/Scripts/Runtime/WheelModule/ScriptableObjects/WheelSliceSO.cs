@@ -8,6 +8,7 @@ namespace GoldenSpin.WheelModule
     public class WheelSliceSO : ScriptableObject
     {
         public SliceContentType ContentType;
+        
         public RewardSO Reward;
 
         public WheelSliceDTO ToDTO(int zoneMultiplier = RewardConfig.DEFAULT_ZONE_MULTIPLIER)

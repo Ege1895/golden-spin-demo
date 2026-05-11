@@ -9,13 +9,6 @@ namespace GoldenSpin.UIModule
 {
     public class BombPanel : BasePanel
     {
-        private const int    REVIVE_COST              = 25;
-        private const float  BOMB_ICON_PUNCH_SCALE    = 0.3f;
-        private const float  BOMB_ICON_PUNCH_DURATION = 0.4f;
-        private const int    BOMB_ICON_PUNCH_VIBRATO  = 5;
-        private const float  BOMB_ICON_PUNCH_ELASTIC  = 0.5f;
-        private const string LOG_REVIVE_REQUESTED     = "[BombPanel] Revive requested";
-
         [Inject]
         private IGameController gameController;
 
@@ -23,14 +16,23 @@ namespace GoldenSpin.UIModule
         private Button ui_button_restart;
         [SerializeField]
         private Button ui_button_revive;
+        
         [SerializeField]
         private TMP_Text ui_text_revive_cost_value;
-        [SerializeField]
-        private Image ui_image_bomb_icon;
         [SerializeField]
         private TMP_Text ui_text_bomb_title;
         [SerializeField]
         private TMP_Text ui_text_bomb_subtitle;
+        
+        [SerializeField]
+        private Image ui_image_bomb_icon;
+        
+        private const int    REVIVE_COST              = 25;
+        private const float  BOMB_ICON_PUNCH_SCALE    = 0.3f;
+        private const float  BOMB_ICON_PUNCH_DURATION = 0.4f;
+        private const int    BOMB_ICON_PUNCH_VIBRATO  = 5;
+        private const float  BOMB_ICON_PUNCH_ELASTIC  = 0.5f;
+        private const string LOG_REVIVE_REQUESTED     = "[BombPanel] Revive requested";
 
         private void Start()
         {

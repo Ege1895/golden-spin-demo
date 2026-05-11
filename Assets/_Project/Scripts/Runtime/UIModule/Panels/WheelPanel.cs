@@ -11,10 +11,14 @@ namespace GoldenSpin.UIModule
 {
     public class WheelPanel : BasePanel
     {
-        [Inject] private IGameController       gameController;
-        [Inject] private IZoneController       zoneController;
-        [Inject] private IWheelController      wheelController;
-        [Inject] private WheelSliceItemFactory sliceItemFactory;
+        [Inject] 
+        private IGameController       gameController;
+        [Inject] 
+        private IZoneController       zoneController;
+        [Inject] 
+        private IWheelController      wheelController;
+        [Inject] 
+        private WheelSliceItemFactory sliceItemFactory;
 
         [SerializeField]
         private Transform wheelTransform;
@@ -22,14 +26,17 @@ namespace GoldenSpin.UIModule
         private Transform slicesContainer;
         [SerializeField]
         private Transform indicatorTransform;
+        
         [SerializeField]
         private Button ui_button_spin;
         [SerializeField]
         private Button ui_button_leave;
+        
         [SerializeField]
         private TMP_Text ui_text_zone_type_value;
         [SerializeField]
         private TMP_Text ui_text_zone_number_value;
+        
         [SerializeField]
         private Image ui_image_spin_background;
 

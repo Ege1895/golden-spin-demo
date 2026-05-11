@@ -8,11 +8,15 @@ namespace GoldenSpin.UIModule
 {
     public class ZoneBarPanel : BasePanel
     {
-        [Inject] private IZoneController    zoneController;
-        [Inject] private ZoneBarItemFactory zoneBarItemFactory;
+        [Inject] 
+        private IZoneController    zoneController;
+        
+        [Inject] 
+        private ZoneBarItemFactory zoneBarItemFactory;
 
         [SerializeField]
         private Transform zonesContainer;
+        
         [SerializeField]
         private RectTransform scrollContent;
 

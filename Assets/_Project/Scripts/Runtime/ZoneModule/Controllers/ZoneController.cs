@@ -7,8 +7,9 @@ namespace GoldenSpin.ZoneModule
 {
     public class ZoneController : IZoneController, IInitializable
     {
-        public int     CurrentZone    { get; private set; }
         public ZoneDTO CurrentZoneDTO { get; private set; }
+        
+        public int CurrentZone    { get; private set; }
 
         public event Action<ZoneDTO> OnZoneChanged;
 
