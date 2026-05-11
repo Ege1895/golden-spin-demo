@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
+using GoldenSpin.ZoneModule;
+using Random = UnityEngine.Random;
 
 namespace GoldenSpin.WheelModule
 {
