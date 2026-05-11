@@ -20,6 +20,9 @@ namespace GoldenSpin.Editor
             WireRewardListPanel(scene);
             WireBombPanel(scene);
             WireCollectPanel(scene);
+            WireWheelSliceItem(scene);
+            WireZoneBarItem(scene);
+            WireRewardListItem(scene);
             WireAppInstaller(scene);
 
             EditorSceneManager.MarkSceneDirty(scene);
@@ -44,6 +47,18 @@ namespace GoldenSpin.Editor
             foreach (GameObject go in all)
                 if (go.name == name && go.scene.isLoaded) return go;
             return null;
+        }
+
+        private static GameObject FindChildGO(GameObject parent, string name)
+        {
+            Transform t = parent.transform.Find(name);
+            return t != null ? t.gameObject : null;
+        }
+
+        private static T FindChild<T>(GameObject parent, string name) where T : Component
+        {
+            GameObject go = FindChildGO(parent, name);
+            return go != null ? go.GetComponent<T>() : null;
         }
 
         private static T FindInactive<T>(string name) where T : Component
@@ -175,9 +190,71 @@ namespace GoldenSpin.Editor
                 ?.SetValue(ai, FindInactive<BombPanel>("Panel_Bomb"));
             ai.GetType().GetField("collectPanel",       System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(ai, FindInactive<CollectPanel>("Panel_Collect"));
+            ai.GetType().GetField("sliceItemPrefab",    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ai, FindInactive<WheelSliceItem>("WheelSliceItem"));
+            ai.GetType().GetField("zoneBarItemPrefab",  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ai, FindInactive<ZoneBarItem>("ZoneBarItem"));
+            ai.GetType().GetField("rewardListItemPrefab", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ai, FindInactive<RewardListItem>("RewardListItem"));
 
             EditorUtility.SetDirty(ai);
             Debug.Log("[SceneReferenceWirer] AppInstaller wired.");
+        }
+
+        private static void WireWheelSliceItem(Scene scene)
+        {
+            WheelSliceItem item = FindInactive<WheelSliceItem>("WheelSliceItem");
+            if (item == null) return;
+
+            GameObject root = item.gameObject;
+            var f = item.GetType();
+            f.GetField("uiImageSliceBackground", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<UnityEngine.UI.Image>(root, "ui_image_slice_background"));
+            f.GetField("uiImageSliceIcon",       System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<UnityEngine.UI.Image>(root, "ui_image_slice_icon"));
+            f.GetField("uiTextSliceLabelValue",  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<TMPro.TextMeshProUGUI>(root, "ui_text_slice_label_value"));
+            f.GetField("bombIndicator",          System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChildGO(root, "ui_game_bomb_indicator"));
+
+            EditorUtility.SetDirty(item);
+            Debug.Log("[SceneReferenceWirer] WheelSliceItem wired.");
+        }
+
+        private static void WireZoneBarItem(Scene scene)
+        {
+            ZoneBarItem item = FindInactive<ZoneBarItem>("ZoneBarItem");
+            if (item == null) return;
+
+            GameObject root = item.gameObject;
+            var f = item.GetType();
+            f.GetField("uiImageZoneBackground",  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<UnityEngine.UI.Image>(root, "ui_image_zone_background"));
+            f.GetField("uiTextZoneNumberValue",  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<TMPro.TextMeshProUGUI>(root, "ui_text_zone_number_value"));
+            f.GetField("uiImageZoneIcon",        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<UnityEngine.UI.Image>(root, "ui_image_zone_icon"));
+
+            EditorUtility.SetDirty(item);
+            Debug.Log("[SceneReferenceWirer] ZoneBarItem wired.");
+        }
+
+        private static void WireRewardListItem(Scene scene)
+        {
+            RewardListItem item = FindInactive<RewardListItem>("RewardListItem");
+            if (item == null) return;
+
+            GameObject root = item.gameObject;
+            var f = item.GetType();
+            f.GetField("uiImageRewardIcon",       System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<UnityEngine.UI.Image>(root, "ui_image_reward_icon"));
+            f.GetField("uiTextRewardLabelValue",  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<TMPro.TextMeshProUGUI>(root, "ui_text_reward_label_value"));
+            f.GetField("uiTextRewardAmountValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<TMPro.TextMeshProUGUI>(root, "ui_text_reward_amount_value"));
+
+            EditorUtility.SetDirty(item);
+            Debug.Log("[SceneReferenceWirer] RewardListItem wired.");
         }
     }
 }
