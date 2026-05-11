@@ -4,6 +4,7 @@ using GoldenSpin.ZoneModule;
 using GoldenSpin.RewardModule;
 using GoldenSpin.WheelModule;
 using GoldenSpin.GameModule;
+using GoldenSpin.UIModule;
 
 namespace GoldenSpin.InstallerModule
 {
@@ -18,6 +19,8 @@ namespace GoldenSpin.InstallerModule
             Container.BindInterfacesTo<WheelController>().AsSingle();
             Container.BindInterfacesTo<GameController>().AsSingle();
             Container.BindInstance(zoneConfigSO).AsSingle();
+
+            Container.Bind<PanelManager>().AsSingle();
         }
     }
 }
