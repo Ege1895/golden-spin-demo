@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 using GoldenSpin.ConfigurationModule;
 
 namespace GoldenSpin.UIModule
@@ -8,8 +8,8 @@ namespace GoldenSpin.UIModule
     {
         [SerializeField] private CanvasGroup canvasGroup;
 
-        private bool      isVisible;
-        private Coroutine fadeCoroutine;
+        private bool  isVisible;
+        private Tween fadeTween;
 
         public bool IsVisible => isVisible;
 
@@ -32,9 +32,9 @@ namespace GoldenSpin.UIModule
 
             isVisible = true;
             gameObject.SetActive(true);
-
-            StopFade();
-            fadeCoroutine = StartCoroutine(FadeTo(1f, UIConfig.PANEL_FADE_DURATION));
+            fadeTween?.Kill();
+            canvasGroup.alpha = 0f;
+            fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1f, UIConfig.PANEL_FADE_DURATION).SetEase(Ease.OutQuad);
             OnShow();
         }
 
@@ -46,16 +46,17 @@ namespace GoldenSpin.UIModule
             }
 
             isVisible = false;
-
-            StopFade();
-            fadeCoroutine = StartCoroutine(FadeOutAndDeactivate(UIConfig.PANEL_FADE_DURATION));
+            fadeTween?.Kill();
+            fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, UIConfig.PANEL_FADE_DURATION)
+                .SetEase(Ease.InQuad)
+                .OnComplete(() => gameObject.SetActive(false));
             OnHide();
         }
 
         public void ShowImmediate()
         {
             isVisible = true;
-            StopFade();
+            fadeTween?.Kill();
             SetVisibilityImmediate(true);
             OnShow();
         }
@@ -63,7 +64,7 @@ namespace GoldenSpin.UIModule
         public void HideImmediate()
         {
             isVisible = false;
-            StopFade();
+            fadeTween?.Kill();
             SetVisibilityImmediate(false);
             OnHide();
         }
@@ -74,38 +75,6 @@ namespace GoldenSpin.UIModule
 
         protected virtual void OnHide()
         {
-        }
-
-        private void StopFade()
-        {
-            if (fadeCoroutine != null)
-            {
-                StopCoroutine(fadeCoroutine);
-                fadeCoroutine = null;
-            }
-        }
-
-        private IEnumerator FadeTo(float targetAlpha, float duration)
-        {
-            float startAlpha = canvasGroup.alpha;
-            float elapsed    = 0f;
-
-            while (elapsed < duration)
-            {
-                elapsed          += Time.deltaTime;
-                canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
-                yield return null;
-            }
-
-            canvasGroup.alpha = targetAlpha;
-            fadeCoroutine     = null;
-        }
-
-        private IEnumerator FadeOutAndDeactivate(float duration)
-        {
-            yield return FadeTo(0f, duration);
-            gameObject.SetActive(false);
-            fadeCoroutine = null;
         }
 
         private void SetVisibilityImmediate(bool visible)

@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using DG.Tweening;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
 
@@ -93,37 +93,25 @@ namespace GoldenSpin.UIModule
         {
             targetSliceIndex = resultIndex;
             BuildWheelSlices();
-            StartCoroutine(SpinAnimation());
+            StartSpinAnimation();
         }
 
-        private IEnumerator SpinAnimation()
+        private void StartSpinAnimation()
         {
             float targetAngle   = wheelController.GetTargetAngleForSlice(targetSliceIndex);
             float totalRotation = WheelConfig.SPIN_MIN_ROTATIONS * 360f + targetAngle;
             float duration      = Random.Range(WheelConfig.SPIN_MIN_DURATION, WheelConfig.SPIN_MAX_DURATION);
-            float elapsed       = 0f;
-            float startZ        = wheelTransform.localEulerAngles.z;
 
-            while (elapsed < duration)
+            wheelTransform.DORotate(
+                new Vector3(0f, 0f, -totalRotation),
+                duration,
+                RotateMode.FastBeyond360
+            ).SetEase(Ease.OutQuart).OnComplete(() =>
             {
-                elapsed += Time.deltaTime;
-                float t  = Mathf.Clamp01(elapsed / duration);
-                float easedT = 1f - Mathf.Pow(1f - t, 4f);
-
-                wheelTransform.localEulerAngles = new Vector3(
-                    0f,
-                    0f,
-                    startZ - totalRotation * easedT
-                );
-
-                yield return null;
-            }
-
-            wheelTransform.localEulerAngles = new Vector3(0f, 0f, startZ - totalRotation);
-
-            WheelSliceDTO resultSlice = wheelController.CurrentSlices[targetSliceIndex];
-            activeSliceItems[targetSliceIndex].SetHighlight(true);
-            gameController.OnSpinAnimationCompleted(resultSlice);
+                WheelSliceDTO resultSlice = wheelController.CurrentSlices[targetSliceIndex];
+                activeSliceItems[targetSliceIndex].SetHighlight(true);
+                gameController.OnSpinAnimationCompleted(resultSlice);
+            });
         }
 
         private void RefreshZoneUI(ZoneDTO zoneDTO)
