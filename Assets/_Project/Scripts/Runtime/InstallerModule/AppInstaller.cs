@@ -11,9 +11,11 @@ namespace GoldenSpin.InstallerModule
 {
     public class AppInstaller : MonoInstaller
     {
-        [SerializeField] private ZoneConfigSO  zoneConfigSO;
-        [SerializeField] private WheelPanel    wheelPanel;
+        [SerializeField] private ZoneConfigSO   zoneConfigSO;
+        [SerializeField] private WheelPanel     wheelPanel;
+        [SerializeField] private ZoneBarPanel   zoneBarPanel;
         [SerializeField] private WheelSliceItem sliceItemPrefab;
+        [SerializeField] private ZoneBarItem    zoneBarItemPrefab;
 
         public override void InstallBindings()
         {
@@ -29,6 +31,11 @@ namespace GoldenSpin.InstallerModule
                 .FromComponentInNewPrefab(sliceItemPrefab);
             Container.Bind<WheelSliceItemFactory>().AsSingle();
             Container.BindInstance(wheelPanel).AsSingle();
+
+            Container.BindFactory<ZoneDTO, ZoneBarItem, ZoneBarItem.Factory>()
+                .FromComponentInNewPrefab(zoneBarItemPrefab);
+            Container.Bind<ZoneBarItemFactory>().AsSingle();
+            Container.BindInstance(zoneBarPanel).AsSingle();
         }
     }
 }
