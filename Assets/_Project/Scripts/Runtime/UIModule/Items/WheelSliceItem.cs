@@ -8,12 +8,14 @@ namespace GoldenSpin.UIModule
 {
     public class WheelSliceItem : MonoBehaviour
     {
-        private const string BOMB_LABEL = "BOMB";
-
-        [SerializeField] private Image      ui_image_slice_icon;
-        [SerializeField] private TMP_Text   ui_text_slice_label_value;
-        [SerializeField] private Image      ui_image_slice_background;
-        [SerializeField] private GameObject bombIndicator;
+        [SerializeField]
+        private Image ui_image_slice_icon;
+        [SerializeField]
+        private TMP_Text ui_text_slice_label_value;
+        [SerializeField]
+        private Image ui_image_slice_background;
+        [SerializeField]
+        private GameObject bombIndicator;
 
         public void Initialize(WheelSliceDTO dto)
         {

@@ -8,7 +8,8 @@ namespace GoldenSpin.Editor
 {
     public static class SOAssetGenerator
     {
-        private const string DATA_PATH = "Assets/_Project/AddressableAssets/Data";
+        private const string DATA_PATH              = "Assets/_Project/AddressableAssets/Data";
+        private const string LOG_GENERATE_SUCCESS   = "[SOAssetGenerator] All SO assets generated successfully.";
 
         private const string CASH_LABEL    = "Cash";
         private const string WEAPON_LABEL  = "Weapon";
@@ -137,7 +138,7 @@ namespace GoldenSpin.Editor
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            Debug.Log("[SOAssetGenerator] All SO assets generated successfully.");
+            Debug.Log(LOG_GENERATE_SUCCESS);
         }
 
         private static WheelSliceSO CreateWheelSlice(string name, SliceContentType contentType, RewardSO reward)

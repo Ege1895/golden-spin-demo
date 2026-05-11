@@ -12,9 +12,12 @@ namespace GoldenSpin.UIModule
         private const float HIGHLIGHT_SCALE    = 1.2f;
         private const float HIGHLIGHT_DURATION = 0.2f;
 
-        [SerializeField] private TMP_Text ui_text_zone_number_value;
-        [SerializeField] private Image    ui_image_zone_background;
-        [SerializeField] private Image    ui_image_zone_icon;
+        [SerializeField]
+        private TMP_Text ui_text_zone_number_value;
+        [SerializeField]
+        private Image ui_image_zone_background;
+        [SerializeField]
+        private Image ui_image_zone_icon;
 
         public int ZoneNumber { get; private set; }
 
