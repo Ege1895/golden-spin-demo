@@ -16,6 +16,7 @@ namespace GoldenSpin.InstallerModule
         [SerializeField] private ZoneBarPanel    zoneBarPanel;
         [SerializeField] private RewardListPanel rewardListPanel;
         [SerializeField] private BombPanel       bombPanel;
+        [SerializeField] private CollectPanel    collectPanel;
         [SerializeField] private WheelSliceItem  sliceItemPrefab;
         [SerializeField] private ZoneBarItem     zoneBarItemPrefab;
         [SerializeField] private RewardListItem  rewardListItemPrefab;
@@ -46,6 +47,7 @@ namespace GoldenSpin.InstallerModule
             Container.BindInstance(rewardListPanel).AsSingle();
 
             Container.BindInstance(bombPanel).AsSingle();
+            Container.BindInstance(collectPanel).AsSingle();
         }
     }
 }
