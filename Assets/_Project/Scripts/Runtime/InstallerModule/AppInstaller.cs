@@ -1,5 +1,6 @@
 using Zenject;
 using GoldenSpin.ZoneModule;
+using GoldenSpin.RewardModule;
 
 namespace GoldenSpin.InstallerModule
 {
@@ -8,6 +9,7 @@ namespace GoldenSpin.InstallerModule
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<ZoneController>().AsSingle();
+            Container.BindInterfacesTo<RewardController>().AsSingle();
         }
     }
 }
