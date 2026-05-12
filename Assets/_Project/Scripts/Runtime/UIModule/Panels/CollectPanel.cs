@@ -30,6 +30,7 @@ namespace GoldenSpin.UIModule
         private TMP_Text uiTextTotalRewardsValue;
         [SerializeField]
         private Image uiImageRewardIcon;
+        
         [SerializeField]
         private AspectRatioFitter rewardIconFitter;
 
@@ -110,7 +111,9 @@ namespace GoldenSpin.UIModule
         {
             uiImageRewardIcon.sprite = sprite;
             if (rewardIconFitter != null)
+            {
                 rewardIconFitter.aspectRatio = sprite.rect.width / sprite.rect.height;
+            }
         }
 
         private void PopulateRewardSummary(CollectedRewardDTO collectedDTO)

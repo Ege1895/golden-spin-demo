@@ -21,12 +21,6 @@ namespace GoldenSpin.UIModule
         [SerializeField]
         private RectTransform scrollContent;
 
-        [SerializeField]
-        private TMP_Text uiTextZoneNumberValue;
-
-        [SerializeField]
-        private TMP_Text uiTextZoneTypeValue;
-
         private readonly List<ZoneBarItem> visibleItems = new List<ZoneBarItem>();
 
         private void Start()
@@ -34,7 +28,6 @@ namespace GoldenSpin.UIModule
             zoneBarItemFactory.SetParent(zonesContainer);
             ListenEvents();
             BuildZoneBar();
-            RefreshZoneTexts(zoneController.CurrentZoneDTO);
             ShowImmediate();
         }
 
@@ -68,15 +61,6 @@ namespace GoldenSpin.UIModule
         private void HandleZoneChanged(ZoneDTO zoneDTO)
         {
             BuildZoneBar();
-            RefreshZoneTexts(zoneDTO);
-        }
-
-        private void RefreshZoneTexts(ZoneDTO zoneDTO)
-        {
-            if (uiTextZoneNumberValue != null)
-                uiTextZoneNumberValue.text = zoneDTO.ZoneNumber.ToString();
-            if (uiTextZoneTypeValue != null)
-                uiTextZoneTypeValue.text = zoneDTO.Type.ToString().ToUpper();
         }
 
         private void UnsubscribeFromEvents()

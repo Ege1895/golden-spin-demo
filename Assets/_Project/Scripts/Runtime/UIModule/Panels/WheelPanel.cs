@@ -157,7 +157,6 @@ namespace GoldenSpin.UIModule
             ).SetEase(Ease.OutQuart).OnComplete(() =>
             {
                 WheelSliceDTO resultSlice = wheelController.CurrentSlices[targetSliceIndex];
-                activeSliceItems[targetSliceIndex].SetHighlight(true);
                 gameController.OnSpinAnimationCompleted(resultSlice);
             });
         }
