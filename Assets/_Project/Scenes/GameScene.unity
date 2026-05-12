@@ -667,7 +667,6 @@ RectTransform:
   - {fileID: 1605613402}
   - {fileID: 277817268}
   - {fileID: 2068003543}
-  - {fileID: 1498239214}
   m_Father: {fileID: 1119956789}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -951,8 +950,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2119660570}
+  m_Children: []
   m_Father: {fileID: 251154099}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1152,12 +1150,12 @@ GameObject:
   - component: {fileID: 408045561}
   - component: {fileID: 408045560}
   m_Layer: 5
-  m_Name: ui_image_wheel_indicator
+  m_Name: ui_image_wheel_indicator_silver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &408045559
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1170,11 +1168,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1605613402}
+  m_Father: {fileID: 458654048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -323.94775}
   m_SizeDelta: {x: 86, y: 118}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &408045560
@@ -1215,6 +1213,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 408045558}
   m_CullTransparentMesh: 1
+--- !u!1 &458654047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 458654048}
+  m_Layer: 5
+  m_Name: Indicators
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &458654048
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458654047}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 876647460}
+  - {fileID: 408045559}
+  - {fileID: 2119660570}
+  m_Father: {fileID: 1119956789}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &474592661
 GameObject:
   m_ObjectHideFlags: 0
@@ -2081,8 +2117,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
@@ -2096,8 +2132,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
 --- !u!1 &750917674
 GameObject:
@@ -2197,7 +2240,7 @@ GameObject:
   - component: {fileID: 876647462}
   - component: {fileID: 876647461}
   m_Layer: 5
-  m_Name: ui_image_wheel_indicator
+  m_Name: ui_image_wheel_indicator_bronze
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2215,11 +2258,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1220200300}
+  m_Father: {fileID: 458654048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -323.94775}
   m_SizeDelta: {x: 86, y: 118}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &876647461
@@ -2702,11 +2745,13 @@ RectTransform:
   - {fileID: 1558067804}
   - {fileID: 1042883267}
   - {fileID: 251154099}
+  - {fileID: 1498239214}
   - {fileID: 1889981515}
   - {fileID: 2005296274}
   - {fileID: 1367391690}
   - {fileID: 189889978}
   - {fileID: 671164345}
+  - {fileID: 458654048}
   m_Father: {fileID: 1621337471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2733,6 +2778,9 @@ MonoBehaviour:
   wheelBaseBronzeObject: {fileID: 1220200299}
   wheelBaseSilverObject: {fileID: 1605613401}
   wheelBaseGoldObject: {fileID: 277817267}
+  wheelBaseBronzeIndicatorObject: {fileID: 876647459}
+  wheelBaseSilverIndicatorObject: {fileID: 408045558}
+  wheelBaseGoldIndicatorObject: {fileID: 2119660569}
   uiButtonSpin: {fileID: 1498239215}
   uiButtonLeave: {fileID: 2005296275}
   uiTextZoneTypeValue: {fileID: 189889979}
@@ -2779,8 +2827,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 876647460}
+  m_Children: []
   m_Father: {fileID: 251154099}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3580,11 +3627,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 251154099}
+  m_Father: {fileID: 1119956789}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0000038146973}
+  m_AnchoredPosition: {x: 0, y: 60.000027}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1498239215
@@ -3981,8 +4028,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 408045559}
+  m_Children: []
   m_Father: {fileID: 251154099}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5277,12 +5323,12 @@ GameObject:
   - component: {fileID: 2119660572}
   - component: {fileID: 2119660571}
   m_Layer: 5
-  m_Name: ui_image_wheel_indicator
+  m_Name: ui_image_wheel_indicator_gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2119660570
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5295,11 +5341,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 277817268}
+  m_Father: {fileID: 458654048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -323.94775}
   m_SizeDelta: {x: 86, y: 118}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2119660571

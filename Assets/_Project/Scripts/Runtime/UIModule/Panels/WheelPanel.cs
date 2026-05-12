@@ -36,6 +36,12 @@ namespace GoldenSpin.UIModule
         private GameObject wheelBaseSilverObject;
         [SerializeField] 
         private GameObject wheelBaseGoldObject;
+        [SerializeField] 
+        private GameObject wheelBaseBronzeIndicatorObject;
+        [SerializeField] 
+        private GameObject wheelBaseSilverIndicatorObject;
+        [SerializeField] 
+        private GameObject wheelBaseGoldIndicatorObject;
         
         [SerializeField]
         private Button uiButtonSpin;
@@ -155,7 +161,11 @@ namespace GoldenSpin.UIModule
         {
             wheelBaseBronzeObject?.SetActive(spinType == SpinType.Normal);
             wheelBaseSilverObject?.SetActive(spinType == SpinType.Silver);
-            wheelBaseGoldObject?.SetActive(spinType == SpinType.Golden);
+            wheelBaseGoldObject?.SetActive(spinType == SpinType.Golden);    
+            
+            wheelBaseBronzeIndicatorObject?.SetActive(spinType == SpinType.Normal);
+            wheelBaseSilverIndicatorObject?.SetActive(spinType == SpinType.Silver);
+            wheelBaseGoldIndicatorObject?.SetActive(spinType == SpinType.Golden);
         }
 
         private void RefreshZoneUI(ZoneDTO zoneDTO)
@@ -166,13 +176,13 @@ namespace GoldenSpin.UIModule
             switch (zoneDTO.SpinType)
             {
                 case SpinType.Golden:
-                    uiImageSpinBackground.color = Color.yellow;
+                    uiImageSpinBackground.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.1f);
                     break;
                 case SpinType.Silver:
-                    uiImageSpinBackground.color = Color.gray;
+                    uiImageSpinBackground.color = new Color(Color.gray.r, Color.gray.g, Color.gray.b, 0.1f);
                     break;
                 default:
-                    uiImageSpinBackground.color = Color.white;
+                    uiImageSpinBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0.1f);
                     break;
             }
         }
@@ -189,6 +199,7 @@ namespace GoldenSpin.UIModule
 
         private void OnSpinButtonClicked()
         {
+            Debug.Log("OnSpinButtonClicked");
             gameController.RequestSpin();
         }
 
