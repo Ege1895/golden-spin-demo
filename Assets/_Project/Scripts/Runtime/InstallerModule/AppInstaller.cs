@@ -29,15 +29,6 @@ namespace GoldenSpin.InstallerModule
         [SerializeField]
         private CollectUIPanel collectPanel;
 
-        [SerializeField]
-        private WheelSliceItem sliceItemPrefab;
-
-        [SerializeField]
-        private ZoneBarItem zoneBarItemPrefab;
-
-        [SerializeField]
-        private RewardListItem rewardListItemPrefab;
-
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<ZoneController>().AsSingle();
@@ -48,21 +39,13 @@ namespace GoldenSpin.InstallerModule
 
             Container.Bind<PanelManager>().AsSingle();
 
-            Container.BindFactory<WheelSliceItem, WheelSliceItem.Factory>()
-                .FromComponentInNewPrefab(sliceItemPrefab);
             Container.Bind<WheelSliceItemFactory>().AsSingle();
-            Container.BindInstance(wheelPanel).AsSingle();
-
-            Container.BindFactory<ZoneBarItem, ZoneBarItem.Factory>()
-                .FromComponentInNewPrefab(zoneBarItemPrefab);
-            Container.Bind<ZoneBarItemFactory>().AsSingle();
-            Container.BindInstance(zoneBarPanel).AsSingle();
-
-            Container.BindFactory<RewardListItem, RewardListItem.Factory>()
-                .FromComponentInNewPrefab(rewardListItemPrefab);
             Container.Bind<RewardListItemFactory>().AsSingle();
-            Container.BindInstance(rewardListPanel).AsSingle();
+            Container.Bind<ZoneBarItemFactory>().AsSingle();
 
+            Container.BindInstance(wheelPanel).AsSingle();
+            Container.BindInstance(zoneBarPanel).AsSingle();
+            Container.BindInstance(rewardListPanel).AsSingle();
             Container.BindInstance(bombPanel).AsSingle();
             Container.BindInstance(collectPanel).AsSingle();
         }
