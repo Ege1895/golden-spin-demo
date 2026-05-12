@@ -54,6 +54,10 @@ namespace GoldenSpin.UIModule
 
         private readonly List<WheelSliceItem> activeSliceItems = new List<WheelSliceItem>();
 
+        private const string TITLE_NORMAL = "NORMAL SPIN";
+        private const string TITLE_SILVER = "SILVER SPIN";
+        private const string TITLE_GOLDEN = "GOLDEN SPIN";
+
         private int targetSliceIndex;
 
         private void Start()
@@ -178,9 +182,9 @@ namespace GoldenSpin.UIModule
 
             uiTextWheelTitle.text = spinType switch
             {
-                SpinType.Golden => "ALTIN ÇEVİRME",
-                SpinType.Silver => "GÜMÜŞ ÇEVİRME",
-                _               => "NORMAL ÇEVİRME",
+                SpinType.Golden => TITLE_GOLDEN,
+                SpinType.Silver => TITLE_SILVER,
+                _               => TITLE_NORMAL,
             };
         }
 
