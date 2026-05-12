@@ -7,12 +7,16 @@ namespace GoldenSpin.CoreModule
     {
         IReadOnlyList<WheelSliceDTO> CurrentSlices { get; }
 
-        event Action<int>           OnSpinStarted;
+        event Action<int> OnSpinStarted;
+        
         event Action<WheelSliceDTO> OnSpinCompleted;
 
-        void  PrepareWheel(SpinType spinType, int zoneMultiplier);
-        int   DetermineResultSliceIndex();
-        void  ProcessSpinResult(WheelSliceDTO resultSlice);
+        void PrepareWheel(SpinType spinType, int zoneMultiplier);
+        
+        void ProcessSpinResult(WheelSliceDTO resultSlice);
+        
         float GetTargetAngleForSlice(int sliceIndex);
+        
+        int DetermineResultSliceIndex();
     }
 }

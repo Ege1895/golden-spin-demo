@@ -7,13 +7,16 @@ namespace GoldenSpin.CoreModule
     {
         IReadOnlyList<RewardDTO> CollectedRewards { get; }
 
-        event Action<RewardDTO>          OnRewardAdded;
+        event Action<RewardDTO> OnRewardAdded;
         event Action<CollectedRewardDTO> OnRewardsCleared;
         event Action<CollectedRewardDTO> OnRewardsCollected;
 
-        void               AddReward(RewardDTO reward);
-        void               ClearRewards();
-        void               CollectRewards();
+        void AddReward(RewardDTO reward);
+        
+        void ClearRewards();
+        
+        void CollectRewards();
+        
         CollectedRewardDTO GetSnapshot();
     }
 }

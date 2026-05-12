@@ -8,6 +8,7 @@ namespace GoldenSpin.WheelModule
     public class WheelConfigSO : ScriptableObject
     {
         public SpinType SpinType;
+        
         [Tooltip("Editor'dan slice içeriklerini buradan değiştir")]
         public List<WheelSliceSO> Slices;
     }
