@@ -8,10 +8,10 @@ namespace GoldenSpin.UIModule
 {
     public class WheelSliceItem : MonoBehaviour
     {
-        [SerializeField] private Image      uiImageSliceIcon;
-        [SerializeField] private TMP_Text   uiTextSliceLabelValue;
-        [SerializeField] private Image      uiImageSliceBackground;
-        [SerializeField] private GameObject bombIndicator;
+        [SerializeField] private Image             uiImageSliceIcon;
+        [SerializeField] private AspectRatioFitter sliceIconFitter;
+        [SerializeField] private TMP_Text          uiTextSliceLabelValue;
+        [SerializeField] private GameObject        bombIndicator;
 
         public void Initialize(WheelSliceDTO dto)
         {
@@ -26,12 +26,14 @@ namespace GoldenSpin.UIModule
             uiTextSliceLabelValue.text = $"x{dto.Reward.Amount}";
 
             if (dto.Reward.Icon != null)
-                uiImageSliceIcon.sprite = dto.Reward.Icon;
+                SetSliceIcon(dto.Reward.Icon);
         }
 
-        public void SetHighlight(bool highlighted)
+        private void SetSliceIcon(Sprite sprite)
         {
-            uiImageSliceBackground.color = highlighted ? Color.yellow : Color.white;
+            uiImageSliceIcon.sprite = sprite;
+            if (sliceIconFitter != null)
+                sliceIconFitter.aspectRatio = sprite.rect.width / sprite.rect.height;
         }
 
         public class Factory : PlaceholderFactory<WheelSliceItem> { }
