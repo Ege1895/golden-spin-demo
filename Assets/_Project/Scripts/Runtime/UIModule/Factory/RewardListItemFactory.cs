@@ -21,7 +21,8 @@ namespace GoldenSpin.UIModule
 
         public RewardListItem Create(RewardDTO dto)
         {
-            RewardListItem item = factory.Create(dto);
+            RewardListItem item = factory.Create();
+            item.Initialize(dto);
             item.transform.SetParent(parentTransform, false);
             activeItems.Add(item);
             return item;
