@@ -20,8 +20,10 @@ namespace GoldenSpin.WheelModule
 
         public IReadOnlyList<WheelSliceDTO> CurrentSlices => currentSlices;
 
+        public event Action<SpinType> OnWheelPrepared;
+
         public event Action<int> OnSpinStarted;
-        
+
         public event Action<WheelSliceDTO> OnSpinCompleted;
 
         public void PrepareWheel(SpinType spinType, int zoneMultiplier)
@@ -34,6 +36,8 @@ namespace GoldenSpin.WheelModule
             {
                 currentSlices.Add(sliceSO.ToDTO(zoneMultiplier));
             }
+
+            OnWheelPrepared?.Invoke(spinType);
         }
 
         public int DetermineResultSliceIndex()

@@ -7,8 +7,10 @@ namespace GoldenSpin.CoreModule
     {
         IReadOnlyList<WheelSliceDTO> CurrentSlices { get; }
 
+        event Action<SpinType> OnWheelPrepared;
+
         event Action<int> OnSpinStarted;
-        
+
         event Action<WheelSliceDTO> OnSpinCompleted;
 
         void PrepareWheel(SpinType spinType, int zoneMultiplier);
