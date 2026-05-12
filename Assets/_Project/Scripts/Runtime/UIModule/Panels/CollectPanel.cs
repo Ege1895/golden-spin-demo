@@ -17,7 +17,9 @@ namespace GoldenSpin.UIModule
         private IWheelController wheelController;
 
         [SerializeField]
-        private Button uiButtonPlayAgain;
+        private Button uiButtonRevive;
+        [SerializeField]
+        private Button uiButtonGiveUp;
 
         [SerializeField]
         private Transform rewardSummaryContainer;
@@ -49,7 +51,8 @@ namespace GoldenSpin.UIModule
 
         private void ListenEvents()
         {
-            uiButtonPlayAgain.onClick.AddListener(OnPlayAgainClicked);
+            uiButtonRevive.onClick.AddListener(OnReviveClicked);
+            uiButtonGiveUp.onClick.AddListener(OnGiveUpClicked);
 
             gameController.OnStateChanged       += HandleStateChanged;
             rewardController.OnRewardsCollected += HandleRewardsCollected;
@@ -159,21 +162,23 @@ namespace GoldenSpin.UIModule
             ).SetEase(Ease.OutExpo);
         }
 
-        private void OnPlayAgainClicked()
+        private void OnReviveClicked()
         {
             if (isSpinResult)
-            {
                 Hide(() => gameController.OnSpinResultClosed());
-            }
             else
-            {
                 Hide(() => gameController.RestartGame());
-            }
+        }
+
+        private void OnGiveUpClicked()
+        {
+            Hide(() => gameController.RestartGame());
         }
 
         private void UnsubscribeFromEvents()
         {
-            uiButtonPlayAgain.onClick.RemoveListener(OnPlayAgainClicked);
+            uiButtonRevive.onClick.RemoveListener(OnReviveClicked);
+            uiButtonGiveUp.onClick.RemoveListener(OnGiveUpClicked);
 
             gameController.OnStateChanged       -= HandleStateChanged;
             rewardController.OnRewardsCollected -= HandleRewardsCollected;
@@ -188,10 +193,10 @@ namespace GoldenSpin.UIModule
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (uiButtonPlayAgain == null)
-            {
-                uiButtonPlayAgain = transform.Find("ui_button_play_again")?.GetComponent<Button>();
-            }
+            if (uiButtonRevive == null)
+                uiButtonRevive = transform.Find("ui_button_revive")?.GetComponent<Button>();
+            if (uiButtonGiveUp == null)
+                uiButtonGiveUp = transform.Find("ui_button_give_up")?.GetComponent<Button>();
         }
 #endif
     }
