@@ -4,6 +4,6 @@ namespace GoldenSpin.CoreModule
     public class WheelSliceDTO
     {
         public SliceContentType ContentType;
-        public RewardDTO Reward;   // ContentType == Reward ise dolu, Bomb ise null
+        public RewardDTO Reward;
     }
 }
