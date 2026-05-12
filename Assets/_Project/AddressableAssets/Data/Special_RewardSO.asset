@@ -16,3 +16,4 @@ MonoBehaviour:
   Label: Special
   BaseAmount: 500
   SpriteKey: special_icon
+  Icon: {fileID: 21300000, guid: 337eb544c8c1241d6b8bae2aa3719e24, type: 3}

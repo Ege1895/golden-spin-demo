@@ -18,7 +18,8 @@ namespace GoldenSpin.UIModule
 
         public WheelSliceItem Create(WheelSliceDTO dto)
         {
-            WheelSliceItem item = factory.Create(dto);
+            WheelSliceItem item = factory.Create();
+            item.Initialize(dto);
             item.transform.SetParent(parentTransform, false);
             return item;
         }

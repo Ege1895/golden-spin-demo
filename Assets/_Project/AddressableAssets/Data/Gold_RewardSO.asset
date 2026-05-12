@@ -16,3 +16,4 @@ MonoBehaviour:
   Label: Gold
   BaseAmount: 200
   SpriteKey: gold_icon
+  Icon: {fileID: 21300000, guid: e5577e4b7ad514866a1aaabb797f7f3c, type: 3}
