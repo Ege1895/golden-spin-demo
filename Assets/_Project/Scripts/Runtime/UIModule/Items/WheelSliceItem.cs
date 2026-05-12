@@ -31,6 +31,7 @@ namespace GoldenSpin.UIModule
 
         public void SetHighlight(bool highlighted)
         {
+            if (uiImageSliceBackground == null) return;
             uiImageSliceBackground.color = highlighted ? Color.yellow : Color.white;
         }
 
