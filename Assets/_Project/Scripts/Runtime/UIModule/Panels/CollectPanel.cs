@@ -31,9 +31,6 @@ namespace GoldenSpin.UIModule
         [SerializeField]
         private Image uiImageRewardIcon;
 
-        [SerializeField]
-        private GameObject confettiEffect;
-
         private const float  REWARD_COUNTER_DURATION = 1.5f;
         private const float  CONFETTI_DELAY = 0.3f;
         private const string SUMMARY_ITEM_NAME = "ui_text_summary_item";
@@ -86,16 +83,6 @@ namespace GoldenSpin.UIModule
             PopulateRewardSummary(collectedDTO);
             Show();
             PlayCollectAnimation();
-        }
-
-        protected override void OnShow()
-        {
-            base.OnShow();
-            if (confettiEffect != null)
-            {
-                confettiEffect.SetActive(false);
-                DOVirtual.DelayedCall(CONFETTI_DELAY, () => confettiEffect.SetActive(true));
-            }
         }
 
         private void PopulateSpinResult(WheelSliceDTO slice)
