@@ -11,7 +11,7 @@ namespace GoldenSpin.RewardModule
 
         public IReadOnlyList<RewardDTO> CollectedRewards => collectedRewards;
 
-        public event Action<RewardDTO>          OnRewardAdded;
+        public event Action<RewardDTO> OnRewardAdded;
         public event Action<CollectedRewardDTO> OnRewardsCleared;
         public event Action<CollectedRewardDTO> OnRewardsCollected;
 

@@ -17,9 +17,10 @@ namespace GoldenSpin.UIModule
         private Image uiImageZoneIcon;
 
         public int ZoneNumber { get; private set; }
-        
-        private const float HIGHLIGHT_SCALE    = 1.2f;
+
+        private const float HIGHLIGHT_SCALE = 1.2f;
         private const float HIGHLIGHT_DURATION = 0.2f;
+        private const float DEFAULT_SCALE = 1f;
 
         public void Initialize(ZoneDTO zoneDTO)
         {
@@ -30,7 +31,7 @@ namespace GoldenSpin.UIModule
 
         public void SetHighlight(bool highlighted)
         {
-            float targetScale = highlighted ? HIGHLIGHT_SCALE : 1f;
+            float targetScale = highlighted ? HIGHLIGHT_SCALE : DEFAULT_SCALE;
             transform.DOScale(targetScale, HIGHLIGHT_DURATION).SetEase(Ease.OutBack);
         }
 

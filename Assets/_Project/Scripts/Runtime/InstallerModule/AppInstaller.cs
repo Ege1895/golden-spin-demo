@@ -13,28 +13,28 @@ namespace GoldenSpin.InstallerModule
     {
         [SerializeField]
         private ZoneConfigSO zoneConfigSO;
-        
+
         [SerializeField]
-        private WheelPanel wheelPanel;
-        
+        private WheelUIPanel wheelPanel;
+
         [SerializeField]
-        private ZoneBarPanel zoneBarPanel;
-        
+        private ZoneBarUIPanel zoneBarPanel;
+
         [SerializeField]
-        private RewardListPanel rewardListPanel;
-        
+        private RewardListUIPanel rewardListPanel;
+
         [SerializeField]
-        private BombPanel bombPanel;
-        
+        private BombUIPanel bombPanel;
+
         [SerializeField]
-        private CollectPanel collectPanel;
-        
+        private CollectUIPanel collectPanel;
+
         [SerializeField]
         private WheelSliceItem sliceItemPrefab;
-        
+
         [SerializeField]
         private ZoneBarItem zoneBarItemPrefab;
-        
+
         [SerializeField]
         private RewardListItem rewardListItemPrefab;
 
