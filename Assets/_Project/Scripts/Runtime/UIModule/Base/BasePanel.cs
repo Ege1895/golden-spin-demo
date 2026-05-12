@@ -22,7 +22,12 @@ namespace GoldenSpin.UIModule
                 canvasGroup = GetComponent<CanvasGroup>();
             }
 
-            SetVisibilityImmediate(false);
+            if (canvasGroup != null)
+            {
+                canvasGroup.alpha          = 0f;
+                canvasGroup.interactable   = false;
+                canvasGroup.blocksRaycasts = false;
+            }
         }
 
         public virtual void Show()
@@ -85,7 +90,9 @@ namespace GoldenSpin.UIModule
 
             if (canvasGroup != null)
             {
-                canvasGroup.alpha = visible ? 1f : 0f;
+                canvasGroup.alpha          = visible ? 1f : 0f;
+                canvasGroup.interactable   = visible;
+                canvasGroup.blocksRaycasts = visible;
             }
         }
     }

@@ -47,15 +47,11 @@ namespace GoldenSpin.UIModule
 
         private int targetSliceIndex;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            sliceItemFactory.SetParent(slicesContainer);
-        }
-
         private void Start()
         {
+            sliceItemFactory.SetParent(slicesContainer);
             ListenEvents();
+            ShowImmediate();
         }
 
         private void ListenEvents()
@@ -99,6 +95,15 @@ namespace GoldenSpin.UIModule
         private void HandleStateChanged(GameState state)
         {
             UpdateButtonStates(state);
+
+            if (state == GameState.GameOver || state == GameState.Collecting)
+            {
+                Hide();
+            }
+            else if (state == GameState.Restarting)
+            {
+                ShowImmediate();
+            }
         }
 
         private void HandleZoneChanged(ZoneDTO zoneDTO)

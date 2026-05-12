@@ -16,15 +16,11 @@ namespace GoldenSpin.UIModule
 
         [SerializeField] private Transform rewardsContainer;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            rewardListItemFactory.SetParent(rewardsContainer);
-        }
-
         private void Start()
         {
+            rewardListItemFactory.SetParent(rewardsContainer);
             ListenEvents();
+            ShowImmediate();
         }
 
         private void ListenEvents()
