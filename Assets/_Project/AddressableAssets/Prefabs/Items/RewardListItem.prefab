@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GoldenSpin::GoldenSpin.UIModule.RewardListItem
   uiTextRewardLabelValue: {fileID: 3424670797952042539}
   uiImageRewardIcon: {fileID: 4945007211176086149}
+  sliceIconFitter: {fileID: 1383660645551274335}
 --- !u!1 &3411841381518329025
 GameObject:
   m_ObjectHideFlags: 0

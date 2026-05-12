@@ -6,21 +6,22 @@ using Zenject;
 using DG.Tweening;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
+using GoldenSpin.UIModule;
 
-namespace GoldenSpin.UIModule
+namespace GoldenSpin.WheelModule
 {
-    public class WheelPanel : BasePanel
+    public class WheelUIPanel : BasePanel
     {
-        [Inject] 
+        [Inject]
         private IGameController gameController;
-        
-        [Inject] 
+
+        [Inject]
         private IZoneController zoneController;
-        
-        [Inject] 
+
+        [Inject]
         private IWheelController wheelController;
-        
-        [Inject] 
+
+        [Inject]
         private WheelSliceItemFactory sliceItemFactory;
 
         [SerializeField]
@@ -30,19 +31,19 @@ namespace GoldenSpin.UIModule
         [SerializeField]
         private Transform indicatorTransform;
 
-        [SerializeField] 
+        [SerializeField]
         private GameObject wheelBaseBronzeObject;
-        [SerializeField] 
+        [SerializeField]
         private GameObject wheelBaseSilverObject;
-        [SerializeField] 
+        [SerializeField]
         private GameObject wheelBaseGoldObject;
-        [SerializeField] 
+        [SerializeField]
         private GameObject wheelBaseBronzeIndicatorObject;
-        [SerializeField] 
+        [SerializeField]
         private GameObject wheelBaseSilverIndicatorObject;
-        [SerializeField] 
+        [SerializeField]
         private GameObject wheelBaseGoldIndicatorObject;
-        
+
         [SerializeField]
         private Button uiButtonSpin;
 
@@ -76,11 +77,11 @@ namespace GoldenSpin.UIModule
         private void ListenEvents()
         {
             uiButtonSpin.onClick.AddListener(OnSpinButtonClicked);
-            
-            gameController.OnStateChanged    += HandleStateChanged;
-            zoneController.OnZoneChanged     += HandleZoneChanged;
-            wheelController.OnWheelPrepared  += HandleWheelPrepared;
-            wheelController.OnSpinStarted    += HandleSpinStarted;
+
+            gameController.OnStateChanged += HandleStateChanged;
+            zoneController.OnZoneChanged += HandleZoneChanged;
+            wheelController.OnWheelPrepared += HandleWheelPrepared;
+            wheelController.OnSpinStarted += HandleSpinStarted;
         }
 
         protected override void OnShow()
@@ -146,9 +147,9 @@ namespace GoldenSpin.UIModule
 
         private void StartSpinAnimation()
         {
-            float targetAngle   = wheelController.GetTargetAngleForSlice(targetSliceIndex);
+            float targetAngle = wheelController.GetTargetAngleForSlice(targetSliceIndex);
             float totalRotation = WheelConfig.SPIN_MIN_ROTATIONS * 360f + targetAngle;
-            float duration      = Random.Range(WheelConfig.SPIN_MIN_DURATION, WheelConfig.SPIN_MAX_DURATION);
+            float duration = Random.Range(WheelConfig.SPIN_MIN_DURATION, WheelConfig.SPIN_MAX_DURATION);
 
             wheelTransform.DORotate(
                 new Vector3(0f, 0f, -totalRotation),
@@ -177,55 +178,53 @@ namespace GoldenSpin.UIModule
 
         private void RefreshWheelTitle(SpinType spinType)
         {
-            if (uiTextWheelTitle == null) return;
+            if (uiTextWheelTitle == null)
+            {
+                return;
+            }
 
             uiTextWheelTitle.text = spinType switch
             {
                 SpinType.Golden => TITLE_GOLDEN,
                 SpinType.Silver => TITLE_SILVER,
-                _               => TITLE_NORMAL,
+                _ => TITLE_NORMAL,
             };
         }
 
         private void RefreshSpinBackground(SpinType spinType)
         {
-            if (uiImageSpinBackground == null) return;
+            if (uiImageSpinBackground == null)
+            {
+                return;
+            }
 
             uiImageSpinBackground.color = spinType switch
             {
                 SpinType.Golden => new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.1f),
-                SpinType.Silver => new Color(Color.gray.r,   Color.gray.g,   Color.gray.b,   0.1f),
-                _               => new Color(Color.white.r,  Color.white.g,  Color.white.b,  0.1f),
+                SpinType.Silver => new Color(Color.gray.r, Color.gray.g, Color.gray.b, 0.1f),
+                _ => new Color(Color.white.r, Color.white.g, Color.white.b, 0.1f),
             };
         }
 
         private void UpdateButtonStates(GameState state)
         {
-            bool isIdle   = state == GameState.Idle;
-            bool canLeave = isIdle && zoneController.IsCurrentZoneSafeToLeave();
-
-            uiButtonSpin.interactable  = isIdle;
+            bool isIdle = state == GameState.Idle;
+            uiButtonSpin.interactable = isIdle;
         }
 
         private void OnSpinButtonClicked()
         {
-            Debug.Log("OnSpinButtonClicked");
             gameController.RequestSpin();
-        }
-
-        private void OnLeaveButtonClicked()
-        {
-            gameController.RequestCollect();
         }
 
         private void UnsubscribeFromEvents()
         {
             uiButtonSpin.onClick.RemoveListener(OnSpinButtonClicked);
 
-            gameController.OnStateChanged   -= HandleStateChanged;
-            zoneController.OnZoneChanged    -= HandleZoneChanged;
+            gameController.OnStateChanged -= HandleStateChanged;
+            zoneController.OnZoneChanged -= HandleZoneChanged;
             wheelController.OnWheelPrepared -= HandleWheelPrepared;
-            wheelController.OnSpinStarted   -= HandleSpinStarted;
+            wheelController.OnSpinStarted -= HandleSpinStarted;
         }
 
         private void OnDestroy()
