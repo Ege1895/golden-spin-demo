@@ -7,7 +7,7 @@ using GoldenSpin.CoreModule;
 
 namespace GoldenSpin.UIModule
 {
-    public class CollectPanel : BasePanel
+    public class CollectPanel : PopupUIPanel
     {
         [Inject]
         private IGameController gameController;
@@ -33,13 +33,14 @@ namespace GoldenSpin.UIModule
         private GameObject confettiEffect;
 
         private const float  REWARD_COUNTER_DURATION = 1.5f;
-        private const float  CONFETTI_DELAY          = 0.3f;
-        private const string SUMMARY_ITEM_NAME       = "ui_text_summary_item";
-        private const string TITLE_SPIN_RESULT       = "TEBRİKLER!";
-        private const string TITLE_COLLECT           = "ÖDÜLLER";
-
-        private bool          isSpinResult;
+        private const float  CONFETTI_DELAY = 0.3f;
+        private const string SUMMARY_ITEM_NAME = "ui_text_summary_item";
+        private const string TITLE_SPIN_RESULT = "TEBRİKLER!";
+        private const string TITLE_COLLECT = "ÖDÜLLER";
+        
         private WheelSliceDTO pendingSpinResult;
+        
+        private bool isSpinResult;
 
         private void Start()
         {
@@ -86,6 +87,7 @@ namespace GoldenSpin.UIModule
 
         protected override void OnShow()
         {
+            base.OnShow();
             if (confettiEffect != null)
             {
                 confettiEffect.SetActive(false);
@@ -126,6 +128,7 @@ namespace GoldenSpin.UIModule
             {
                 GameObject summaryText = new GameObject(SUMMARY_ITEM_NAME);
                 summaryText.transform.SetParent(rewardSummaryContainer, false);
+                
                 TextMeshProUGUI tmp = summaryText.AddComponent<TextMeshProUGUI>();
                 tmp.text = $"{reward.Label}: x{reward.Amount}";
             }
