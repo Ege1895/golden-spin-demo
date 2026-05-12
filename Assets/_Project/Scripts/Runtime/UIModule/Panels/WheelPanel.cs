@@ -65,6 +65,12 @@ namespace GoldenSpin.UIModule
             sliceItemFactory.SetParent(slicesContainer);
             ListenEvents();
             ShowImmediate();
+
+            if (wheelController.CurrentSlices.Count > 0)
+            {
+                BuildWheelSlices();
+                RefreshWheelBase(zoneController.CurrentZoneDTO.SpinType);
+            }
         }
 
         private void ListenEvents()
