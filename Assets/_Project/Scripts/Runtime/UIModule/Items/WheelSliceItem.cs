@@ -14,9 +14,6 @@ namespace GoldenSpin.UIModule
         private TMP_Text uiTextSliceLabelValue;
         [SerializeField]
         private GameObject bombIndicator;
-
-        [SerializeField]
-        private AspectRatioFitter sliceIconFitter;
         
         public void Initialize(WheelSliceDTO dto)
         {
@@ -42,11 +39,6 @@ namespace GoldenSpin.UIModule
         private void SetSliceIcon(Sprite sprite)
         {
             uiImageSliceIcon.sprite = sprite;
-
-            if (sliceIconFitter != null)
-            {
-                sliceIconFitter.aspectRatio = sprite.rect.width / sprite.rect.height;
-            }
         }
 
         public class Factory : PlaceholderFactory<WheelSliceItem> { }

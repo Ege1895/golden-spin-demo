@@ -18,7 +18,7 @@ namespace GoldenSpin.UIModule
 
         public int ZoneNumber { get; private set; }
 
-        private const float HIGHLIGHT_SCALE = 1.2f;
+        private const float HIGHLIGHT_SCALE = 1.4f;
         private const float HIGHLIGHT_DURATION = 0.2f;
         private const float DEFAULT_SCALE = 1f;
 
