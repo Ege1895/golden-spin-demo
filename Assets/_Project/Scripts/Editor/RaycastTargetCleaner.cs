@@ -5,22 +5,25 @@ using UnityEngine.UI;
 
 public class RaycastTargetCleaner : EditorWindow
 {
+    private const string LOG_WARNING_FORMAT = "[RaycastTarget] {0} — consider disabling";
+    private const string LOG_RESULT_FORMAT  = "Checked {0} images. {1} potential issues found.";
+
     [MenuItem("Tools/GoldenSpin/Check RaycastTargets")]
     public static void CheckRaycastTargets()
     {
-        Image[] images = FindObjectsOfType<Image>();
+        Image[] images = FindObjectsByType<Image>(FindObjectsInactive.Exclude);
         int warningCount = 0;
 
         foreach (Image img in images)
         {
             if (img.raycastTarget && img.GetComponent<Button>() == null)
             {
-                Debug.LogWarning($"[RaycastTarget] {img.gameObject.name} — consider disabling", img.gameObject);
+                Debug.LogWarning(string.Format(LOG_WARNING_FORMAT, img.gameObject.name), img.gameObject);
                 warningCount++;
             }
         }
 
-        Debug.Log($"Checked {images.Length} images. {warningCount} potential issues found.");
+        Debug.Log(string.Format(LOG_RESULT_FORMAT, images.Length, warningCount));
     }
 }
 #endif

@@ -6,10 +6,12 @@ namespace GoldenSpin.UIModule
 {
     public abstract class BasePanel : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField]
+        private CanvasGroup canvasGroup;
 
-        private bool  isVisible;
         private Tween fadeTween;
+        
+        private bool  isVisible;
 
         public bool IsVisible => isVisible;
 

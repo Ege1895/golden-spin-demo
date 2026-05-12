@@ -11,20 +11,37 @@ namespace GoldenSpin.UIModule
 {
     public class WheelPanel : BasePanel
     {
-        [Inject] private IGameController       gameController;
-        [Inject] private IZoneController       zoneController;
-        [Inject] private IWheelController      wheelController;
-        [Inject] private WheelSliceItemFactory sliceItemFactory;
+        [Inject] 
+        private IGameController gameController;
+        
+        [Inject] 
+        private IZoneController zoneController;
+        
+        [Inject] 
+        private IWheelController wheelController;
+        
+        [Inject] 
+        private WheelSliceItemFactory sliceItemFactory;
 
-        [SerializeField] private Transform wheelTransform;
-        [SerializeField] private Transform slicesContainer;
-        [SerializeField] private Transform indicatorTransform;
-
-        [SerializeField] private Button   ui_button_spin;
-        [SerializeField] private Button   ui_button_leave;
-        [SerializeField] private TMP_Text ui_text_zone_type_value;
-        [SerializeField] private TMP_Text ui_text_zone_number_value;
-        [SerializeField] private Image    ui_image_spin_background;
+        [SerializeField]
+        private Transform wheelTransform;
+        [SerializeField]
+        private Transform slicesContainer;
+        [SerializeField]
+        private Transform indicatorTransform;
+        
+        [SerializeField]
+        private Button uiButtonSpin;
+        [SerializeField]
+        private Button uiButtonLeave;
+        
+        [SerializeField]
+        private TMP_Text uiTextZoneTypeValue;
+        [SerializeField]
+        private TMP_Text uiTextZoneNumberValue;
+        
+        [SerializeField]
+        private Image uiImageSpinBackground;
 
         private readonly List<WheelSliceItem> activeSliceItems = new List<WheelSliceItem>();
 
@@ -43,8 +60,8 @@ namespace GoldenSpin.UIModule
 
         private void ListenEvents()
         {
-            ui_button_spin.onClick.AddListener(OnSpinButtonClicked);
-            ui_button_leave.onClick.AddListener(OnLeaveButtonClicked);
+            uiButtonSpin.onClick.AddListener(OnSpinButtonClicked);
+            uiButtonLeave.onClick.AddListener(OnLeaveButtonClicked);
 
             gameController.OnStateChanged += HandleStateChanged;
             zoneController.OnZoneChanged  += HandleZoneChanged;
@@ -116,19 +133,19 @@ namespace GoldenSpin.UIModule
 
         private void RefreshZoneUI(ZoneDTO zoneDTO)
         {
-            ui_text_zone_number_value.text = zoneDTO.ZoneNumber.ToString();
-            ui_text_zone_type_value.text   = zoneDTO.Type.ToString().ToUpper();
+            uiTextZoneNumberValue.text = zoneDTO.ZoneNumber.ToString();
+            uiTextZoneTypeValue.text   = zoneDTO.Type.ToString().ToUpper();
 
             switch (zoneDTO.SpinType)
             {
                 case SpinType.Golden:
-                    ui_image_spin_background.color = Color.yellow;
+                    uiImageSpinBackground.color = Color.yellow;
                     break;
                 case SpinType.Silver:
-                    ui_image_spin_background.color = Color.gray;
+                    uiImageSpinBackground.color = Color.gray;
                     break;
                 default:
-                    ui_image_spin_background.color = Color.white;
+                    uiImageSpinBackground.color = Color.white;
                     break;
             }
         }
@@ -138,9 +155,9 @@ namespace GoldenSpin.UIModule
             bool isIdle   = state == GameState.Idle;
             bool canLeave = isIdle && zoneController.IsCurrentZoneSafeToLeave();
 
-            ui_button_spin.interactable  = isIdle;
-            ui_button_leave.interactable = canLeave;
-            ui_button_leave.gameObject.SetActive(canLeave);
+            uiButtonSpin.interactable  = isIdle;
+            uiButtonLeave.interactable = canLeave;
+            uiButtonLeave.gameObject.SetActive(canLeave);
         }
 
         private void OnSpinButtonClicked()
@@ -155,8 +172,8 @@ namespace GoldenSpin.UIModule
 
         private void UnsubscribeFromEvents()
         {
-            ui_button_spin.onClick.RemoveListener(OnSpinButtonClicked);
-            ui_button_leave.onClick.RemoveListener(OnLeaveButtonClicked);
+            uiButtonSpin.onClick.RemoveListener(OnSpinButtonClicked);
+            uiButtonLeave.onClick.RemoveListener(OnLeaveButtonClicked);
 
             gameController.OnStateChanged -= HandleStateChanged;
             zoneController.OnZoneChanged  -= HandleZoneChanged;
@@ -171,14 +188,14 @@ namespace GoldenSpin.UIModule
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (ui_button_spin == null)
+            if (uiButtonSpin == null)
             {
-                ui_button_spin = transform.Find("ui_button_spin")?.GetComponent<Button>();
+                uiButtonSpin = transform.Find("ui_button_spin")?.GetComponent<Button>();
             }
 
-            if (ui_button_leave == null)
+            if (uiButtonLeave == null)
             {
-                ui_button_leave = transform.Find("ui_button_leave")?.GetComponent<Button>();
+                uiButtonLeave = transform.Find("ui_button_leave")?.GetComponent<Button>();
             }
         }
 #endif

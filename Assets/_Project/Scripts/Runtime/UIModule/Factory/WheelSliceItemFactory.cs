@@ -6,7 +6,8 @@ namespace GoldenSpin.UIModule
 {
     public class WheelSliceItemFactory
     {
-        [Inject] private readonly WheelSliceItem.Factory factory;
+        [Inject] 
+        private readonly WheelSliceItem.Factory factory;
 
         private Transform parentTransform;
 

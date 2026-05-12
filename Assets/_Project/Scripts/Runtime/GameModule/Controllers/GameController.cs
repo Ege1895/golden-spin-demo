@@ -6,9 +6,12 @@ namespace GoldenSpin.GameModule
 {
     public class GameController : IGameController, IInitializable
     {
-        [Inject] private readonly IZoneController   zoneController;
-        [Inject] private readonly IWheelController  wheelController;
-        [Inject] private readonly IRewardController rewardController;
+        [Inject] 
+        private readonly IZoneController   zoneController;
+        [Inject] 
+        private readonly IWheelController  wheelController;
+        [Inject] 
+        private readonly IRewardController rewardController;
 
         public GameState CurrentState { get; private set; }
 
@@ -35,8 +38,8 @@ namespace GoldenSpin.GameModule
 
             SetState(GameState.Spinning);
 
-            ZoneDTO zone       = zoneController.CurrentZoneDTO;
-            int     multiplier = zoneController.GetCurrentZoneMultiplier();
+            ZoneDTO zone = zoneController.CurrentZoneDTO;
+            int multiplier = zoneController.GetCurrentZoneMultiplier();
 
             wheelController.PrepareWheel(zone.SpinType, multiplier);
             wheelController.DetermineResultSliceIndex();

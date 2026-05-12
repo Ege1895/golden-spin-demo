@@ -10,14 +10,18 @@ namespace GoldenSpin.WheelModule
 {
     public class WheelController : IWheelController
     {
-        [Inject] private readonly IRewardController rewardController;
-        [Inject] private readonly ZoneConfigSO      zoneConfigSO;
+        [Inject] 
+        private readonly IRewardController rewardController;
+        
+        [Inject] 
+        private readonly ZoneConfigSO zoneConfigSO;
 
         private readonly List<WheelSliceDTO> currentSlices = new List<WheelSliceDTO>();
 
         public IReadOnlyList<WheelSliceDTO> CurrentSlices => currentSlices;
 
-        public event Action<int>           OnSpinStarted;
+        public event Action<int> OnSpinStarted;
+        
         public event Action<WheelSliceDTO> OnSpinCompleted;
 
         public void PrepareWheel(SpinType spinType, int zoneMultiplier)

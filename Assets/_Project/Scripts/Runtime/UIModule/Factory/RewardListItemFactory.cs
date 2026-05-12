@@ -7,7 +7,8 @@ namespace GoldenSpin.UIModule
 {
     public class RewardListItemFactory
     {
-        [Inject] private readonly RewardListItem.Factory factory;
+        [Inject] 
+        private readonly RewardListItem.Factory factory;
 
         private Transform parentTransform;
 

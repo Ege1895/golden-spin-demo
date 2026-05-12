@@ -7,7 +7,8 @@ namespace GoldenSpin.UIModule
 {
     public class ZoneBarItemFactory
     {
-        [Inject] private readonly ZoneBarItem.Factory factory;
+        [Inject] 
+        private readonly ZoneBarItem.Factory factory;
 
         private Transform parentTransform;
 
