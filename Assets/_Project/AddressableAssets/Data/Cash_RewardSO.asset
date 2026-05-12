@@ -16,3 +16,4 @@ MonoBehaviour:
   Label: Cash
   BaseAmount: 100
   SpriteKey: cash_icon
+  Icon: {fileID: 21300000, guid: ababa6bfeb48c4416b6bddf157af5fb0, type: 3}

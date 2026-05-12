@@ -16,3 +16,4 @@ MonoBehaviour:
   Label: Weapon
   BaseAmount: 1
   SpriteKey: weapon_icon
+  Icon: {fileID: 21300000, guid: e5959198695e545b9b7bde331df21b4e, type: 3}

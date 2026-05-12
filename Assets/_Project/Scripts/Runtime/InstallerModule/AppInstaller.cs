@@ -48,17 +48,17 @@ namespace GoldenSpin.InstallerModule
 
             Container.Bind<PanelManager>().AsSingle();
 
-            Container.BindFactory<WheelSliceDTO, WheelSliceItem, WheelSliceItem.Factory>()
+            Container.BindFactory<WheelSliceItem, WheelSliceItem.Factory>()
                 .FromComponentInNewPrefab(sliceItemPrefab);
             Container.Bind<WheelSliceItemFactory>().AsSingle();
             Container.BindInstance(wheelPanel).AsSingle();
 
-            Container.BindFactory<ZoneDTO, ZoneBarItem, ZoneBarItem.Factory>()
+            Container.BindFactory<ZoneBarItem, ZoneBarItem.Factory>()
                 .FromComponentInNewPrefab(zoneBarItemPrefab);
             Container.Bind<ZoneBarItemFactory>().AsSingle();
             Container.BindInstance(zoneBarPanel).AsSingle();
 
-            Container.BindFactory<RewardDTO, RewardListItem, RewardListItem.Factory>()
+            Container.BindFactory<RewardListItem, RewardListItem.Factory>()
                 .FromComponentInNewPrefab(rewardListItemPrefab);
             Container.Bind<RewardListItemFactory>().AsSingle();
             Container.BindInstance(rewardListPanel).AsSingle();

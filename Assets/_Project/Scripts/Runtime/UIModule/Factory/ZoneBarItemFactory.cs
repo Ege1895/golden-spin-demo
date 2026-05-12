@@ -21,7 +21,8 @@ namespace GoldenSpin.UIModule
 
         public ZoneBarItem Create(ZoneDTO zoneDTO)
         {
-            ZoneBarItem item = factory.Create(zoneDTO);
+            ZoneBarItem item = factory.Create();
+            item.Initialize(zoneDTO);
             item.transform.SetParent(parentTransform, false);
             pool.Add(item);
             return item;
