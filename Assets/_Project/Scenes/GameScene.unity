@@ -1871,9 +1871,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 645592409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f93b936b5d71c4bd499245d5e6dc4d21, type: 3}
+  m_Script: {fileID: 11500000, guid: 551f9e60c84e5468490c5967b6c2f95d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.UIModule.RewardListPanel
+  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.RewardModule.RewardListUIPanel
   canvasGroup: {fileID: 0}
   rewardsContainer: {fileID: 1985438194}
 --- !u!225 &645592412
@@ -2616,9 +2616,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 986562558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e5bbbde1729045f48b519c488616a42, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b5bbf29c5f30468a99ad42749c2d327, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.UIModule.ZoneBarPanel
+  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.ZoneModule.ZoneBarUIPanel
   canvasGroup: {fileID: 0}
   zonesContainer: {fileID: 1071670994}
   scrollContent: {fileID: 986562559}
@@ -3039,9 +3039,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1119956788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a57f50ca297204854bad337a27c616f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bdcfaa29104f434a8bf03dbc8a2fa83, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.UIModule.WheelPanel
+  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.WheelModule.WheelUIPanel
   canvasGroup: {fileID: 0}
   wheelTransform: {fileID: 251154099}
   slicesContainer: {fileID: 2068003543}
@@ -3907,9 +3907,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1501356909}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b3eeba3a424845669f177a577b397a7, type: 3}
+  m_Script: {fileID: 11500000, guid: f05e819f2c9f44e32a3f884a1b9d99f6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.UIModule.CollectPanel
+  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.GameModule.CollectUIPanel
   canvasGroup: {fileID: 0}
   popupContainer: {fileID: 236709159}
   uiButtonRevive: {fileID: 544669056}
@@ -4484,9 +4484,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1870259360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a38594adb8ac497385cb43d1e2fb7cf, type: 3}
+  m_Script: {fileID: 11500000, guid: dd2354319cb4c43fcad30539b8abdb5a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.UIModule.BombPanel
+  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.GameModule.BombUIPanel
   canvasGroup: {fileID: 0}
   popupContainer: {fileID: 270390472}
   uiButtonGiveUp: {fileID: 505127900}
