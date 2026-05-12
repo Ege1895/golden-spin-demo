@@ -3,18 +3,20 @@ using Zenject;
 using DG.Tweening;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
+using GoldenSpin.UIModule;
 
-namespace GoldenSpin.UIModule
+namespace GoldenSpin.RewardModule
 {
-    public class RewardListPanel : BasePanel
+    public class RewardListUIPanel : BasePanel
     {
-        [Inject] 
-        private IRewardController     rewardController;
-        
-        [Inject] 
+        [Inject]
+        private IRewardController rewardController;
+
+        [Inject]
         private RewardListItemFactory rewardListItemFactory;
 
-        [SerializeField] private Transform rewardsContainer;
+        [SerializeField]
+        private Transform rewardsContainer;
 
         private void Start()
         {
@@ -25,7 +27,7 @@ namespace GoldenSpin.UIModule
 
         private void ListenEvents()
         {
-            rewardController.OnRewardAdded    += HandleRewardAdded;
+            rewardController.OnRewardAdded += HandleRewardAdded;
             rewardController.OnRewardsCleared += HandleRewardsCleared;
         }
 
@@ -46,7 +48,7 @@ namespace GoldenSpin.UIModule
 
         private void UnsubscribeFromEvents()
         {
-            rewardController.OnRewardAdded    -= HandleRewardAdded;
+            rewardController.OnRewardAdded -= HandleRewardAdded;
             rewardController.OnRewardsCleared -= HandleRewardsCleared;
         }
 

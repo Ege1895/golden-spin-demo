@@ -14,7 +14,7 @@ namespace GoldenSpin.UIModule
         private TMP_Text uiTextSliceLabelValue;
         [SerializeField]
         private GameObject bombIndicator;
-
+        
         public void Initialize(WheelSliceDTO dto)
         {
             bool isBomb = dto.ContentType == SliceContentType.Bomb;
