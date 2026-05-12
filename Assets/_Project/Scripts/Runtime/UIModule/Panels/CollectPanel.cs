@@ -32,6 +32,8 @@ namespace GoldenSpin.UIModule
         private const float  REWARD_COUNTER_DURATION = 1.5f;
         private const float  CONFETTI_DELAY          = 0.3f;
         private const string SUMMARY_ITEM_NAME       = "ui_text_summary_item";
+
+        private bool isSpinResult;
         
         private void Start()
         {
@@ -48,14 +50,21 @@ namespace GoldenSpin.UIModule
 
         private void HandleStateChanged(GameState state)
         {
-            if (state == GameState.Restarting)
+            if (state == GameState.SpinResult)
             {
+                isSpinResult = true;
+                Show();
+            }
+            else if (state == GameState.Restarting)
+            {
+                isSpinResult = false;
                 HideImmediate();
             }
         }
 
         private void HandleRewardsCollected(CollectedRewardDTO collectedDTO)
         {
+            isSpinResult = false;
             PopulateRewardSummary(collectedDTO);
             Show();
             PlayCollectAnimation();
@@ -113,7 +122,14 @@ namespace GoldenSpin.UIModule
 
         private void OnPlayAgainClicked()
         {
-            gameController.RestartGame();
+            if (isSpinResult)
+            {
+                Hide(() => gameController.OnSpinResultClosed());
+            }
+            else
+            {
+                Hide(() => gameController.RestartGame());
+            }
         }
 
         private void UnsubscribeFromEvents()

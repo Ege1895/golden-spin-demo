@@ -14,6 +14,8 @@ namespace GoldenSpin.CoreModule
         
         void OnSpinAnimationCompleted(WheelSliceDTO resultSlice);
         
+        void OnSpinResultClosed();
+
         void RequestCollect();
         
         void RestartGame();
