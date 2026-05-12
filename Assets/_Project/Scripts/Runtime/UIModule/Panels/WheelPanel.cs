@@ -29,6 +29,13 @@ namespace GoldenSpin.UIModule
         private Transform slicesContainer;
         [SerializeField]
         private Transform indicatorTransform;
+
+        [SerializeField] 
+        private GameObject wheelBaseBronzeObject;
+        [SerializeField] 
+        private GameObject wheelBaseSilverObject;
+        [SerializeField] 
+        private GameObject wheelBaseGoldObject;
         
         [SerializeField]
         private Button uiButtonSpin;
@@ -59,9 +66,10 @@ namespace GoldenSpin.UIModule
             uiButtonSpin.onClick.AddListener(OnSpinButtonClicked);
             uiButtonLeave.onClick.AddListener(OnLeaveButtonClicked);
 
-            gameController.OnStateChanged += HandleStateChanged;
-            zoneController.OnZoneChanged  += HandleZoneChanged;
-            wheelController.OnSpinStarted += HandleSpinStarted;
+            gameController.OnStateChanged    += HandleStateChanged;
+            zoneController.OnZoneChanged     += HandleZoneChanged;
+            wheelController.OnWheelPrepared  += HandleWheelPrepared;
+            wheelController.OnSpinStarted    += HandleSpinStarted;
         }
 
         protected override void OnShow()
@@ -96,7 +104,7 @@ namespace GoldenSpin.UIModule
         {
             UpdateButtonStates(state);
 
-            if (state == GameState.GameOver || state == GameState.Collecting)
+            if (state == GameState.GameOver || state == GameState.Collecting || state == GameState.SpinResult)
             {
                 Hide();
             }
@@ -111,10 +119,17 @@ namespace GoldenSpin.UIModule
             RefreshZoneUI(zoneDTO);
         }
 
+        private void HandleWheelPrepared(SpinType spinType)
+        {
+            wheelTransform.localRotation = Quaternion.identity;
+            BuildWheelSlices();
+            RefreshWheelBase(spinType);
+            Show();
+        }
+
         private void HandleSpinStarted(int resultIndex)
         {
             targetSliceIndex = resultIndex;
-            BuildWheelSlices();
             StartSpinAnimation();
         }
 
@@ -134,6 +149,13 @@ namespace GoldenSpin.UIModule
                 activeSliceItems[targetSliceIndex].SetHighlight(true);
                 gameController.OnSpinAnimationCompleted(resultSlice);
             });
+        }
+
+        private void RefreshWheelBase(SpinType spinType)
+        {
+            wheelBaseBronzeObject?.SetActive(spinType == SpinType.Normal);
+            wheelBaseSilverObject?.SetActive(spinType == SpinType.Silver);
+            wheelBaseGoldObject?.SetActive(spinType == SpinType.Golden);
         }
 
         private void RefreshZoneUI(ZoneDTO zoneDTO)
@@ -180,9 +202,10 @@ namespace GoldenSpin.UIModule
             uiButtonSpin.onClick.RemoveListener(OnSpinButtonClicked);
             uiButtonLeave.onClick.RemoveListener(OnLeaveButtonClicked);
 
-            gameController.OnStateChanged -= HandleStateChanged;
-            zoneController.OnZoneChanged  -= HandleZoneChanged;
-            wheelController.OnSpinStarted -= HandleSpinStarted;
+            gameController.OnStateChanged   -= HandleStateChanged;
+            zoneController.OnZoneChanged    -= HandleZoneChanged;
+            wheelController.OnWheelPrepared -= HandleWheelPrepared;
+            wheelController.OnSpinStarted   -= HandleSpinStarted;
         }
 
         private void OnDestroy()
