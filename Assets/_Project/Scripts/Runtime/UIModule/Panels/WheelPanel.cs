@@ -116,7 +116,7 @@ namespace GoldenSpin.UIModule
         {
             UpdateButtonStates(state);
 
-            if (state == GameState.GameOver || state == GameState.Collecting || state == GameState.SpinResult)
+            if (state == GameState.Collecting)
             {
                 Hide();
             }
