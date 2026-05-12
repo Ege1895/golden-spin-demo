@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
 
@@ -10,8 +9,6 @@ namespace GoldenSpin.UIModule
     public class ZoneBarItemFactory
     {
         private Transform parentTransform;
-        private GameObject prefab;
-        private AsyncOperationHandle<GameObject> handle;
 
         private readonly List<ZoneBarItem> activeItems = new List<ZoneBarItem>();
 
@@ -22,9 +19,11 @@ namespace GoldenSpin.UIModule
 
         public ZoneBarItem Create(ZoneDTO zoneDTO)
         {
-            EnsurePrefabLoaded();
-            ZoneBarItem item = Object.Instantiate(prefab, parentTransform, false)
-                .GetComponent<ZoneBarItem>();
+            GameObject go = Addressables
+                .InstantiateAsync(AddressableConfig.ZONE_BAR_ITEM_PREFAB, parentTransform, false)
+                .WaitForCompletion();
+
+            ZoneBarItem item = go.GetComponent<ZoneBarItem>();
             item.Initialize(zoneDTO);
             activeItems.Add(item);
             return item;
@@ -36,30 +35,11 @@ namespace GoldenSpin.UIModule
             {
                 if (item != null)
                 {
-                    Object.Destroy(item.gameObject);
+                    Addressables.ReleaseInstance(item.gameObject);
                 }
             }
 
             activeItems.Clear();
-        }
-
-        private void EnsurePrefabLoaded()
-        {
-            if (prefab != null)
-            {
-                return;
-            }
-
-            handle = Addressables.LoadAssetAsync<GameObject>(AddressableConfig.ZONE_BAR_ITEM_PREFAB);
-            prefab = handle.WaitForCompletion();
-        }
-
-        ~ZoneBarItemFactory()
-        {
-            if (handle.IsValid())
-            {
-                Addressables.Release(handle);
-            }
         }
     }
 }
