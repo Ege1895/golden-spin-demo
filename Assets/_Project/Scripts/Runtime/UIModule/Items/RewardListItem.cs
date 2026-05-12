@@ -10,10 +10,14 @@ namespace GoldenSpin.UIModule
 {
     public class RewardListItem : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField] 
         private TMP_Text uiTextRewardLabelValue;
-        [SerializeField]
+        
+        [SerializeField] 
         private Image uiImageRewardIcon;
+        
+        [SerializeField] 
+        private AspectRatioFitter sliceIconFitter;
 
         private const float APPEAR_SCALE_START = 0f;
         private const float APPEAR_SCALE_END = 1f;
@@ -25,11 +29,12 @@ namespace GoldenSpin.UIModule
             if (dto.Icon != null)
             {
                 uiImageRewardIcon.sprite = dto.Icon;
+                sliceIconFitter.aspectRatio = dto.Icon.rect.width / dto.Icon.rect.height;
             }
 
             PlayAppearAnimation();
         }
-
+        
         private void PlayAppearAnimation()
         {
             transform.localScale = Vector3.one * APPEAR_SCALE_START;

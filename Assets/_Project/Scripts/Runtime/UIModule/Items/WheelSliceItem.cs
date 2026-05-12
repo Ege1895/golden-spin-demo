@@ -11,12 +11,13 @@ namespace GoldenSpin.UIModule
         [SerializeField]
         private Image uiImageSliceIcon;
         [SerializeField]
-        private AspectRatioFitter sliceIconFitter;
-        [SerializeField]
         private TMP_Text uiTextSliceLabelValue;
         [SerializeField]
         private GameObject bombIndicator;
 
+        [SerializeField]
+        private AspectRatioFitter sliceIconFitter;
+        
         public void Initialize(WheelSliceDTO dto)
         {
             bool isBomb = dto.ContentType == SliceContentType.Bomb;
