@@ -1,18 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using GoldenSpin.CoreModule;
+using GoldenSpin.ConfigurationModule;
 
 namespace GoldenSpin.UIModule
 {
     public class ZoneBarItemFactory
     {
-        [Inject] 
-        private readonly ZoneBarItem.Factory factory;
-
         private Transform parentTransform;
+        private GameObject prefab;
+        private AsyncOperationHandle<GameObject> handle;
 
-        private readonly List<ZoneBarItem> pool = new List<ZoneBarItem>();
+        private readonly List<ZoneBarItem> activeItems = new List<ZoneBarItem>();
 
         public void SetParent(Transform parent)
         {
@@ -21,16 +22,17 @@ namespace GoldenSpin.UIModule
 
         public ZoneBarItem Create(ZoneDTO zoneDTO)
         {
-            ZoneBarItem item = factory.Create();
+            EnsurePrefabLoaded();
+            ZoneBarItem item = Object.Instantiate(prefab, parentTransform, false)
+                .GetComponent<ZoneBarItem>();
             item.Initialize(zoneDTO);
-            item.transform.SetParent(parentTransform, false);
-            pool.Add(item);
+            activeItems.Add(item);
             return item;
         }
 
         public void DestroyAll()
         {
-            foreach (ZoneBarItem item in pool)
+            foreach (ZoneBarItem item in activeItems)
             {
                 if (item != null)
                 {
@@ -38,7 +40,26 @@ namespace GoldenSpin.UIModule
                 }
             }
 
-            pool.Clear();
+            activeItems.Clear();
+        }
+
+        private void EnsurePrefabLoaded()
+        {
+            if (prefab != null)
+            {
+                return;
+            }
+
+            handle = Addressables.LoadAssetAsync<GameObject>(AddressableConfig.ZONE_BAR_ITEM_PREFAB);
+            prefab = handle.WaitForCompletion();
+        }
+
+        ~ZoneBarItemFactory()
+        {
+            if (handle.IsValid())
+            {
+                Addressables.Release(handle);
+            }
         }
     }
 }

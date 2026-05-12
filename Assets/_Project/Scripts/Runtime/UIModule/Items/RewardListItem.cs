@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using DG.Tweening;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
-using Zenject;
 
 namespace GoldenSpin.UIModule
 {
@@ -40,7 +39,5 @@ namespace GoldenSpin.UIModule
             transform.localScale = Vector3.one * APPEAR_SCALE_START;
             transform.DOScale(APPEAR_SCALE_END, UIConfig.PANEL_SCALE_DURATION).SetEase(Ease.OutBack);
         }
-
-        public class Factory : PlaceholderFactory<RewardListItem> { }
     }
 }
