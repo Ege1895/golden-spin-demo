@@ -7,7 +7,7 @@ using GoldenSpin.CoreModule;
 
 namespace GoldenSpin.UIModule
 {
-    public class BombPanel : BasePanel
+    public class BombPanel : PopupUIPanel
     {
         [Inject]
         private IGameController gameController;
@@ -55,6 +55,7 @@ namespace GoldenSpin.UIModule
 
         protected override void OnShow()
         {
+            base.OnShow();
             PlayBombEntryAnimation();
         }
 
