@@ -90,6 +90,12 @@ namespace GoldenSpin.GameModule
             StartGame();
         }
 
+        public void ReviveAfterBomb()
+        {
+            PrepareCurrentWheel();
+            PrepareAndEnterIdle();
+        }
+
         private void PrepareCurrentWheel()
         {
             ZoneDTO zone = zoneController.CurrentZoneDTO;

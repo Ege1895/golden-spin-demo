@@ -79,7 +79,7 @@ namespace GoldenSpin.UIModule
 
         private void OnReviveClicked()
         {
-            Hide(() => gameController.RestartGame());
+            Hide(() => gameController.ReviveAfterBomb());
         }
 
         private void UnsubscribeFromEvents()
