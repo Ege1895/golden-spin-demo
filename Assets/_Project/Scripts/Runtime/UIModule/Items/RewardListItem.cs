@@ -20,7 +20,7 @@ namespace GoldenSpin.UIModule
 
         public void Initialize(RewardDTO dto)
         {
-            uiTextRewardLabelValue.text  = $"{dto.Label}  <color=#FFD900>x{dto.Amount}</color>";
+            uiTextRewardLabelValue.text  = $"{dto.Label}\n<color=#FFD900>x{dto.Amount}</color>";
 
             if (dto.Icon != null)
             {

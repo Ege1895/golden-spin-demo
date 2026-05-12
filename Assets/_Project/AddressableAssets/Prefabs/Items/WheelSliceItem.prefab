@@ -34,7 +34,7 @@ RectTransform:
   m_Father: {fileID: 4858793535223284055}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.AspectRatioFitter
-  m_AspectMode: 3
+  m_AspectMode: 2
   m_AspectRatio: 1
 --- !u!1 &2999196652782976335
 GameObject:
@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GoldenSpin::GoldenSpin.UIModule.WheelSliceItem
   uiImageSliceIcon: {fileID: 4373018248338206844}
+  sliceIconFitter: {fileID: 6231345856133621256}
   uiTextSliceLabelValue: {fileID: 5427488798078169765}
   uiImageSliceBackground: {fileID: 0}
   bombIndicator: {fileID: 4499572766528580577}
@@ -406,5 +407,5 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 260}
-  m_SizeDelta: {x: 125, y: 125}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
