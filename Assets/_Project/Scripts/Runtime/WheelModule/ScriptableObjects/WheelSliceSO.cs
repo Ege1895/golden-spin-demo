@@ -16,7 +16,7 @@ namespace GoldenSpin.WheelModule
             return new WheelSliceDTO
             {
                 ContentType = ContentType,
-                Reward      = ContentType == SliceContentType.Reward && Reward != null
+                Reward = ContentType == SliceContentType.Reward && Reward != null
                     ? Reward.ToDTO(zoneMultiplier)
                     : null
             };

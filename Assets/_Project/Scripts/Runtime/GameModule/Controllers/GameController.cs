@@ -26,6 +26,7 @@ namespace GoldenSpin.GameModule
         {
             zoneController.ResetZone();
             rewardController.ClearRewards();
+            PrepareCurrentWheel();
             PrepareAndEnterIdle();
         }
 
@@ -37,11 +38,6 @@ namespace GoldenSpin.GameModule
             }
 
             SetState(GameState.Spinning);
-
-            ZoneDTO zone = zoneController.CurrentZoneDTO;
-            int multiplier = zoneController.GetCurrentZoneMultiplier();
-
-            wheelController.PrepareWheel(zone.SpinType, multiplier);
             wheelController.DetermineResultSliceIndex();
         }
 
@@ -61,9 +57,15 @@ namespace GoldenSpin.GameModule
             }
             else
             {
-                zoneController.AdvanceZone();
-                PrepareAndEnterIdle();
+                SetState(GameState.SpinResult);
             }
+        }
+
+        public void OnSpinResultClosed()
+        {
+            zoneController.AdvanceZone();
+            PrepareCurrentWheel();
+            PrepareAndEnterIdle();
         }
 
         public void RequestCollect()
@@ -86,6 +88,12 @@ namespace GoldenSpin.GameModule
         {
             SetState(GameState.Restarting);
             StartGame();
+        }
+
+        private void PrepareCurrentWheel()
+        {
+            ZoneDTO zone = zoneController.CurrentZoneDTO;
+            wheelController.PrepareWheel(zone.SpinType, zoneController.GetCurrentZoneMultiplier());
         }
 
         private void PrepareAndEnterIdle()

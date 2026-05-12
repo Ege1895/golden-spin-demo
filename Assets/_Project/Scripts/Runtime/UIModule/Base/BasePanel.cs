@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using DG.Tweening;
 using GoldenSpin.ConfigurationModule;
@@ -57,6 +58,26 @@ namespace GoldenSpin.UIModule
             fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, UIConfig.PANEL_FADE_DURATION)
                 .SetEase(Ease.InQuad)
                 .OnComplete(() => gameObject.SetActive(false));
+            OnHide();
+        }
+
+        public virtual void Hide(Action onComplete)
+        {
+            if (!isVisible)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            isVisible = false;
+            fadeTween?.Kill();
+            fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, UIConfig.PANEL_FADE_DURATION)
+                .SetEase(Ease.InQuad)
+                .OnComplete(() =>
+                {
+                    gameObject.SetActive(false);
+                    onComplete?.Invoke();
+                });
             OnHide();
         }
 
