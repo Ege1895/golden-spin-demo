@@ -18,7 +18,10 @@ namespace GoldenSpin.UIModule
 
         private void PlayPopupAnimation()
         {
-            if (popupContainer == null) return;
+            if (popupContainer == null)
+            {
+                return;
+            }
 
             popupContainer.localScale = Vector3.zero;
             popupContainer.DOScale(Vector3.one, POPUP_DURATION)
@@ -29,7 +32,9 @@ namespace GoldenSpin.UIModule
         private void OnValidate()
         {
             if (popupContainer == null && transform.childCount > 0)
+            {
                 popupContainer = transform.GetChild(0);
+            }
         }
 #endif
     }
