@@ -30,6 +30,8 @@ namespace GoldenSpin.UIModule
         private TMP_Text uiTextTotalRewardsValue;
         [SerializeField]
         private Image uiImageRewardIcon;
+        [SerializeField]
+        private AspectRatioFitter rewardIconFitter;
 
         private const float  REWARD_COUNTER_DURATION = 1.5f;
         private const float  CONFETTI_DELAY = 0.3f;
@@ -95,12 +97,20 @@ namespace GoldenSpin.UIModule
 
             if (uiImageRewardIcon != null)
             {
-                uiImageRewardIcon.gameObject.SetActive(hasReward && slice.Reward.Icon != null);
-                if (hasReward && slice.Reward.Icon != null)
-                    uiImageRewardIcon.sprite = slice.Reward.Icon;
+                bool showIcon = hasReward && slice.Reward.Icon != null;
+                uiImageRewardIcon.gameObject.SetActive(showIcon);
+                if (showIcon)
+                    SetRewardIcon(slice.Reward.Icon);
             }
 
             uiTextTotalRewardsValue.text = hasReward ? $"x{slice.Reward.Amount}" : string.Empty;
+        }
+
+        private void SetRewardIcon(Sprite sprite)
+        {
+            uiImageRewardIcon.sprite = sprite;
+            if (rewardIconFitter != null)
+                rewardIconFitter.aspectRatio = sprite.rect.width / sprite.rect.height;
         }
 
         private void PopulateRewardSummary(CollectedRewardDTO collectedDTO)
