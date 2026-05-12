@@ -19,5 +19,7 @@ namespace GoldenSpin.CoreModule
         void RequestCollect();
         
         void RestartGame();
+
+        void ReviveAfterBomb();
     }
 }

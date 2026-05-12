@@ -45,18 +45,18 @@ namespace GoldenSpin.UIModule
         
         [SerializeField]
         private Button uiButtonSpin;
+
         [SerializeField]
-        private Button uiButtonLeave;
-        
-        [SerializeField]
-        private TMP_Text uiTextZoneTypeValue;
-        [SerializeField]
-        private TMP_Text uiTextZoneNumberValue;
-        
+        private TMP_Text uiTextWheelTitle;
+
         [SerializeField]
         private Image uiImageSpinBackground;
 
         private readonly List<WheelSliceItem> activeSliceItems = new List<WheelSliceItem>();
+
+        private const string TITLE_NORMAL = "NORMAL SPIN";
+        private const string TITLE_SILVER = "SILVER SPIN";
+        private const string TITLE_GOLDEN = "GOLDEN SPIN";
 
         private int targetSliceIndex;
 
@@ -76,8 +76,7 @@ namespace GoldenSpin.UIModule
         private void ListenEvents()
         {
             uiButtonSpin.onClick.AddListener(OnSpinButtonClicked);
-            uiButtonLeave.onClick.AddListener(OnLeaveButtonClicked);
-
+            
             gameController.OnStateChanged    += HandleStateChanged;
             zoneController.OnZoneChanged     += HandleZoneChanged;
             wheelController.OnWheelPrepared  += HandleWheelPrepared;
@@ -86,7 +85,7 @@ namespace GoldenSpin.UIModule
 
         protected override void OnShow()
         {
-            RefreshZoneUI(zoneController.CurrentZoneDTO);
+            RefreshSpinBackground(zoneController.CurrentZoneDTO.SpinType);
             UpdateButtonStates(gameController.CurrentState);
         }
 
@@ -116,7 +115,7 @@ namespace GoldenSpin.UIModule
         {
             UpdateButtonStates(state);
 
-            if (state == GameState.GameOver || state == GameState.Collecting || state == GameState.SpinResult)
+            if (state == GameState.Collecting)
             {
                 Hide();
             }
@@ -128,7 +127,7 @@ namespace GoldenSpin.UIModule
 
         private void HandleZoneChanged(ZoneDTO zoneDTO)
         {
-            RefreshZoneUI(zoneDTO);
+            RefreshSpinBackground(zoneDTO.SpinType);
         }
 
         private void HandleWheelPrepared(SpinType spinType)
@@ -158,7 +157,6 @@ namespace GoldenSpin.UIModule
             ).SetEase(Ease.OutQuart).OnComplete(() =>
             {
                 WheelSliceDTO resultSlice = wheelController.CurrentSlices[targetSliceIndex];
-                activeSliceItems[targetSliceIndex].SetHighlight(true);
                 gameController.OnSpinAnimationCompleted(resultSlice);
             });
         }
@@ -167,30 +165,38 @@ namespace GoldenSpin.UIModule
         {
             wheelBaseBronzeObject?.SetActive(spinType == SpinType.Normal);
             wheelBaseSilverObject?.SetActive(spinType == SpinType.Silver);
-            wheelBaseGoldObject?.SetActive(spinType == SpinType.Golden);    
-            
+            wheelBaseGoldObject?.SetActive(spinType == SpinType.Golden);
+
             wheelBaseBronzeIndicatorObject?.SetActive(spinType == SpinType.Normal);
             wheelBaseSilverIndicatorObject?.SetActive(spinType == SpinType.Silver);
             wheelBaseGoldIndicatorObject?.SetActive(spinType == SpinType.Golden);
+
+            RefreshWheelTitle(spinType);
+            RefreshSpinBackground(spinType);
         }
 
-        private void RefreshZoneUI(ZoneDTO zoneDTO)
+        private void RefreshWheelTitle(SpinType spinType)
         {
-            uiTextZoneNumberValue.text = zoneDTO.ZoneNumber.ToString();
-            uiTextZoneTypeValue.text   = zoneDTO.Type.ToString().ToUpper();
+            if (uiTextWheelTitle == null) return;
 
-            switch (zoneDTO.SpinType)
+            uiTextWheelTitle.text = spinType switch
             {
-                case SpinType.Golden:
-                    uiImageSpinBackground.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.1f);
-                    break;
-                case SpinType.Silver:
-                    uiImageSpinBackground.color = new Color(Color.gray.r, Color.gray.g, Color.gray.b, 0.1f);
-                    break;
-                default:
-                    uiImageSpinBackground.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0.1f);
-                    break;
-            }
+                SpinType.Golden => TITLE_GOLDEN,
+                SpinType.Silver => TITLE_SILVER,
+                _               => TITLE_NORMAL,
+            };
+        }
+
+        private void RefreshSpinBackground(SpinType spinType)
+        {
+            if (uiImageSpinBackground == null) return;
+
+            uiImageSpinBackground.color = spinType switch
+            {
+                SpinType.Golden => new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.1f),
+                SpinType.Silver => new Color(Color.gray.r,   Color.gray.g,   Color.gray.b,   0.1f),
+                _               => new Color(Color.white.r,  Color.white.g,  Color.white.b,  0.1f),
+            };
         }
 
         private void UpdateButtonStates(GameState state)
@@ -199,8 +205,6 @@ namespace GoldenSpin.UIModule
             bool canLeave = isIdle && zoneController.IsCurrentZoneSafeToLeave();
 
             uiButtonSpin.interactable  = isIdle;
-            uiButtonLeave.interactable = canLeave;
-            uiButtonLeave.gameObject.SetActive(canLeave);
         }
 
         private void OnSpinButtonClicked()
@@ -217,7 +221,6 @@ namespace GoldenSpin.UIModule
         private void UnsubscribeFromEvents()
         {
             uiButtonSpin.onClick.RemoveListener(OnSpinButtonClicked);
-            uiButtonLeave.onClick.RemoveListener(OnLeaveButtonClicked);
 
             gameController.OnStateChanged   -= HandleStateChanged;
             zoneController.OnZoneChanged    -= HandleZoneChanged;
@@ -236,11 +239,6 @@ namespace GoldenSpin.UIModule
             if (uiButtonSpin == null)
             {
                 uiButtonSpin = transform.Find("ui_button_spin")?.GetComponent<Button>();
-            }
-
-            if (uiButtonLeave == null)
-            {
-                uiButtonLeave = transform.Find("ui_button_leave")?.GetComponent<Button>();
             }
         }
 #endif

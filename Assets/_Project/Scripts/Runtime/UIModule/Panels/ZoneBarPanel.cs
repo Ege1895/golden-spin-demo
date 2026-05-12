@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Zenject;
 using GoldenSpin.CoreModule;
@@ -8,15 +9,15 @@ namespace GoldenSpin.UIModule
 {
     public class ZoneBarPanel : BasePanel
     {
-        [Inject] 
+        [Inject]
         private IZoneController    zoneController;
-        
-        [Inject] 
+
+        [Inject]
         private ZoneBarItemFactory zoneBarItemFactory;
 
         [SerializeField]
         private Transform zonesContainer;
-        
+
         [SerializeField]
         private RectTransform scrollContent;
 

@@ -10,20 +10,22 @@ namespace GoldenSpin.UIModule
 {
     public class RewardListItem : MonoBehaviour
     {
-        [SerializeField] private TMP_Text uiTextRewardLabelValue;
-        [SerializeField] private TMP_Text uiTextRewardAmountValue;
-        [SerializeField] private Image    uiImageRewardIcon;
+        [SerializeField] 
+        private TMP_Text uiTextRewardLabelValue;
+        [SerializeField] 
+        private Image uiImageRewardIcon;
 
         private const float APPEAR_SCALE_START = 0f;
         private const float APPEAR_SCALE_END   = 1f;
 
         public void Initialize(RewardDTO dto)
         {
-            uiTextRewardLabelValue.text  = dto.Label;
-            uiTextRewardAmountValue.text = $"x{dto.Amount}";
+            uiTextRewardLabelValue.text  = $"{dto.Label}\n<color=#FFD900>x{dto.Amount}</color>";
 
             if (dto.Icon != null)
+            {
                 uiImageRewardIcon.sprite = dto.Icon;
+            }
 
             PlayAppearAnimation();
         }

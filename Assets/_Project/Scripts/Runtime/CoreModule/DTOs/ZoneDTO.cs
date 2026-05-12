@@ -4,7 +4,9 @@ namespace GoldenSpin.CoreModule
     public class ZoneDTO
     {
         public int ZoneNumber;
+        
         public ZoneType Type;
+        
         public SpinType SpinType;
     }
 }

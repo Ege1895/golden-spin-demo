@@ -7,54 +7,45 @@ using GoldenSpin.CoreModule;
 
 namespace GoldenSpin.UIModule
 {
-    public class BombPanel : BasePanel
+    public class BombPanel : PopupUIPanel
     {
         [Inject]
         private IGameController gameController;
 
         [SerializeField]
-        private Button uiButtonRestart;
+        private Button uiButtonGiveUp;
         [SerializeField]
         private Button uiButtonRevive;
-        
-        [SerializeField]
-        private TMP_Text uiTextReviveCostValue;
+
         [SerializeField]
         private TMP_Text uiTextBombTitle;
         [SerializeField]
         private TMP_Text uiTextBombSubtitle;
-        
+
         [SerializeField]
         private Image uiImageBombIcon;
-        
-        private const int REVIVE_COST              = 25;
+
         private const float BOMB_ICON_PUNCH_SCALE    = 0.3f;
         private const float BOMB_ICON_PUNCH_DURATION = 0.4f;
-        private const int BOMB_ICON_PUNCH_VIBRATO  = 5;
+        private const int   BOMB_ICON_PUNCH_VIBRATO  = 5;
         private const float BOMB_ICON_PUNCH_ELASTIC  = 0.5f;
-        private const string LOG_REVIVE_REQUESTED     = "[BombPanel] Revive requested";
 
         private void Start()
         {
             ListenEvents();
-            SetReviveCostText();
         }
 
         private void ListenEvents()
         {
-            uiButtonRestart.onClick.AddListener(OnRestartClicked);
+            uiButtonGiveUp.onClick.AddListener(OnGiveUpClicked);
             uiButtonRevive.onClick.AddListener(OnReviveClicked);
 
             gameController.OnStateChanged += HandleStateChanged;
         }
 
-        private void SetReviveCostText()
-        {
-            uiTextReviveCostValue.text = REVIVE_COST.ToString();
-        }
-
         protected override void OnShow()
         {
+            base.OnShow();
             PlayBombEntryAnimation();
         }
 
@@ -81,19 +72,19 @@ namespace GoldenSpin.UIModule
             }
         }
 
-        private void OnRestartClicked()
+        private void OnGiveUpClicked()
         {
-            gameController.RestartGame();
+            Hide(() => gameController.RestartGame());
         }
 
         private void OnReviveClicked()
         {
-            Debug.Log(LOG_REVIVE_REQUESTED);
+            Hide(() => gameController.ReviveAfterBomb());
         }
 
         private void UnsubscribeFromEvents()
         {
-            uiButtonRestart.onClick.RemoveListener(OnRestartClicked);
+            uiButtonGiveUp.onClick.RemoveListener(OnGiveUpClicked);
             uiButtonRevive.onClick.RemoveListener(OnReviveClicked);
 
             gameController.OnStateChanged -= HandleStateChanged;
@@ -107,15 +98,10 @@ namespace GoldenSpin.UIModule
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (uiButtonRestart == null)
-            {
-                uiButtonRestart = transform.Find("ui_button_restart")?.GetComponent<Button>();
-            }
-
+            if (uiButtonGiveUp == null)
+                uiButtonGiveUp = transform.Find("ui_button_give_up")?.GetComponent<Button>();
             if (uiButtonRevive == null)
-            {
                 uiButtonRevive = transform.Find("ui_button_revive")?.GetComponent<Button>();
-            }
         }
 #endif
     }

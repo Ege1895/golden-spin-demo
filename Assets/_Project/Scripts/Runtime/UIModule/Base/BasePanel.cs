@@ -41,7 +41,9 @@ namespace GoldenSpin.UIModule
             isVisible = true;
             gameObject.SetActive(true);
             fadeTween?.Kill();
-            canvasGroup.alpha = 0f;
+            canvasGroup.alpha          = 0f;
+            canvasGroup.interactable   = true;
+            canvasGroup.blocksRaycasts = true;
             fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1f, UIConfig.PANEL_FADE_DURATION).SetEase(Ease.OutQuad);
             OnShow();
         }
@@ -54,6 +56,8 @@ namespace GoldenSpin.UIModule
             }
 
             isVisible = false;
+            canvasGroup.interactable   = false;
+            canvasGroup.blocksRaycasts = false;
             fadeTween?.Kill();
             fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, UIConfig.PANEL_FADE_DURATION)
                 .SetEase(Ease.InQuad)
@@ -70,6 +74,8 @@ namespace GoldenSpin.UIModule
             }
 
             isVisible = false;
+            canvasGroup.interactable   = false;
+            canvasGroup.blocksRaycasts = false;
             fadeTween?.Kill();
             fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, UIConfig.PANEL_FADE_DURATION)
                 .SetEase(Ease.InQuad)
