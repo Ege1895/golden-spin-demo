@@ -27,11 +27,11 @@ namespace GoldenSpin.UIModule
         [SerializeField]
         private Image uiImageBombIcon;
         
-        private const int    REVIVE_COST              = 25;
-        private const float  BOMB_ICON_PUNCH_SCALE    = 0.3f;
-        private const float  BOMB_ICON_PUNCH_DURATION = 0.4f;
-        private const int    BOMB_ICON_PUNCH_VIBRATO  = 5;
-        private const float  BOMB_ICON_PUNCH_ELASTIC  = 0.5f;
+        private const int REVIVE_COST              = 25;
+        private const float BOMB_ICON_PUNCH_SCALE    = 0.3f;
+        private const float BOMB_ICON_PUNCH_DURATION = 0.4f;
+        private const int BOMB_ICON_PUNCH_VIBRATO  = 5;
+        private const float BOMB_ICON_PUNCH_ELASTIC  = 0.5f;
         private const string LOG_REVIVE_REQUESTED     = "[BombPanel] Revive requested";
 
         private void Start()

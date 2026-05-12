@@ -4,15 +4,20 @@ namespace GoldenSpin.CoreModule
 {
     public interface IZoneController
     {
-        int     CurrentZone    { get; }
         ZoneDTO CurrentZoneDTO { get; }
-
+        
+        ZoneDTO GetZoneDTO(int zoneNumber);
+        
         event Action<ZoneDTO> OnZoneChanged;
 
-        void    AdvanceZone();
-        void    ResetZone();
-        ZoneDTO GetZoneDTO(int zoneNumber);
-        bool    IsCurrentZoneSafeToLeave();
-        int     GetCurrentZoneMultiplier();
+        void AdvanceZone();
+        
+        void ResetZone();
+        
+        bool IsCurrentZoneSafeToLeave();
+        
+        int GetCurrentZoneMultiplier();
+        
+        int CurrentZone { get; }
     }
 }

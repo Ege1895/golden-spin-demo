@@ -9,7 +9,7 @@ namespace GoldenSpin.ZoneModule
     {
         public ZoneDTO CurrentZoneDTO { get; private set; }
         
-        public int CurrentZone    { get; private set; }
+        public int CurrentZone { get; private set; }
 
         public event Action<ZoneDTO> OnZoneChanged;
 
@@ -27,7 +27,7 @@ namespace GoldenSpin.ZoneModule
 
         public void ResetZone()
         {
-            CurrentZone    = ZoneConfig.STARTING_ZONE_NUMBER;
+            CurrentZone = ZoneConfig.STARTING_ZONE_NUMBER;
             CurrentZoneDTO = GetZoneDTO(CurrentZone);
             OnZoneChanged?.Invoke(CurrentZoneDTO);
         }
@@ -39,8 +39,8 @@ namespace GoldenSpin.ZoneModule
             return new ZoneDTO
             {
                 ZoneNumber = zoneNumber,
-                Type       = zoneType,
-                SpinType   = DetermineSpinType(zoneType)
+                Type = zoneType,
+                SpinType = DetermineSpinType(zoneType)
             };
         }
 
