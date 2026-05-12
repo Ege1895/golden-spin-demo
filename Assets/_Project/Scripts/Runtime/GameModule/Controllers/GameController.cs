@@ -38,8 +38,8 @@ namespace GoldenSpin.GameModule
 
             SetState(GameState.Spinning);
 
-            ZoneDTO zone       = zoneController.CurrentZoneDTO;
-            int     multiplier = zoneController.GetCurrentZoneMultiplier();
+            ZoneDTO zone = zoneController.CurrentZoneDTO;
+            int multiplier = zoneController.GetCurrentZoneMultiplier();
 
             wheelController.PrepareWheel(zone.SpinType, multiplier);
             wheelController.DetermineResultSliceIndex();

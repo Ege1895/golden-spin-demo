@@ -9,9 +9,13 @@ namespace GoldenSpin.CoreModule
         event Action<GameState> OnStateChanged;
 
         void StartGame();
+        
         void RequestSpin();
+        
         void OnSpinAnimationCompleted(WheelSliceDTO resultSlice);
+        
         void RequestCollect();
+        
         void RestartGame();
     }
 }
