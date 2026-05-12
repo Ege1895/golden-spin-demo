@@ -9,32 +9,38 @@ namespace GoldenSpin.UIModule
 {
     public class CollectPanel : BasePanel
     {
-
         [Inject]
         private IGameController gameController;
         [Inject]
         private IRewardController rewardController;
+        [Inject]
+        private IWheelController wheelController;
 
         [SerializeField]
         private Button uiButtonPlayAgain;
-        
+
         [SerializeField]
         private Transform rewardSummaryContainer;
-        
+
         [SerializeField]
         private TMP_Text uiTextCollectTitle;
         [SerializeField]
         private TMP_Text uiTextTotalRewardsValue;
-        
+        [SerializeField]
+        private Image uiImageRewardIcon;
+
         [SerializeField]
         private GameObject confettiEffect;
 
         private const float  REWARD_COUNTER_DURATION = 1.5f;
         private const float  CONFETTI_DELAY          = 0.3f;
         private const string SUMMARY_ITEM_NAME       = "ui_text_summary_item";
+        private const string TITLE_SPIN_RESULT       = "TEBRİKLER!";
+        private const string TITLE_COLLECT           = "ÖDÜLLER";
 
-        private bool isSpinResult;
-        
+        private bool          isSpinResult;
+        private WheelSliceDTO pendingSpinResult;
+
         private void Start()
         {
             ListenEvents();
@@ -46,6 +52,12 @@ namespace GoldenSpin.UIModule
 
             gameController.OnStateChanged       += HandleStateChanged;
             rewardController.OnRewardsCollected += HandleRewardsCollected;
+            wheelController.OnSpinCompleted     += HandleSpinCompleted;
+        }
+
+        private void HandleSpinCompleted(WheelSliceDTO slice)
+        {
+            pendingSpinResult = slice;
         }
 
         private void HandleStateChanged(GameState state)
@@ -53,11 +65,13 @@ namespace GoldenSpin.UIModule
             if (state == GameState.SpinResult)
             {
                 isSpinResult = true;
+                PopulateSpinResult(pendingSpinResult);
                 Show();
             }
             else if (state == GameState.Restarting)
             {
-                isSpinResult = false;
+                isSpinResult      = false;
+                pendingSpinResult = null;
                 HideImmediate();
             }
         }
@@ -79,12 +93,34 @@ namespace GoldenSpin.UIModule
             }
         }
 
+        private void PopulateSpinResult(WheelSliceDTO slice)
+        {
+            ClearRewardSummary();
+
+            uiTextCollectTitle.text = TITLE_SPIN_RESULT;
+
+            bool hasReward = slice != null && slice.Reward != null;
+
+            if (uiImageRewardIcon != null)
+            {
+                uiImageRewardIcon.gameObject.SetActive(hasReward && slice.Reward.Icon != null);
+                if (hasReward && slice.Reward.Icon != null)
+                    uiImageRewardIcon.sprite = slice.Reward.Icon;
+            }
+
+            uiTextTotalRewardsValue.text = hasReward ? $"x{slice.Reward.Amount}" : string.Empty;
+        }
+
         private void PopulateRewardSummary(CollectedRewardDTO collectedDTO)
         {
             ClearRewardSummary();
 
-            int totalCount = collectedDTO.Rewards.Count;
-            uiTextTotalRewardsValue.text = totalCount.ToString();
+            uiTextCollectTitle.text = TITLE_COLLECT;
+
+            if (uiImageRewardIcon != null)
+                uiImageRewardIcon.gameObject.SetActive(false);
+
+            uiTextTotalRewardsValue.text = collectedDTO.Rewards.Count.ToString();
 
             foreach (RewardDTO reward in collectedDTO.Rewards)
             {
@@ -138,6 +174,7 @@ namespace GoldenSpin.UIModule
 
             gameController.OnStateChanged       -= HandleStateChanged;
             rewardController.OnRewardsCollected -= HandleRewardsCollected;
+            wheelController.OnSpinCompleted     -= HandleSpinCompleted;
         }
 
         private void OnDestroy()
