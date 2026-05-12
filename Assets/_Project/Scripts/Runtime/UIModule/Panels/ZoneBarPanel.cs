@@ -22,16 +22,12 @@ namespace GoldenSpin.UIModule
 
         private readonly List<ZoneBarItem> visibleItems = new List<ZoneBarItem>();
 
-        protected override void Awake()
-        {
-            base.Awake();
-            zoneBarItemFactory.SetParent(zonesContainer);
-        }
-
         private void Start()
         {
+            zoneBarItemFactory.SetParent(zonesContainer);
             ListenEvents();
             BuildZoneBar();
+            ShowImmediate();
         }
 
         private void ListenEvents()
