@@ -53,6 +53,6 @@ namespace GoldenSpin.UIModule
             }
         }
 
-        public class Factory : PlaceholderFactory<ZoneDTO, ZoneBarItem> { }
+        public class Factory : PlaceholderFactory<ZoneBarItem> { }
     }
 }
