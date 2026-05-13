@@ -64,6 +64,9 @@ namespace GoldenSpin.WheelModule
         [SerializeField]
         private TMP_Text uiTextGoldBadgeValue;
 
+        [SerializeField]
+        private Image uiImageStateIcon;
+
         private readonly List<WheelSliceItem> activeSliceItems = new List<WheelSliceItem>();
 
         private const string TITLE_BRONZE = "BRONZE SPIN";
@@ -76,6 +79,7 @@ namespace GoldenSpin.WheelModule
         private const string PATH_BUTTON_COLLECT = "ui_action_row/ui_button_collect";
         private const string PATH_IMAGE_SPIN_FRAME = "ui_action_row/ui_button_spin/ui_image_frame";
         private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
+        private const string PATH_IMAGE_STATE_ICON = "ui_container_zone_level_badge/ui_image_state_icon";
 #endif
         
         private const float SPIN_BACKGROUND_ALPHA = 0.1f;
@@ -252,6 +256,11 @@ namespace GoldenSpin.WheelModule
             {
                 uiTextZoneCountValue.text = $"{ZONE_LABEL_PREFIX}{zone.ZoneNumber}";
             }
+
+            if (uiImageStateIcon != null)
+            {
+                uiImageStateIcon.color = TierColors.For(zone.SpinType);
+            }
         }
 
         private void RefreshGoldBadge(int amount)
@@ -334,6 +343,11 @@ namespace GoldenSpin.WheelModule
             if (uiImageCollectFrame == null)
             {
                 uiImageCollectFrame = transform.Find(PATH_IMAGE_COLLECT_FRAME)?.GetComponent<Image>();
+            }
+
+            if (uiImageStateIcon == null)
+            {
+                uiImageStateIcon = transform.Find(PATH_IMAGE_STATE_ICON)?.GetComponent<Image>();
             }
         }
 #endif
