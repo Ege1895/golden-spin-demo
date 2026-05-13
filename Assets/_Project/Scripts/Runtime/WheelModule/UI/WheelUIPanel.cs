@@ -22,6 +22,9 @@ namespace GoldenSpin.WheelModule
         private IWheelController wheelController;
 
         [Inject]
+        private ICurrencyController currencyController;
+
+        [Inject]
         private WheelSliceItemFactory sliceItemFactory;
 
         [SerializeField]
@@ -42,16 +45,29 @@ namespace GoldenSpin.WheelModule
         [SerializeField]
         private GameObject wheelBaseGoldIndicatorObject;
 
-        [SerializeField] 
+        [SerializeField]
         private Button uiButtonSpin;
-        [SerializeField] 
+        [SerializeField]
         private Button uiButtonCollect;
+
+        [SerializeField]
+        private Image uiImageSpinFrame;
+        [SerializeField]
+        private Image uiImageCollectFrame;
 
         [SerializeField]
         private TMP_Text uiTextWheelTitle;
 
         [SerializeField]
         private Image uiImageSpinBackground;
+
+        [SerializeField]
+        private Image uiImageZoneLevelStateIcon;
+        [SerializeField]
+        private TMP_Text uiTextZoneCountValue;
+
+        [SerializeField]
+        private TMP_Text uiTextGoldBadgeValue;
 
         private readonly List<WheelSliceItem> activeSliceItems = new List<WheelSliceItem>();
 
@@ -66,6 +82,9 @@ namespace GoldenSpin.WheelModule
             sliceItemFactory.SetParent(slicesContainer);
             ListenEvents();
             ShowImmediate();
+
+            RefreshZoneLevelBadge(zoneController.CurrentZoneDTO);
+            RefreshGoldBadge(currencyController.CurrentAmount);
 
             if (wheelController.CurrentSlices.Count > 0)
             {
@@ -83,6 +102,7 @@ namespace GoldenSpin.WheelModule
             zoneController.OnZoneChanged += HandleZoneChanged;
             wheelController.OnWheelPrepared += HandleWheelPrepared;
             wheelController.OnSpinStarted += HandleSpinStarted;
+            currencyController.OnCurrencyChanged += RefreshGoldBadge;
         }
 
         protected override void OnShow()
@@ -130,6 +150,8 @@ namespace GoldenSpin.WheelModule
         private void HandleZoneChanged(ZoneDTO zoneDTO)
         {
             RefreshSpinBackground(zoneDTO.SpinType);
+            RefreshZoneLevelBadge(zoneDTO);
+            RefreshTierColors(zoneDTO.SpinType);
         }
 
         private void HandleWheelPrepared(SpinType spinType)
@@ -175,6 +197,7 @@ namespace GoldenSpin.WheelModule
 
             RefreshWheelTitle(spinType);
             RefreshSpinBackground(spinType);
+            RefreshTierColors(spinType);
         }
 
         private void RefreshWheelTitle(SpinType spinType)
@@ -190,6 +213,8 @@ namespace GoldenSpin.WheelModule
                 SpinType.Silver => TITLE_SILVER,
                 _ => TITLE_BRONZE,
             };
+
+            uiTextWheelTitle.color = TierColors.For(spinType);
         }
 
         private void RefreshSpinBackground(SpinType spinType)
@@ -199,12 +224,44 @@ namespace GoldenSpin.WheelModule
                 return;
             }
 
-            uiImageSpinBackground.color = spinType switch
+            Color tier = TierColors.For(spinType);
+            uiImageSpinBackground.color = new Color(tier.r, tier.g, tier.b, 0.1f);
+        }
+
+        private void RefreshTierColors(SpinType spinType)
+        {
+            Color tier = TierColors.For(spinType);
+
+            if (uiImageSpinFrame != null)
             {
-                SpinType.Golden => new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.1f),
-                SpinType.Silver => new Color(Color.gray.r, Color.gray.g, Color.gray.b, 0.1f),
-                _ => new Color(Color.white.r, Color.white.g, Color.white.b, 0.1f),
-            };
+                uiImageSpinFrame.color = tier;
+            }
+
+            if (uiImageCollectFrame != null)
+            {
+                uiImageCollectFrame.color = tier;
+            }
+        }
+
+        private void RefreshZoneLevelBadge(ZoneDTO zone)
+        {
+            if (uiImageZoneLevelStateIcon != null)
+            {
+                uiImageZoneLevelStateIcon.color = TierColors.For(zone.SpinType);
+            }
+
+            if (uiTextZoneCountValue != null)
+            {
+                uiTextZoneCountValue.text = $"Zone {zone.ZoneNumber}";
+            }
+        }
+
+        private void RefreshGoldBadge(int amount)
+        {
+            if (uiTextGoldBadgeValue != null)
+            {
+                uiTextGoldBadgeValue.text = amount.ToString();
+            }
         }
 
         private void UpdateButtonStates(GameState state)
@@ -240,6 +297,7 @@ namespace GoldenSpin.WheelModule
             zoneController.OnZoneChanged -= HandleZoneChanged;
             wheelController.OnWheelPrepared -= HandleWheelPrepared;
             wheelController.OnSpinStarted -= HandleSpinStarted;
+            currencyController.OnCurrencyChanged -= RefreshGoldBadge;
         }
 
         private void OnDestroy()

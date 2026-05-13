@@ -266,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GoldenSpin::GoldenSpin.UIModule.ZoneBarItem
   uiTextZoneNumberValue: {fileID: 609472085026105871}
   uiImageZoneBackground: {fileID: 8143697186578808629}
-  uiImageZoneIcon: {fileID: 0}
+  uiImageZoneFrame: {fileID: 8855791134265409441}
 --- !u!222 &5925259425130795895
 CanvasRenderer:
   m_ObjectHideFlags: 0

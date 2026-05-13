@@ -66,6 +66,7 @@ namespace GoldenSpin.Editor
 
         private static GameObject FindChildGO(GameObject parent, string name)
         {
+            if (parent == null) return null;
             Transform t = parent.transform.Find(name);
             return t != null ? t.gameObject : null;
         }
@@ -110,10 +111,20 @@ namespace GoldenSpin.Editor
                 ?.SetValue(wp, FindGO("ui_button_spin")?.GetComponent<UnityEngine.UI.Button>());
             t.GetField("uiButtonCollect", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(wp, FindGO("ui_button_collect")?.GetComponent<UnityEngine.UI.Button>());
+            t.GetField("uiImageSpinFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(wp, FindChild<UnityEngine.UI.Image>(FindGO("ui_button_spin"), "ui_image_frame"));
+            t.GetField("uiImageCollectFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(wp, FindChild<UnityEngine.UI.Image>(FindGO("ui_button_collect"), "ui_image_frame"));
             t.GetField("uiTextWheelTitle", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(wp, FindGO("ui_text_wheel_title")?.GetComponent<TMPro.TextMeshProUGUI>());
             t.GetField("uiImageSpinBackground", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(wp, FindGO("ui_image_wheel_glow")?.GetComponent<UnityEngine.UI.Image>());
+            t.GetField("uiImageZoneLevelStateIcon", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(wp, FindGO("ui_image_state_icon")?.GetComponent<UnityEngine.UI.Image>());
+            t.GetField("uiTextZoneCountValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(wp, FindGO("ui_text_zone_count_value")?.GetComponent<TMPro.TextMeshProUGUI>());
+            t.GetField("uiTextGoldBadgeValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(wp, FindGO("ui_text_gold_count_value")?.GetComponent<TMPro.TextMeshProUGUI>());
 
             EditorUtility.SetDirty(wp);
             Debug.Log("[SceneReferenceWirer] WheelPanel wired.");
@@ -134,6 +145,8 @@ namespace GoldenSpin.Editor
                 ?.SetValue(zbp, FindGO("ui_container_zone_items")?.GetComponent<RectTransform>());
             t.GetField("scrollContent", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(zbp, FindGO("Panel_ZoneBar")?.GetComponent<RectTransform>());
+            t.GetField("uiTextZoneCurrentValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(zbp, FindGO("ui_text_zone_current_value")?.GetComponent<TMPro.TextMeshProUGUI>());
 
             EditorUtility.SetDirty(zbp);
             Debug.Log("[SceneReferenceWirer] ZoneBarPanel wired.");
@@ -152,6 +165,8 @@ namespace GoldenSpin.Editor
                 ?.SetValue(rlp, FindGO("Panel_RewardList")?.GetComponent<UnityEngine.CanvasGroup>());
             t.GetField("rewardsContainer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(rlp, FindGO("ui_container_rewards")?.GetComponent<RectTransform>());
+            t.GetField("uiTextRewardCountValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(rlp, FindGO("ui_text_reward_count_value")?.GetComponent<TMPro.TextMeshProUGUI>());
 
             EditorUtility.SetDirty(rlp);
             Debug.Log("[SceneReferenceWirer] RewardListPanel wired.");
