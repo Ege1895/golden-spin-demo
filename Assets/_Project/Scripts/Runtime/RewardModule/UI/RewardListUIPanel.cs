@@ -32,7 +32,7 @@ namespace GoldenSpin.RewardModule
 
         private void ListenEvents()
         {
-            rewardController.OnRewardAdded += HandleRewardAdded;
+            rewardController.OnRewardAdded    += HandleRewardAdded;
             rewardController.OnRewardsCleared += HandleRewardsCleared;
         }
 
@@ -69,7 +69,7 @@ namespace GoldenSpin.RewardModule
 
         private void UnsubscribeFromEvents()
         {
-            rewardController.OnRewardAdded -= HandleRewardAdded;
+            rewardController.OnRewardAdded    -= HandleRewardAdded;
             rewardController.OnRewardsCleared -= HandleRewardsCleared;
         }
 
@@ -77,5 +77,16 @@ namespace GoldenSpin.RewardModule
         {
             UnsubscribeFromEvents();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (rewardsContainer == null)
+                rewardsContainer = transform.Find("ui_scroll_rewards/Viewport/Content");
+
+            if (uiTextRewardCountValue == null)
+                uiTextRewardCountValue = transform.Find("ui_header/ui_text_reward_count_value")?.GetComponent<TMP_Text>();
+        }
+#endif
     }
 }

@@ -19,7 +19,7 @@ namespace GoldenSpin.GameModule
         private IZoneController zoneController;
 
         [SerializeField]
-        private Button uiButtonRevive;
+        private Button uiButtonContinue;
         [SerializeField]
         private Button uiButtonGiveUp;
 
@@ -44,7 +44,7 @@ namespace GoldenSpin.GameModule
 
         private void ListenEvents()
         {
-            uiButtonRevive.onClick.AddListener(OnContinueClicked);
+            uiButtonContinue.onClick.AddListener(OnContinueClicked);
             uiButtonGiveUp.onClick.AddListener(OnGiveUpClicked);
 
             gameController.OnStateChanged   += HandleStateChanged;
@@ -119,7 +119,7 @@ namespace GoldenSpin.GameModule
 
         private void UnsubscribeFromEvents()
         {
-            uiButtonRevive.onClick.RemoveListener(OnContinueClicked);
+            uiButtonContinue.onClick.RemoveListener(OnContinueClicked);
             uiButtonGiveUp.onClick.RemoveListener(OnGiveUpClicked);
 
             gameController.OnStateChanged   -= HandleStateChanged;
@@ -130,5 +130,28 @@ namespace GoldenSpin.GameModule
         {
             UnsubscribeFromEvents();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (uiButtonContinue == null)
+                uiButtonContinue = transform.Find("Popup_AwardReceived/ui_button_continue")?.GetComponent<Button>();
+
+            if (uiButtonGiveUp == null)
+                uiButtonGiveUp = transform.Find("Popup_AwardReceived/ui_button_give_up")?.GetComponent<Button>();
+
+            if (uiTextCollectTitle == null)
+                uiTextCollectTitle = transform.Find("Popup_AwardReceived/ui_text_collect_title")?.GetComponent<TMP_Text>();
+
+            if (uiTextTotalRewardsValue == null)
+                uiTextTotalRewardsValue = transform.Find("Popup_AwardReceived/ui_text_total_rewards_value")?.GetComponent<TMP_Text>();
+
+            if (uiImageRewardIcon == null)
+                uiImageRewardIcon = transform.Find("Popup_AwardReceived/ui_image_reward_icon")?.GetComponent<Image>();
+
+            if (rewardIconFitter == null)
+                rewardIconFitter = transform.Find("Popup_AwardReceived/ui_image_reward_icon")?.GetComponent<AspectRatioFitter>();
+        }
+#endif
     }
 }
