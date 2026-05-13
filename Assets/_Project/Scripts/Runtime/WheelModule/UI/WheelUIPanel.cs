@@ -7,7 +7,6 @@ using DG.Tweening;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
 using GoldenSpin.UIModule;
-using UnityEngine.Serialization;
 
 namespace GoldenSpin.WheelModule
 {
@@ -50,14 +49,14 @@ namespace GoldenSpin.WheelModule
         private Button uiButtonSpin;
         [SerializeField]
         private Button uiButtonCollect;
-        
+
         [SerializeField]
         private Image uiImageSpinFrame;
         [SerializeField]
         private Image uiImageCollectFrame;
         [SerializeField]
         private Image uiImageSpinBackground;
-        
+
         [SerializeField]
         private TMP_Text uiTextWheelTitle;
         [SerializeField]
@@ -70,17 +69,19 @@ namespace GoldenSpin.WheelModule
         private const string TITLE_BRONZE = "BRONZE SPIN";
         private const string TITLE_SILVER = "SILVER SPIN";
         private const string TITLE_GOLDEN = "GOLDEN SPIN";
+        private const string ZONE_LABEL_PREFIX = "Zone ";
+        private const float SPIN_BACKGROUND_ALPHA = 0.1f;
 
-        private static readonly Color SPIN_FRAME_ACTIVE   = new Color(0.165f, 0.498f, 0.831f, 1f); // #2A80D4
+        private static readonly Color SPIN_FRAME_ACTIVE = new Color(0.165f, 0.498f, 0.831f, 1f); // #2A80D4
         private static readonly Color SPIN_FRAME_DISABLED = new Color(0.165f, 0.165f, 0.243f, 1f); // #2A2A3E
         private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f); // #252525
 
         private int targetSliceIndex;
-        
+
 #if UNITY_EDITOR
-        private const string PATH_BUTTON_SPIN         = "ui_action_row/ui_button_spin";
-        private const string PATH_BUTTON_COLLECT      = "ui_action_row/ui_button_collect";
-        private const string PATH_IMAGE_SPIN_FRAME    = "ui_action_row/ui_button_spin/ui_image_frame";
+        private const string PATH_BUTTON_SPIN = "ui_action_row/ui_button_spin";
+        private const string PATH_BUTTON_COLLECT = "ui_action_row/ui_button_collect";
+        private const string PATH_IMAGE_SPIN_FRAME = "ui_action_row/ui_button_spin/ui_image_frame";
         private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
 #endif
 
@@ -175,7 +176,7 @@ namespace GoldenSpin.WheelModule
         private void StartSpinAnimation()
         {
             float targetAngle = wheelController.GetTargetAngleForSlice(targetSliceIndex);
-            float totalRotation = WheelConfig.SPIN_MIN_ROTATIONS * 360f + targetAngle;
+            float totalRotation = WheelConfig.SPIN_MIN_ROTATIONS * WheelConfig.DEGREES_PER_ROTATION + targetAngle;
             float duration = Random.Range(WheelConfig.SPIN_MIN_DURATION, WheelConfig.SPIN_MAX_DURATION);
 
             wheelTransform.DORotate(
@@ -229,7 +230,7 @@ namespace GoldenSpin.WheelModule
             }
 
             Color tier = TierColors.For(spinType);
-            uiImageSpinBackground.color = new Color(tier.r, tier.g, tier.b, 0.1f);
+            uiImageSpinBackground.color = new Color(tier.r, tier.g, tier.b, SPIN_BACKGROUND_ALPHA);
         }
 
         private void RefreshTierColors(SpinType spinType)
@@ -248,7 +249,7 @@ namespace GoldenSpin.WheelModule
         {
             if (uiTextZoneCountValue != null)
             {
-                uiTextZoneCountValue.text = $"Zone {zone.ZoneNumber}";
+                uiTextZoneCountValue.text = $"{ZONE_LABEL_PREFIX}{zone.ZoneNumber}";
             }
         }
 
@@ -262,10 +263,10 @@ namespace GoldenSpin.WheelModule
 
         private void UpdateButtonStates(GameState state)
         {
-            bool isIdle     = state == GameState.Idle;
+            bool isIdle = state == GameState.Idle;
             bool canCollect = isIdle && zoneController.IsCurrentZoneSafeToLeave();
 
-            uiButtonSpin.interactable    = isIdle;
+            uiButtonSpin.interactable = isIdle;
             uiButtonCollect.interactable = canCollect;
 
             RefreshButtonFrameStates(isIdle, canCollect, zoneController.CurrentZoneDTO.SpinType);

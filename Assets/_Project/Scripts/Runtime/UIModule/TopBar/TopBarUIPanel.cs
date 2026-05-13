@@ -8,27 +8,31 @@ namespace GoldenSpin.UIModule
 {
     public class TopBarUIPanel : BasePanel
     {
-        [Inject] 
+        [Inject]
         private IZoneController zoneController;
-        
-        [Inject] 
+
+        [Inject]
         private ICurrencyController currencyController;
 
-        [SerializeField] 
+        [SerializeField]
         private Image uiImageZoneDot;
-        
-        [SerializeField] 
+
+        [SerializeField]
         private TMP_Text uiTextZoneLabelValue;
-        [SerializeField] 
+        [SerializeField]
         private TMP_Text uiTextCurrencyAmountValue;
 
         private static readonly Color ColorNormal = new Color(0.72f, 0.39f, 0.10f);
-        private static readonly Color ColorSafe   = new Color(0.60f, 0.60f, 0.93f);
-        private static readonly Color ColorSuper  = new Color(1.00f, 0.84f, 0.00f);
+        private static readonly Color ColorSafe = new Color(0.60f, 0.60f, 0.93f);
+        private static readonly Color ColorSuper = new Color(1.00f, 0.84f, 0.00f);
+
+        private const string ZONE_LABEL_SUPER_PREFIX = "SUPER Zone ";
+        private const string ZONE_LABEL_SAFE_PREFIX = "Safe Zone ";
+        private const string ZONE_LABEL_PREFIX = "Zone ";
 
 #if UNITY_EDITOR
-        private const string PATH_IMAGE_ZONE_DOT       = "ui_container_zone_badge/ui_image_zone_dot";
-        private const string PATH_TEXT_ZONE_LABEL      = "ui_container_zone_badge/ui_text_zone_label_value";
+        private const string PATH_IMAGE_ZONE_DOT = "ui_container_zone_badge/ui_image_zone_dot";
+        private const string PATH_TEXT_ZONE_LABEL = "ui_container_zone_badge/ui_text_zone_label_value";
         private const string PATH_TEXT_CURRENCY_AMOUNT = "ui_container_currency_pill/ui_text_currency_amount_value";
 #endif
 
@@ -63,18 +67,18 @@ namespace GoldenSpin.UIModule
             Color dotColor = zone.Type switch
             {
                 ZoneType.Super => ColorSuper,
-                ZoneType.Safe  => ColorSafe,
-                _              => ColorNormal,
+                ZoneType.Safe => ColorSafe,
+                _ => ColorNormal,
             };
 
             string label = zone.Type switch
             {
-                ZoneType.Super => $"SUPER Zone {zone.ZoneNumber}",
-                ZoneType.Safe  => $"Safe Zone {zone.ZoneNumber}",
-                _              => $"Zone {zone.ZoneNumber}",
+                ZoneType.Super => $"{ZONE_LABEL_SUPER_PREFIX}{zone.ZoneNumber}",
+                ZoneType.Safe => $"{ZONE_LABEL_SAFE_PREFIX}{zone.ZoneNumber}",
+                _ => $"{ZONE_LABEL_PREFIX}{zone.ZoneNumber}",
             };
 
-            uiImageZoneDot.color      = dotColor;
+            uiImageZoneDot.color = dotColor;
             uiTextZoneLabelValue.text = label;
         }
 

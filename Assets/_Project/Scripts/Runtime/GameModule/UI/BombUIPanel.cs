@@ -11,19 +11,19 @@ namespace GoldenSpin.GameModule
 {
     public class BombUIPanel : PopupUIPanel
     {
-        [Inject] 
-        private IGameController     gameController;
-        
-        [Inject] 
+        [Inject]
+        private IGameController gameController;
+
+        [Inject]
         private ICurrencyController currencyController;
 
-        [SerializeField] 
+        [SerializeField]
         private Button uiButtonGiveUp;
-        [SerializeField] 
+        [SerializeField]
         private Button uiButtonRevive;
-        [SerializeField] 
+        [SerializeField]
         private Button uiButtonRevivePaid;
-        [SerializeField] 
+        [SerializeField]
         private TMP_Text uiTextRevivePaidCostValue;
 
         [SerializeField]
@@ -45,6 +45,7 @@ namespace GoldenSpin.GameModule
         private const string PATH_BUTTON_REVIVE_PAID = "Popup_Bomb/ui_action_row/ui_button_revive_paid";
         private const string PATH_TEXT_REVIVE_PAID_COST = "Popup_Bomb/ui_action_row/ui_button_revive_paid/ui_text_revive_paid_cost_value";
 #endif
+
         private void Start()
         {
             ListenEvents();
@@ -56,7 +57,7 @@ namespace GoldenSpin.GameModule
             uiButtonRevive.onClick.AddListener(OnReviveClicked);
             uiButtonRevivePaid.onClick.AddListener(OnRevivePaidClicked);
 
-            gameController.OnStateChanged        += HandleStateChanged;
+            gameController.OnStateChanged += HandleStateChanged;
             currencyController.OnCurrencyChanged += RefreshPaidReviveButton;
         }
 
@@ -94,6 +95,7 @@ namespace GoldenSpin.GameModule
         {
             bool canAfford = currencyController.CanAfford(CurrencyConfig.REVIVE_COST);
             uiButtonRevivePaid.interactable = canAfford;
+
             if (uiTextRevivePaidCostValue != null)
             {
                 uiTextRevivePaidCostValue.text = CurrencyConfig.REVIVE_COST.ToString();
@@ -121,7 +123,7 @@ namespace GoldenSpin.GameModule
             uiButtonRevive.onClick.RemoveListener(OnReviveClicked);
             uiButtonRevivePaid.onClick.RemoveListener(OnRevivePaidClicked);
 
-            gameController.OnStateChanged        -= HandleStateChanged;
+            gameController.OnStateChanged -= HandleStateChanged;
             currencyController.OnCurrencyChanged -= RefreshPaidReviveButton;
         }
 

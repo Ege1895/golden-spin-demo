@@ -13,7 +13,9 @@ namespace GoldenSpin.UIModule
         private TMP_Text uiTextSliceLabelValue;
         [SerializeField]
         private GameObject bombIndicator;
-        
+
+        private const string AMOUNT_PREFIX = "x";
+
         public void Initialize(WheelSliceDTO dto)
         {
             bool isBomb = dto.ContentType == SliceContentType.Bomb;
@@ -27,7 +29,7 @@ namespace GoldenSpin.UIModule
                 return;
             }
 
-            uiTextSliceLabelValue.text = $"x{dto.Reward.Amount}";
+            uiTextSliceLabelValue.text = $"{AMOUNT_PREFIX}{dto.Reward.Amount}";
 
             if (dto.Reward.Icon != null)
             {

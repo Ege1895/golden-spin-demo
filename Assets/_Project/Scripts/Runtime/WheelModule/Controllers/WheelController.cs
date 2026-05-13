@@ -10,10 +10,10 @@ namespace GoldenSpin.WheelModule
 {
     public class WheelController : IWheelController
     {
-        [Inject] 
+        [Inject]
         private readonly IRewardController rewardController;
-        
-        [Inject] 
+
+        [Inject]
         private readonly ZoneConfigSO zoneConfigSO;
 
         private readonly List<WheelSliceDTO> currentSlices = new List<WheelSliceDTO>();

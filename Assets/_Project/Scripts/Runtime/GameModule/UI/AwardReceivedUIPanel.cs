@@ -36,15 +36,15 @@ namespace GoldenSpin.GameModule
         private const string TITLE = "TEBRİKLER!";
 
         private WheelSliceDTO pendingSpinResult;
-        
+
 #if UNITY_EDITOR
-        private const string PATH_BUTTON_CONTINUE    = "Popup_AwardReceived/ui_button_continue";
-        private const string PATH_BUTTON_GIVE_UP     = "Popup_AwardReceived/ui_button_give_up";
+        private const string PATH_BUTTON_CONTINUE = "Popup_AwardReceived/ui_button_continue";
+        private const string PATH_BUTTON_GIVE_UP = "Popup_AwardReceived/ui_button_give_up";
         private const string PATH_TEXT_COLLECT_TITLE = "Popup_AwardReceived/ui_text_collect_title";
         private const string PATH_TEXT_TOTAL_REWARDS = "Popup_AwardReceived/ui_text_total_rewards_value";
-        private const string PATH_IMAGE_REWARD_ICON  = "Popup_AwardReceived/ui_image_reward_icon";
+        private const string PATH_IMAGE_REWARD_ICON = "Popup_AwardReceived/ui_image_reward_icon";
 #endif
-        
+
         private void Start()
         {
             ListenEvents();
@@ -55,7 +55,7 @@ namespace GoldenSpin.GameModule
             uiButtonContinue.onClick.AddListener(OnContinueClicked);
             uiButtonGiveUp.onClick.AddListener(OnGiveUpClicked);
 
-            gameController.OnStateChanged   += HandleStateChanged;
+            gameController.OnStateChanged += HandleStateChanged;
             wheelController.OnSpinCompleted += HandleSpinCompleted;
         }
 
@@ -82,7 +82,7 @@ namespace GoldenSpin.GameModule
         {
             if (uiTextCollectTitle != null)
             {
-                uiTextCollectTitle.text  = TITLE;
+                uiTextCollectTitle.text = TITLE;
                 uiTextCollectTitle.color = TierColors.For(zoneController.CurrentZoneDTO.SpinType);
             }
 
@@ -130,7 +130,7 @@ namespace GoldenSpin.GameModule
             uiButtonContinue.onClick.RemoveListener(OnContinueClicked);
             uiButtonGiveUp.onClick.RemoveListener(OnGiveUpClicked);
 
-            gameController.OnStateChanged   -= HandleStateChanged;
+            gameController.OnStateChanged -= HandleStateChanged;
             wheelController.OnSpinCompleted -= HandleSpinCompleted;
         }
 

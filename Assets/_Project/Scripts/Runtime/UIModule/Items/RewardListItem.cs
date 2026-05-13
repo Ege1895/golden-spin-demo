@@ -9,21 +9,22 @@ namespace GoldenSpin.UIModule
 {
     public class RewardListItem : MonoBehaviour
     {
-        [SerializeField] 
+        [SerializeField]
         private TMP_Text uiTextRewardLabelValue;
-        
-        [SerializeField] 
+
+        [SerializeField]
         private Image uiImageRewardIcon;
-        
-        [SerializeField] 
+
+        [SerializeField]
         private AspectRatioFitter sliceIconFitter;
 
         private const float APPEAR_SCALE_START = 0f;
         private const float APPEAR_SCALE_END = 1f;
+        private const string REWARD_AMOUNT_COLOR = "#FFD900";
 
         public void Initialize(RewardDTO dto)
         {
-            uiTextRewardLabelValue.text = $"{dto.Label}  <color=#FFD900>x{dto.Amount}</color>";
+            uiTextRewardLabelValue.text = $"{dto.Label}  <color={REWARD_AMOUNT_COLOR}>x{dto.Amount}</color>";
 
             if (dto.Icon != null)
             {
@@ -33,7 +34,7 @@ namespace GoldenSpin.UIModule
 
             PlayAppearAnimation();
         }
-        
+
         private void PlayAppearAnimation()
         {
             transform.localScale = Vector3.one * APPEAR_SCALE_START;
