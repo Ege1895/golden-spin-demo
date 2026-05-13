@@ -1,14 +1,12 @@
 using UnityEngine;
-using Zenject;
+using UnityEngine.AddressableAssets;
 using GoldenSpin.CoreModule;
+using GoldenSpin.ConfigurationModule;
 
 namespace GoldenSpin.UIModule
 {
     public class WheelSliceItemFactory
     {
-        [Inject] 
-        private readonly WheelSliceItem.Factory factory;
-
         private Transform parentTransform;
 
         public void SetParent(Transform parent)
@@ -18,15 +16,18 @@ namespace GoldenSpin.UIModule
 
         public WheelSliceItem Create(WheelSliceDTO dto)
         {
-            WheelSliceItem item = factory.Create();
+            GameObject go = Addressables
+                .InstantiateAsync(AddressableConfig.WHEEL_SLICE_ITEM_PREFAB, parentTransform, false)
+                .WaitForCompletion();
+
+            WheelSliceItem item = go.GetComponent<WheelSliceItem>();
             item.Initialize(dto);
-            item.transform.SetParent(parentTransform, false);
             return item;
         }
 
         public void DestroyItem(WheelSliceItem item)
         {
-            Object.Destroy(item.gameObject);
+            Addressables.ReleaseInstance(item.gameObject);
         }
     }
 }

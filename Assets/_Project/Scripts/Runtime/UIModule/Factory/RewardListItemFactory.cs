@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
+using UnityEngine.AddressableAssets;
 using GoldenSpin.CoreModule;
+using GoldenSpin.ConfigurationModule;
 
 namespace GoldenSpin.UIModule
 {
     public class RewardListItemFactory
     {
-        [Inject] 
-        private readonly RewardListItem.Factory factory;
-
         private Transform parentTransform;
 
         private readonly List<RewardListItem> activeItems = new List<RewardListItem>();
@@ -21,9 +19,12 @@ namespace GoldenSpin.UIModule
 
         public RewardListItem Create(RewardDTO dto)
         {
-            RewardListItem item = factory.Create();
+            GameObject go = Addressables
+                .InstantiateAsync(AddressableConfig.REWARD_LIST_ITEM_PREFAB, parentTransform, false)
+                .WaitForCompletion();
+
+            RewardListItem item = go.GetComponent<RewardListItem>();
             item.Initialize(dto);
-            item.transform.SetParent(parentTransform, false);
             activeItems.Add(item);
             return item;
         }
@@ -34,7 +35,7 @@ namespace GoldenSpin.UIModule
             {
                 if (item != null)
                 {
-                    Object.Destroy(item.gameObject);
+                    Addressables.ReleaseInstance(item.gameObject);
                 }
             }
 

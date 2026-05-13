@@ -1,18 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
+using UnityEngine.AddressableAssets;
 using GoldenSpin.CoreModule;
+using GoldenSpin.ConfigurationModule;
 
 namespace GoldenSpin.UIModule
 {
     public class ZoneBarItemFactory
     {
-        [Inject] 
-        private readonly ZoneBarItem.Factory factory;
-
         private Transform parentTransform;
 
-        private readonly List<ZoneBarItem> pool = new List<ZoneBarItem>();
+        private readonly List<ZoneBarItem> activeItems = new List<ZoneBarItem>();
 
         public void SetParent(Transform parent)
         {
@@ -21,24 +19,27 @@ namespace GoldenSpin.UIModule
 
         public ZoneBarItem Create(ZoneDTO zoneDTO)
         {
-            ZoneBarItem item = factory.Create();
+            GameObject go = Addressables
+                .InstantiateAsync(AddressableConfig.ZONE_BAR_ITEM_PREFAB, parentTransform, false)
+                .WaitForCompletion();
+
+            ZoneBarItem item = go.GetComponent<ZoneBarItem>();
             item.Initialize(zoneDTO);
-            item.transform.SetParent(parentTransform, false);
-            pool.Add(item);
+            activeItems.Add(item);
             return item;
         }
 
         public void DestroyAll()
         {
-            foreach (ZoneBarItem item in pool)
+            foreach (ZoneBarItem item in activeItems)
             {
                 if (item != null)
                 {
-                    Object.Destroy(item.gameObject);
+                    Addressables.ReleaseInstance(item.gameObject);
                 }
             }
 
-            pool.Clear();
+            activeItems.Clear();
         }
     }
 }
