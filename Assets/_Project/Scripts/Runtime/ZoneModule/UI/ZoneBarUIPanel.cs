@@ -45,8 +45,8 @@ namespace GoldenSpin.ZoneModule
             zoneBarItemFactory.DestroyAll();
             visibleItems.Clear();
 
-            int currentZone = zoneController.CurrentZone;
-            int startZone   = Mathf.Max(ZoneConfig.STARTING_ZONE_NUMBER, currentZone - 1);
+            int currentZone  = zoneController.CurrentZone;
+            int startZone    = Mathf.Max(ZoneConfig.STARTING_ZONE_NUMBER, currentZone - 1);
             int visibleCount = UIConfig.ZONE_BAR_VISIBLE_COUNT;
 
             int normalRunEnd = Mathf.Min(
@@ -100,5 +100,19 @@ namespace GoldenSpin.ZoneModule
         {
             UnsubscribeFromEvents();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (zonesContainer == null)
+                zonesContainer = transform.Find("ui_scroll_zones/Viewport/Content");
+
+            if (scrollContent == null)
+                scrollContent = transform.Find("ui_scroll_zones/Viewport/Content")?.GetComponent<RectTransform>();
+
+            if (uiTextZoneCurrentValue == null)
+                uiTextZoneCurrentValue = transform.Find("ui_header/ui_text_zone_current_value")?.GetComponent<TMP_Text>();
+        }
+#endif
     }
 }
