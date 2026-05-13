@@ -52,6 +52,8 @@ namespace GoldenSpin.WheelModule
         private Button uiButtonCollect;
         
         [SerializeField]
+        private Image uiImageSpinFrame;
+        [SerializeField]
         private Image uiImageCollectFrame;
         [SerializeField]
         private Image uiImageSpinBackground;
@@ -68,6 +70,10 @@ namespace GoldenSpin.WheelModule
         private const string TITLE_BRONZE = "BRONZE SPIN";
         private const string TITLE_SILVER = "SILVER SPIN";
         private const string TITLE_GOLDEN = "GOLDEN SPIN";
+
+        private static readonly Color SPIN_FRAME_ACTIVE   = new Color(0.165f, 0.498f, 0.831f, 1f); // #2A80D4
+        private static readonly Color SPIN_FRAME_DISABLED = new Color(0.165f, 0.165f, 0.243f, 1f); // #2A2A3E
+        private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f); // #252525
 
         private int targetSliceIndex;
 
@@ -146,6 +152,7 @@ namespace GoldenSpin.WheelModule
             RefreshSpinBackground(zoneDTO.SpinType);
             RefreshZoneLevelBadge(zoneDTO);
             RefreshTierColors(zoneDTO.SpinType);
+            UpdateButtonStates(gameController.CurrentState);
         }
 
         private void HandleWheelPrepared(SpinType spinType)
@@ -229,19 +236,8 @@ namespace GoldenSpin.WheelModule
             if (uiButtonCollect != null)
             {
                 ColorBlock colorBlock = uiButtonCollect.colors;
-
                 colorBlock.normalColor = tier;
-                colorBlock.highlightedColor = colorBlock.highlightedColor;
-                colorBlock.selectedColor = colorBlock.selectedColor;
-                colorBlock.pressedColor = colorBlock.pressedColor;
-                colorBlock.disabledColor = colorBlock.disabledColor;
-
                 uiButtonCollect.colors = colorBlock;
-            }
-
-            if (uiImageCollectFrame != null && spinType != SpinType.Normal)
-            {
-                uiImageCollectFrame.color = tier;
             }
         }
 
@@ -263,16 +259,26 @@ namespace GoldenSpin.WheelModule
 
         private void UpdateButtonStates(GameState state)
         {
-            bool isIdle = state == GameState.Idle;
+            bool isIdle     = state == GameState.Idle;
+            bool canCollect = isIdle && zoneController.IsCurrentZoneSafeToLeave();
+
             uiButtonSpin.interactable    = isIdle;
-            uiButtonCollect.interactable = isIdle && zoneController.IsCurrentZoneSafeToLeave();
-            RefreshCollectButtonVisual(zoneController.CurrentZoneDTO);
+            uiButtonCollect.interactable = canCollect;
+
+            RefreshButtonFrameStates(isIdle, canCollect, zoneController.CurrentZoneDTO.SpinType);
         }
 
-        private void RefreshCollectButtonVisual(ZoneDTO zone)
+        private void RefreshButtonFrameStates(bool spinActive, bool collectActive, SpinType spinType)
         {
-            bool canCollect = zoneController.IsCurrentZoneSafeToLeave();
-            uiButtonCollect.interactable = canCollect && gameController.CurrentState == GameState.Idle;
+            if (uiImageSpinFrame != null)
+            {
+                uiImageSpinFrame.color = spinActive ? SPIN_FRAME_ACTIVE : SPIN_FRAME_DISABLED;
+            }
+
+            if (uiImageCollectFrame != null)
+            {
+                uiImageCollectFrame.color = collectActive ? TierColors.For(spinType) : COLLECT_FRAME_DISABLED;
+            }
         }
 
         private void OnSpinButtonClicked()
@@ -310,6 +316,12 @@ namespace GoldenSpin.WheelModule
 
             if (uiButtonCollect == null)
                 uiButtonCollect = transform.Find("ui_action_row/ui_button_collect")?.GetComponent<Button>();
+
+            if (uiImageSpinFrame == null)
+                uiImageSpinFrame = transform.Find("ui_action_row/ui_button_spin/ui_image_frame")?.GetComponent<Image>();
+
+            if (uiImageCollectFrame == null)
+                uiImageCollectFrame = transform.Find("ui_action_row/ui_button_collect/ui_image_frame")?.GetComponent<Image>();
         }
 #endif
     }
