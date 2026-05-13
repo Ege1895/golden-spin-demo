@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using Zenject;
 using DG.Tweening;
@@ -18,10 +19,14 @@ namespace GoldenSpin.RewardModule
         [SerializeField]
         private Transform rewardsContainer;
 
+        [SerializeField]
+        private TMP_Text uiTextRewardCountValue;
+
         private void Start()
         {
             rewardListItemFactory.SetParent(rewardsContainer);
             ListenEvents();
+            RefreshCountText();
             ShowImmediate();
         }
 
@@ -36,6 +41,7 @@ namespace GoldenSpin.RewardModule
             DOVirtual.DelayedCall(UIConfig.REWARD_ITEM_APPEAR_DELAY, () =>
             {
                 rewardListItemFactory.Create(reward);
+                RefreshCountText();
             });
         }
 
@@ -43,7 +49,22 @@ namespace GoldenSpin.RewardModule
         {
             rewardsContainer
                 .DOShakePosition(0.4f, new Vector3(8f, 8f, 0f), 8)
-                .OnComplete(() => rewardListItemFactory.DestroyAll());
+                .OnComplete(() =>
+                {
+                    rewardListItemFactory.DestroyAll();
+                    RefreshCountText();
+                });
+        }
+
+        private void RefreshCountText()
+        {
+            if (uiTextRewardCountValue == null)
+            {
+                return;
+            }
+
+            int count = rewardController.CollectedRewards.Count;
+            uiTextRewardCountValue.text = count == 1 ? "1 Item" : $"{count} Items";
         }
 
         private void UnsubscribeFromEvents()

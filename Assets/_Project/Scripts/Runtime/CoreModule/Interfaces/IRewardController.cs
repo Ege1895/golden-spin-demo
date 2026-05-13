@@ -16,7 +16,9 @@ namespace GoldenSpin.CoreModule
         void ClearRewards();
         
         void CollectRewards();
-        
+
+        void RestoreLastSnapshot();
+
         CollectedRewardDTO GetSnapshot();
     }
 }

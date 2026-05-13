@@ -21,5 +21,7 @@ namespace GoldenSpin.CoreModule
         void RestartGame();
 
         void ReviveAfterBomb();
+
+        void ReviveWithCurrency();
     }
 }
