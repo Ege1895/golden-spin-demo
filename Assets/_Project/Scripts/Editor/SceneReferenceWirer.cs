@@ -25,6 +25,7 @@ namespace GoldenSpin.Editor
             WireRewardListPanel(scene);
             WireBombPanel(scene);
             WireCollectPanel(scene);
+            WireAwardReceivedPanel(scene);
             WireTopBarPanel(scene);
             WireWheelSliceItem(scene);
             WireZoneBarItem(scene);
@@ -75,6 +76,26 @@ namespace GoldenSpin.Editor
         {
             GameObject go = FindChildGO(parent, name);
             return go != null ? go.GetComponent<T>() : null;
+        }
+
+        private static T FindDescendant<T>(GameObject root, string name) where T : Component
+        {
+            if (root == null) return null;
+            Transform[] all = root.GetComponentsInChildren<Transform>(true);
+            foreach (Transform t in all)
+            {
+                if (t.name == name)
+                {
+                    T comp = t.GetComponent<T>();
+                    if (comp != null) return comp;
+                }
+            }
+            return null;
+        }
+
+        private static T FindDescendantInRoot<T>(string rootName, string childName) where T : Component
+        {
+            return FindDescendant<T>(FindGO(rootName), childName);
         }
 
         private static T FindInactive<T>(string name) where T : Component
@@ -210,22 +231,52 @@ namespace GoldenSpin.Editor
                 return;
             }
 
+            const string ROOT = "Panel_Collect";
+
             Type t = cp.GetType();
             t.GetField("canvasGroup", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(cp, FindGO("Panel_Collect")?.GetComponent<UnityEngine.CanvasGroup>());
+                ?.SetValue(cp, FindGO(ROOT)?.GetComponent<UnityEngine.CanvasGroup>());
             t.GetField("uiButtonRevive", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(cp, FindGO("ui_button_revive")?.GetComponent<UnityEngine.UI.Button>());
-            t.GetField("uiButtonGiveUp", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(cp, FindGO("ui_button_give_up")?.GetComponent<UnityEngine.UI.Button>());
+                ?.SetValue(cp, FindDescendantInRoot<UnityEngine.UI.Button>(ROOT, "ui_button_revive"));
             t.GetField("rewardSummaryContainer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(cp, FindGO("ui_container_reward_summary")?.GetComponent<RectTransform>());
+                ?.SetValue(cp, FindDescendantInRoot<RectTransform>(ROOT, "ui_container_reward_summary"));
             t.GetField("uiTextCollectTitle", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(cp, FindGO("ui_text_collect_title")?.GetComponent<TMPro.TextMeshProUGUI>());
+                ?.SetValue(cp, FindDescendantInRoot<TMPro.TextMeshProUGUI>(ROOT, "ui_text_collect_title"));
             t.GetField("uiTextTotalRewardsValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(cp, FindGO("ui_text_total_rewards_value")?.GetComponent<TMPro.TextMeshProUGUI>());
+                ?.SetValue(cp, FindDescendantInRoot<TMPro.TextMeshProUGUI>(ROOT, "ui_text_total_rewards_value"));
 
             EditorUtility.SetDirty(cp);
             Debug.Log("[SceneReferenceWirer] CollectPanel wired.");
+        }
+
+        private static void WireAwardReceivedPanel(Scene scene)
+        {
+            AwardReceivedUIPanel ap = FindInactive<AwardReceivedUIPanel>("Panel_Award_Received");
+            if (ap == null)
+            {
+                return;
+            }
+
+            const string ROOT = "Panel_Award_Received";
+
+            Type t = ap.GetType();
+            t.GetField("canvasGroup", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ap, FindGO(ROOT)?.GetComponent<UnityEngine.CanvasGroup>());
+            t.GetField("uiButtonRevive", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ap, FindDescendantInRoot<UnityEngine.UI.Button>(ROOT, "ui_button_revive"));
+            t.GetField("uiButtonGiveUp", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ap, FindDescendantInRoot<UnityEngine.UI.Button>(ROOT, "ui_button_give_up"));
+            t.GetField("uiTextCollectTitle", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ap, FindDescendantInRoot<TMPro.TextMeshProUGUI>(ROOT, "ui_text_collect_title"));
+            t.GetField("uiTextTotalRewardsValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ap, FindDescendantInRoot<TMPro.TextMeshProUGUI>(ROOT, "ui_text_total_rewards_value"));
+            t.GetField("uiImageRewardIcon", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ap, FindDescendantInRoot<UnityEngine.UI.Image>(ROOT, "ui_image_reward_icon"));
+            t.GetField("rewardIconFitter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ap, FindDescendantInRoot<AspectRatioFitter>(ROOT, "ui_image_reward_icon"));
+
+            EditorUtility.SetDirty(ap);
+            Debug.Log("[SceneReferenceWirer] AwardReceivedPanel wired.");
         }
 
         private static void WireTopBarPanel(Scene scene)
@@ -272,6 +323,8 @@ namespace GoldenSpin.Editor
                 ?.SetValue(ai, FindInactive<BombUIPanel>("Panel_Bomb"));
             t.GetField("collectPanel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(ai, FindInactive<CollectUIPanel>("Panel_Collect"));
+            t.GetField("awardReceivedPanel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(ai, FindInactive<AwardReceivedUIPanel>("Panel_Award_Received"));
             t.GetField("topBarPanel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(ai, FindInactive<TopBarUIPanel>("ui_panel_top_bar"));
             t.GetField("sliceItemPrefab", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
