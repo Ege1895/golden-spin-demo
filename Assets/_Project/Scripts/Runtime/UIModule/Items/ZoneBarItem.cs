@@ -12,18 +12,21 @@ namespace GoldenSpin.UIModule
         private TMP_Text uiTextZoneNumberValue;
         [SerializeField]
         private Image uiImageZoneBackground;
+        [SerializeField]
+        private Image uiImageZoneFrame;
 
         public int ZoneNumber { get; private set; }
 
         private const float HIGHLIGHT_SCALE = 1.4f;
         private const float HIGHLIGHT_DURATION = 0.2f;
         private const float DEFAULT_SCALE = 1f;
+        private const float BACKGROUND_ALPHA = 0.35f;
 
         public void Initialize(ZoneDTO zoneDTO)
         {
             ZoneNumber = zoneDTO.ZoneNumber;
             uiTextZoneNumberValue.text = zoneDTO.ZoneNumber.ToString();
-            ApplyZoneTypeVisual(zoneDTO.Type);
+            ApplyZoneTypeVisual(zoneDTO.SpinType);
         }
 
         public void SetHighlight(bool highlighted)
@@ -32,19 +35,18 @@ namespace GoldenSpin.UIModule
             transform.DOScale(targetScale, HIGHLIGHT_DURATION).SetEase(Ease.OutBack);
         }
 
-        private void ApplyZoneTypeVisual(ZoneType zoneType)
+        private void ApplyZoneTypeVisual(SpinType spinType)
         {
-            switch (zoneType)
+            Color tier = TierColors.For(spinType);
+
+            if (uiImageZoneBackground != null)
             {
-                case ZoneType.Super:
-                    uiImageZoneBackground.color = Color.yellow;
-                    break;
-                case ZoneType.Safe:
-                    uiImageZoneBackground.color = Color.gray;
-                    break;
-                default:
-                    uiImageZoneBackground.color = Color.white;
-                    break;
+                uiImageZoneBackground.color = new Color(tier.r, tier.g, tier.b, BACKGROUND_ALPHA);
+            }
+
+            if (uiImageZoneFrame != null)
+            {
+                uiImageZoneFrame.color = tier;
             }
         }
     }

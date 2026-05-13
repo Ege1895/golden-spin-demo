@@ -19,6 +19,9 @@ namespace GoldenSpin.GameModule
         [Inject]
         private IWheelController wheelController;
 
+        [Inject]
+        private IZoneController zoneController;
+
         [SerializeField]
         private Button uiButtonRevive;
         [SerializeField]
@@ -94,7 +97,8 @@ namespace GoldenSpin.GameModule
         {
             ClearRewardSummary();
 
-            uiTextCollectTitle.text = TITLE_SPIN_RESULT;
+            uiTextCollectTitle.text  = TITLE_SPIN_RESULT;
+            uiTextCollectTitle.color = TierColors.For(zoneController.CurrentZoneDTO.SpinType);
 
             bool hasReward = slice != null && slice.Reward != null;
 
@@ -126,7 +130,8 @@ namespace GoldenSpin.GameModule
         {
             ClearRewardSummary();
 
-            uiTextCollectTitle.text = TITLE_COLLECT;
+            uiTextCollectTitle.text  = TITLE_COLLECT;
+            uiTextCollectTitle.color = TierColors.For(zoneController.CurrentZoneDTO.SpinType);
 
             if (uiImageRewardIcon != null)
             {
