@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using Zenject;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
@@ -15,7 +16,7 @@ namespace GoldenSpin.CurrencyModule
 
         public void Initialize()
         {
-            currentAmount = CurrencyConfig.STARTING_AMOUNT;
+            currentAmount = PlayerPrefs.GetInt(CurrencyConfig.PREFS_KEY_GOLD, CurrencyConfig.STARTING_AMOUNT);
             OnCurrencyChanged?.Invoke(currentAmount);
         }
 
@@ -32,6 +33,7 @@ namespace GoldenSpin.CurrencyModule
             }
 
             currentAmount -= amount;
+            Save();
             OnCurrencyChanged?.Invoke(currentAmount);
             return true;
         }
@@ -39,7 +41,14 @@ namespace GoldenSpin.CurrencyModule
         public void Add(int amount)
         {
             currentAmount += amount;
+            Save();
             OnCurrencyChanged?.Invoke(currentAmount);
+        }
+
+        private void Save()
+        {
+            PlayerPrefs.SetInt(CurrencyConfig.PREFS_KEY_GOLD, currentAmount);
+            PlayerPrefs.Save();
         }
     }
 }
