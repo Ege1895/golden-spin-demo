@@ -13,11 +13,6 @@ namespace GoldenSpin.GameModule
 {
     public class CollectUIPanel : PopupUIPanel
     {
-#if UNITY_EDITOR
-        private const string PATH_BUTTON_CONTINUE       = "Popup_Collect/ui_button_continue";
-        private const string PATH_REWARD_SCROLL_CONTENT = "Popup_Collect/ui_scroll_rewards/Viewport/Content";
-#endif
-
         [Inject]
         private IGameController gameController;
 
@@ -43,6 +38,11 @@ namespace GoldenSpin.GameModule
 
         private readonly List<RewardListItem> summaryItems = new List<RewardListItem>();
 
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_CONTINUE = "Popup_Collect/ui_button_continue";
+        private const string PATH_REWARD_SCROLL_CONTENT = "Popup_Collect/ui_scroll_rewards/Viewport/Content";
+#endif
+
         private void Start()
         {
             ListenEvents();
@@ -52,7 +52,7 @@ namespace GoldenSpin.GameModule
         {
             uiButtonContinue.onClick.AddListener(OnContinueClicked);
 
-            gameController.OnStateChanged       += HandleStateChanged;
+            gameController.OnStateChanged += HandleStateChanged;
             rewardController.OnRewardsCollected += HandleRewardsCollected;
         }
 
@@ -78,7 +78,7 @@ namespace GoldenSpin.GameModule
 
             if (uiTextCollectTitle != null)
             {
-                uiTextCollectTitle.text  = TITLE;
+                uiTextCollectTitle.text = TITLE;
                 uiTextCollectTitle.color = TierColors.For(zoneController.CurrentZoneDTO.SpinType);
             }
 
@@ -152,7 +152,7 @@ namespace GoldenSpin.GameModule
         {
             uiButtonContinue.onClick.RemoveListener(OnContinueClicked);
 
-            gameController.OnStateChanged       -= HandleStateChanged;
+            gameController.OnStateChanged -= HandleStateChanged;
             rewardController.OnRewardsCollected -= HandleRewardsCollected;
         }
 

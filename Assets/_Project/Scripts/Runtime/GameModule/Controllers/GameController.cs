@@ -8,11 +8,11 @@ namespace GoldenSpin.GameModule
     public class GameController : IGameController, IInitializable
     {
         [Inject]
-        private readonly IZoneController    zoneController;
+        private readonly IZoneController zoneController;
         [Inject]
-        private readonly IWheelController   wheelController;
+        private readonly IWheelController wheelController;
         [Inject]
-        private readonly IRewardController  rewardController;
+        private readonly IRewardController rewardController;
         [Inject]
         private readonly ICurrencyController currencyController;
 
