@@ -1,17 +1,20 @@
 using System;
 using Zenject;
 using GoldenSpin.CoreModule;
+using GoldenSpin.ConfigurationModule;
 
 namespace GoldenSpin.GameModule
 {
     public class GameController : IGameController, IInitializable
     {
-        [Inject] 
-        private readonly IZoneController   zoneController;
-        [Inject] 
-        private readonly IWheelController  wheelController;
-        [Inject] 
-        private readonly IRewardController rewardController;
+        [Inject]
+        private readonly IZoneController    zoneController;
+        [Inject]
+        private readonly IWheelController   wheelController;
+        [Inject]
+        private readonly IRewardController  rewardController;
+        [Inject]
+        private readonly ICurrencyController currencyController;
 
         public GameState CurrentState { get; private set; }
 
@@ -92,6 +95,23 @@ namespace GoldenSpin.GameModule
 
         public void ReviveAfterBomb()
         {
+            PrepareCurrentWheel();
+            PrepareAndEnterIdle();
+        }
+
+        public void ReviveWithCurrency()
+        {
+            if (CurrentState != GameState.GameOver)
+            {
+                return;
+            }
+
+            if (!currencyController.TrySpend(CurrencyConfig.REVIVE_COST))
+            {
+                return;
+            }
+
+            rewardController.RestoreLastSnapshot();
             PrepareCurrentWheel();
             PrepareAndEnterIdle();
         }
