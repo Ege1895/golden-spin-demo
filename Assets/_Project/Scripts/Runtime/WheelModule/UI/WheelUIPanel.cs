@@ -70,6 +70,14 @@ namespace GoldenSpin.WheelModule
         private const string TITLE_SILVER = "SILVER SPIN";
         private const string TITLE_GOLDEN = "GOLDEN SPIN";
         private const string ZONE_LABEL_PREFIX = "Zone ";
+        
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_SPIN = "ui_action_row/ui_button_spin";
+        private const string PATH_BUTTON_COLLECT = "ui_action_row/ui_button_collect";
+        private const string PATH_IMAGE_SPIN_FRAME = "ui_action_row/ui_button_spin/ui_image_frame";
+        private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
+#endif
+        
         private const float SPIN_BACKGROUND_ALPHA = 0.1f;
 
         private static readonly Color SPIN_FRAME_ACTIVE = new Color(0.165f, 0.498f, 0.831f, 1f); // #2A80D4
@@ -77,13 +85,6 @@ namespace GoldenSpin.WheelModule
         private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f); // #252525
 
         private int targetSliceIndex;
-
-#if UNITY_EDITOR
-        private const string PATH_BUTTON_SPIN = "ui_action_row/ui_button_spin";
-        private const string PATH_BUTTON_COLLECT = "ui_action_row/ui_button_collect";
-        private const string PATH_IMAGE_SPIN_FRAME = "ui_action_row/ui_button_spin/ui_image_frame";
-        private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
-#endif
 
         private void Start()
         {
