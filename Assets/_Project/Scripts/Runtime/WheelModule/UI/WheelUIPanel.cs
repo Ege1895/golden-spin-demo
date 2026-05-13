@@ -7,6 +7,7 @@ using DG.Tweening;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
 using GoldenSpin.UIModule;
+using UnityEngine.Serialization;
 
 namespace GoldenSpin.WheelModule
 {
@@ -49,23 +50,16 @@ namespace GoldenSpin.WheelModule
         private Button uiButtonSpin;
         [SerializeField]
         private Button uiButtonCollect;
-
-        [SerializeField]
-        private Image uiImageSpinFrame;
+        
         [SerializeField]
         private Image uiImageCollectFrame;
-
-        [SerializeField]
-        private TMP_Text uiTextWheelTitle;
-
         [SerializeField]
         private Image uiImageSpinBackground;
-
+        
         [SerializeField]
-        private Image uiImageZoneLevelStateIcon;
+        private TMP_Text uiTextWheelTitle;
         [SerializeField]
         private TMP_Text uiTextZoneCountValue;
-
         [SerializeField]
         private TMP_Text uiTextGoldBadgeValue;
 
@@ -232,12 +226,20 @@ namespace GoldenSpin.WheelModule
         {
             Color tier = TierColors.For(spinType);
 
-            if (uiImageSpinFrame != null)
+            if (uiButtonCollect != null)
             {
-                uiImageSpinFrame.color = tier;
+                ColorBlock colorBlock = uiButtonCollect.colors;
+
+                colorBlock.normalColor = tier;
+                colorBlock.highlightedColor = colorBlock.highlightedColor;
+                colorBlock.selectedColor = colorBlock.selectedColor;
+                colorBlock.pressedColor = colorBlock.pressedColor;
+                colorBlock.disabledColor = colorBlock.disabledColor;
+
+                uiButtonCollect.colors = colorBlock;
             }
 
-            if (uiImageCollectFrame != null)
+            if (uiImageCollectFrame != null && spinType != SpinType.Normal)
             {
                 uiImageCollectFrame.color = tier;
             }
@@ -245,11 +247,6 @@ namespace GoldenSpin.WheelModule
 
         private void RefreshZoneLevelBadge(ZoneDTO zone)
         {
-            if (uiImageZoneLevelStateIcon != null)
-            {
-                uiImageZoneLevelStateIcon.color = TierColors.For(zone.SpinType);
-            }
-
             if (uiTextZoneCountValue != null)
             {
                 uiTextZoneCountValue.text = $"Zone {zone.ZoneNumber}";
