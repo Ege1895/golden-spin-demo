@@ -27,11 +27,15 @@ namespace GoldenSpin.ZoneModule
 
         private readonly List<ZoneBarItem> visibleItems = new List<ZoneBarItem>();
 
+        private const string ZONE_PROGRESS_FORMAT = "{0} / {1}";
+        private const int ZONE_BAR_LAST_SLOT_OFFSET = 2;
+        private const int ZONE_BAR_FIRST_SLOT_OFFSET = 1;
+
 #if UNITY_EDITOR
-        private const string PATH_ZONES_CONTAINER   = "ui_scroll_zones/Viewport/Content";
+        private const string PATH_ZONES_CONTAINER = "ui_scroll_zones/Viewport/Content";
         private const string PATH_TEXT_ZONE_CURRENT = "ui_header/ui_text_zone_current_value";
 #endif
-        
+
         private void Start()
         {
             zoneBarItemFactory.SetParent(zonesContainer);
@@ -50,12 +54,12 @@ namespace GoldenSpin.ZoneModule
             zoneBarItemFactory.DestroyAll();
             visibleItems.Clear();
 
-            int currentZone  = zoneController.CurrentZone;
-            int startZone    = Mathf.Max(ZoneConfig.STARTING_ZONE_NUMBER, currentZone - 1);
+            int currentZone = zoneController.CurrentZone;
+            int startZone = Mathf.Max(ZoneConfig.STARTING_ZONE_NUMBER, currentZone - ZONE_BAR_FIRST_SLOT_OFFSET);
             int visibleCount = UIConfig.ZONE_BAR_VISIBLE_COUNT;
 
             int normalRunEnd = Mathf.Min(
-                startZone + visibleCount - 2,
+                startZone + visibleCount - ZONE_BAR_LAST_SLOT_OFFSET,
                 ZoneConfig.MAX_ZONE_NUMBER - 1
             );
 
@@ -88,7 +92,7 @@ namespace GoldenSpin.ZoneModule
                 return;
             }
 
-            uiTextZoneCurrentValue.text = $"{currentZone} / {ZoneConfig.MAX_ZONE_NUMBER}";
+            uiTextZoneCurrentValue.text = string.Format(ZONE_PROGRESS_FORMAT, currentZone, ZoneConfig.MAX_ZONE_NUMBER);
         }
 
         private void HandleZoneChanged(ZoneDTO zoneDTO)

@@ -22,6 +22,12 @@ namespace GoldenSpin.RewardModule
         [SerializeField]
         private TMP_Text uiTextRewardCountValue;
 
+        private const float SHAKE_DURATION = 0.4f;
+        private const float SHAKE_STRENGTH = 8f;
+        private const int SHAKE_VIBRATO = 8;
+        private const string ITEM_COUNT_SINGLE = "1 Item";
+        private const string ITEM_COUNT_PLURAL_FORMAT = "{0} Items";
+
 #if UNITY_EDITOR
         private const string PATH_REWARDS_CONTAINER = "ui_scroll_rewards/Viewport/Content";
         private const string PATH_TEXT_REWARD_COUNT = "ui_header/ui_text_reward_count_value";
@@ -37,7 +43,7 @@ namespace GoldenSpin.RewardModule
 
         private void ListenEvents()
         {
-            rewardController.OnRewardAdded    += HandleRewardAdded;
+            rewardController.OnRewardAdded += HandleRewardAdded;
             rewardController.OnRewardsCleared += HandleRewardsCleared;
         }
 
@@ -53,7 +59,7 @@ namespace GoldenSpin.RewardModule
         private void HandleRewardsCleared(CollectedRewardDTO snapshot)
         {
             rewardsContainer
-                .DOShakePosition(0.4f, new Vector3(8f, 8f, 0f), 8)
+                .DOShakePosition(SHAKE_DURATION, new Vector3(SHAKE_STRENGTH, SHAKE_STRENGTH, 0f), SHAKE_VIBRATO)
                 .OnComplete(() =>
                 {
                     rewardListItemFactory.DestroyAll();
@@ -69,12 +75,12 @@ namespace GoldenSpin.RewardModule
             }
 
             int count = rewardController.CollectedRewards.Count;
-            uiTextRewardCountValue.text = count == 1 ? "1 Item" : $"{count} Items";
+            uiTextRewardCountValue.text = count == 1 ? ITEM_COUNT_SINGLE : string.Format(ITEM_COUNT_PLURAL_FORMAT, count);
         }
 
         private void UnsubscribeFromEvents()
         {
-            rewardController.OnRewardAdded    -= HandleRewardAdded;
+            rewardController.OnRewardAdded -= HandleRewardAdded;
             rewardController.OnRewardsCleared -= HandleRewardsCleared;
         }
 
