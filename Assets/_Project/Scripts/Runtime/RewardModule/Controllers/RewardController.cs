@@ -8,6 +8,7 @@ namespace GoldenSpin.RewardModule
     public class RewardController : IRewardController, IInitializable
     {
         private readonly List<RewardDTO> collectedRewards = new List<RewardDTO>();
+        private CollectedRewardDTO lastClearedSnapshot;
 
         public IReadOnlyList<RewardDTO> CollectedRewards => collectedRewards;
 
@@ -28,9 +29,25 @@ namespace GoldenSpin.RewardModule
 
         public void ClearRewards()
         {
-            CollectedRewardDTO snapshot = GetSnapshot();
+            lastClearedSnapshot = GetSnapshot();
             collectedRewards.Clear();
-            OnRewardsCleared?.Invoke(snapshot);
+            OnRewardsCleared?.Invoke(lastClearedSnapshot);
+        }
+
+        public void RestoreLastSnapshot()
+        {
+            if (lastClearedSnapshot == null)
+            {
+                return;
+            }
+
+            foreach (RewardDTO reward in lastClearedSnapshot.Rewards)
+            {
+                collectedRewards.Add(reward);
+                OnRewardAdded?.Invoke(reward);
+            }
+
+            lastClearedSnapshot = null;
         }
 
         public void CollectRewards()

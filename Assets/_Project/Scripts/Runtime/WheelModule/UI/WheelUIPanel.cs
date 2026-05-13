@@ -44,8 +44,8 @@ namespace GoldenSpin.WheelModule
         [SerializeField]
         private GameObject wheelBaseGoldIndicatorObject;
 
-        [SerializeField]
-        private Button uiButtonSpin;
+        [SerializeField] private Button uiButtonSpin;
+        [SerializeField] private Button uiButtonCollect;
 
         [SerializeField]
         private TMP_Text uiTextWheelTitle;
@@ -77,6 +77,7 @@ namespace GoldenSpin.WheelModule
         private void ListenEvents()
         {
             uiButtonSpin.onClick.AddListener(OnSpinButtonClicked);
+            uiButtonCollect.onClick.AddListener(OnCollectButtonClicked);
 
             gameController.OnStateChanged += HandleStateChanged;
             zoneController.OnZoneChanged += HandleZoneChanged;
@@ -209,7 +210,15 @@ namespace GoldenSpin.WheelModule
         private void UpdateButtonStates(GameState state)
         {
             bool isIdle = state == GameState.Idle;
-            uiButtonSpin.interactable = isIdle;
+            uiButtonSpin.interactable    = isIdle;
+            uiButtonCollect.interactable = isIdle && zoneController.IsCurrentZoneSafeToLeave();
+            RefreshCollectButtonVisual(zoneController.CurrentZoneDTO);
+        }
+
+        private void RefreshCollectButtonVisual(ZoneDTO zone)
+        {
+            bool canCollect = zoneController.IsCurrentZoneSafeToLeave();
+            uiButtonCollect.interactable = canCollect && gameController.CurrentState == GameState.Idle;
         }
 
         private void OnSpinButtonClicked()
@@ -217,9 +226,15 @@ namespace GoldenSpin.WheelModule
             gameController.RequestSpin();
         }
 
+        private void OnCollectButtonClicked()
+        {
+            gameController.RequestCollect();
+        }
+
         private void UnsubscribeFromEvents()
         {
             uiButtonSpin.onClick.RemoveListener(OnSpinButtonClicked);
+            uiButtonCollect.onClick.RemoveListener(OnCollectButtonClicked);
 
             gameController.OnStateChanged -= HandleStateChanged;
             zoneController.OnZoneChanged -= HandleZoneChanged;
@@ -236,9 +251,10 @@ namespace GoldenSpin.WheelModule
         private void OnValidate()
         {
             if (uiButtonSpin == null)
-            {
-                uiButtonSpin = transform.Find("ui_button_spin")?.GetComponent<Button>();
-            }
+                uiButtonSpin = transform.Find("ui_action_row/ui_button_spin")?.GetComponent<Button>();
+
+            if (uiButtonCollect == null)
+                uiButtonCollect = transform.Find("ui_action_row/ui_button_collect")?.GetComponent<Button>();
         }
 #endif
     }
