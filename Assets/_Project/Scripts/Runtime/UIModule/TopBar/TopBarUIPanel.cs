@@ -8,22 +8,29 @@ namespace GoldenSpin.UIModule
 {
     public class TopBarUIPanel : BasePanel
     {
+        [Inject] 
+        private IZoneController zoneController;
+        
+        [Inject] 
+        private ICurrencyController currencyController;
+
+        [SerializeField] 
+        private Image uiImageZoneDot;
+        
+        [SerializeField] 
+        private TMP_Text uiTextZoneLabelValue;
+        [SerializeField] 
+        private TMP_Text uiTextCurrencyAmountValue;
+
+        private static readonly Color ColorNormal = new Color(0.72f, 0.39f, 0.10f);
+        private static readonly Color ColorSafe   = new Color(0.60f, 0.60f, 0.93f);
+        private static readonly Color ColorSuper  = new Color(1.00f, 0.84f, 0.00f);
+
 #if UNITY_EDITOR
         private const string PATH_IMAGE_ZONE_DOT       = "ui_container_zone_badge/ui_image_zone_dot";
         private const string PATH_TEXT_ZONE_LABEL      = "ui_container_zone_badge/ui_text_zone_label_value";
         private const string PATH_TEXT_CURRENCY_AMOUNT = "ui_container_currency_pill/ui_text_currency_amount_value";
 #endif
-
-        [Inject] private IZoneController     zoneController;
-        [Inject] private ICurrencyController currencyController;
-
-        [SerializeField] private Image    uiImageZoneDot;
-        [SerializeField] private TMP_Text uiTextZoneLabelValue;
-        [SerializeField] private TMP_Text uiTextCurrencyAmountValue;
-
-        private static readonly Color ColorNormal = new Color(0.72f, 0.39f, 0.10f);
-        private static readonly Color ColorSafe   = new Color(0.60f, 0.60f, 0.93f);
-        private static readonly Color ColorSuper  = new Color(1.00f, 0.84f, 0.00f);
 
         private void Start()
         {

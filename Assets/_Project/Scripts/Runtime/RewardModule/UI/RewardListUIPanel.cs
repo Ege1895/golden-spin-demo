@@ -10,11 +10,6 @@ namespace GoldenSpin.RewardModule
 {
     public class RewardListUIPanel : BasePanel
     {
-#if UNITY_EDITOR
-        private const string PATH_REWARDS_CONTAINER = "ui_scroll_rewards/Viewport/Content";
-        private const string PATH_TEXT_REWARD_COUNT = "ui_header/ui_text_reward_count_value";
-#endif
-
         [Inject]
         private IRewardController rewardController;
 
@@ -26,6 +21,11 @@ namespace GoldenSpin.RewardModule
 
         [SerializeField]
         private TMP_Text uiTextRewardCountValue;
+
+#if UNITY_EDITOR
+        private const string PATH_REWARDS_CONTAINER = "ui_scroll_rewards/Viewport/Content";
+        private const string PATH_TEXT_REWARD_COUNT = "ui_header/ui_text_reward_count_value";
+#endif
 
         private void Start()
         {

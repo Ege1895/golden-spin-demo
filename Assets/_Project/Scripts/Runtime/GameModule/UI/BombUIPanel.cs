@@ -11,20 +11,20 @@ namespace GoldenSpin.GameModule
 {
     public class BombUIPanel : PopupUIPanel
     {
-#if UNITY_EDITOR
-        private const string PATH_BUTTON_GIVE_UP        = "Popup_Bomb/ui_action_row/ui_button_give_up";
-        private const string PATH_BUTTON_REVIVE         = "Popup_Bomb/ui_action_row/ui_button_revive";
-        private const string PATH_BUTTON_REVIVE_PAID    = "Popup_Bomb/ui_action_row/ui_button_revive_paid";
-        private const string PATH_TEXT_REVIVE_PAID_COST = "Popup_Bomb/ui_action_row/ui_button_revive_paid/ui_text_revive_paid_cost_value";
-#endif
+        [Inject] 
+        private IGameController     gameController;
+        
+        [Inject] 
+        private ICurrencyController currencyController;
 
-        [Inject] private IGameController     gameController;
-        [Inject] private ICurrencyController currencyController;
-
-        [SerializeField] private Button   uiButtonGiveUp;
-        [SerializeField] private Button   uiButtonRevive;
-        [SerializeField] private Button   uiButtonRevivePaid;
-        [SerializeField] private TMP_Text uiTextRevivePaidCostValue;
+        [SerializeField] 
+        private Button uiButtonGiveUp;
+        [SerializeField] 
+        private Button uiButtonRevive;
+        [SerializeField] 
+        private Button uiButtonRevivePaid;
+        [SerializeField] 
+        private TMP_Text uiTextRevivePaidCostValue;
 
         [SerializeField]
         private TMP_Text uiTextBombTitle;
@@ -39,6 +39,12 @@ namespace GoldenSpin.GameModule
         private const int BOMB_ICON_PUNCH_VIBRATO = 5;
         private const float BOMB_ICON_PUNCH_ELASTIC = 0.5f;
 
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_GIVE_UP = "Popup_Bomb/ui_action_row/ui_button_give_up";
+        private const string PATH_BUTTON_REVIVE = "Popup_Bomb/ui_action_row/ui_button_revive";
+        private const string PATH_BUTTON_REVIVE_PAID = "Popup_Bomb/ui_action_row/ui_button_revive_paid";
+        private const string PATH_TEXT_REVIVE_PAID_COST = "Popup_Bomb/ui_action_row/ui_button_revive_paid/ui_text_revive_paid_cost_value";
+#endif
         private void Start()
         {
             ListenEvents();
