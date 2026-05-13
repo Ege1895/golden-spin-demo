@@ -44,8 +44,10 @@ namespace GoldenSpin.WheelModule
         [SerializeField]
         private GameObject wheelBaseGoldIndicatorObject;
 
-        [SerializeField] private Button uiButtonSpin;
-        [SerializeField] private Button uiButtonCollect;
+        [SerializeField] 
+        private Button uiButtonSpin;
+        [SerializeField] 
+        private Button uiButtonCollect;
 
         [SerializeField]
         private TMP_Text uiTextWheelTitle;
