@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using GoldenSpin.CoreModule;
-using Zenject;
 
 namespace GoldenSpin.UIModule
 {
@@ -53,7 +52,5 @@ namespace GoldenSpin.UIModule
                     break;
             }
         }
-
-        public class Factory : PlaceholderFactory<ZoneBarItem> { }
     }
 }

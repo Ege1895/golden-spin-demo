@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 using GoldenSpin.CoreModule;
 
 namespace GoldenSpin.UIModule
@@ -40,7 +39,5 @@ namespace GoldenSpin.UIModule
         {
             uiImageSliceIcon.sprite = sprite;
         }
-
-        public class Factory : PlaceholderFactory<WheelSliceItem> { }
     }
 }
