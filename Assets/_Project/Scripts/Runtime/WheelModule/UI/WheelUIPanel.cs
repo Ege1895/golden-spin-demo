@@ -13,13 +13,6 @@ namespace GoldenSpin.WheelModule
 {
     public class WheelUIPanel : BasePanel
     {
-#if UNITY_EDITOR
-        private const string PATH_BUTTON_SPIN         = "ui_action_row/ui_button_spin";
-        private const string PATH_BUTTON_COLLECT      = "ui_action_row/ui_button_collect";
-        private const string PATH_IMAGE_SPIN_FRAME    = "ui_action_row/ui_button_spin/ui_image_frame";
-        private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
-#endif
-
         [Inject]
         private IGameController gameController;
 
@@ -83,6 +76,13 @@ namespace GoldenSpin.WheelModule
         private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f); // #252525
 
         private int targetSliceIndex;
+        
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_SPIN         = "ui_action_row/ui_button_spin";
+        private const string PATH_BUTTON_COLLECT      = "ui_action_row/ui_button_collect";
+        private const string PATH_IMAGE_SPIN_FRAME    = "ui_action_row/ui_button_spin/ui_image_frame";
+        private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
+#endif
 
         private void Start()
         {
