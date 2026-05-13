@@ -12,8 +12,6 @@ namespace GoldenSpin.UIModule
         private TMP_Text uiTextZoneNumberValue;
         [SerializeField]
         private Image uiImageZoneBackground;
-        [SerializeField]
-        private Image uiImageZoneIcon;
 
         public int ZoneNumber { get; private set; }
 
@@ -40,15 +38,12 @@ namespace GoldenSpin.UIModule
             {
                 case ZoneType.Super:
                     uiImageZoneBackground.color = Color.yellow;
-                    uiImageZoneIcon.gameObject.SetActive(true);
                     break;
                 case ZoneType.Safe:
                     uiImageZoneBackground.color = Color.gray;
-                    uiImageZoneIcon.gameObject.SetActive(false);
                     break;
                 default:
                     uiImageZoneBackground.color = Color.white;
-                    uiImageZoneIcon.gameObject.SetActive(false);
                     break;
             }
         }

@@ -28,8 +28,6 @@ namespace GoldenSpin.WheelModule
         private Transform wheelTransform;
         [SerializeField]
         private Transform slicesContainer;
-        [SerializeField]
-        private Transform indicatorTransform;
 
         [SerializeField]
         private GameObject wheelBaseBronzeObject;
