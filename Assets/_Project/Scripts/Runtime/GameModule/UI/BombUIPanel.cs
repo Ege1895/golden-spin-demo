@@ -23,9 +23,9 @@ namespace GoldenSpin.GameModule
         private Button uiButtonRevive;
         [SerializeField]
         private Button uiButtonRevivePaid;
+        
         [SerializeField]
         private TMP_Text uiTextRevivePaidCostValue;
-
         [SerializeField]
         private TMP_Text uiTextBombTitle;
         [SerializeField]

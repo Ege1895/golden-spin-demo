@@ -9,8 +9,10 @@ namespace GoldenSpin.UIModule
     {
         [SerializeField]
         private Image uiImageSliceIcon;
+        
         [SerializeField]
         private TMP_Text uiTextSliceLabelValue;
+        
         [SerializeField]
         private GameObject bombIndicator;
 

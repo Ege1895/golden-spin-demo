@@ -20,6 +20,7 @@ namespace GoldenSpin.UIModule
 
         private const float APPEAR_SCALE_START = 0f;
         private const float APPEAR_SCALE_END = 1f;
+        
         private const string REWARD_AMOUNT_COLOR = "#FFD900";
 
         public void Initialize(RewardDTO dto)
