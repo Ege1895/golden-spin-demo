@@ -11,7 +11,7 @@ public class RaycastTargetCleaner : EditorWindow
     [MenuItem("Tools/GoldenSpin/Check RaycastTargets")]
     public static void CheckRaycastTargets()
     {
-        Image[] images = FindObjectsByType<Image>(FindObjectsInactive.Exclude);
+        Image[] images = FindObjectsOfType<Image>(false);
         int warningCount = 0;
 
         foreach (Image img in images)
