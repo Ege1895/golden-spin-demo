@@ -137,11 +137,7 @@ namespace GoldenSpin.WheelModule
         {
             UpdateButtonStates(state);
 
-            if (state == GameState.Collecting)
-            {
-                Hide();
-            }
-            else if (state == GameState.Restarting)
+            if (state == GameState.Restarting)
             {
                 ShowImmediate();
             }
