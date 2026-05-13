@@ -109,7 +109,9 @@ namespace GoldenSpin.GameModule
             foreach (RewardListItem item in summaryItems)
             {
                 if (item != null)
+                {
                     Addressables.ReleaseInstance(item.gameObject);
+                }
             }
 
             summaryItems.Clear();
@@ -156,13 +158,20 @@ namespace GoldenSpin.GameModule
         }
 
 #if UNITY_EDITOR
+        private const string PATH_BUTTON_CONTINUE      = "Popup_Collect/ui_button_continue";
+        private const string PATH_REWARD_SCROLL_CONTENT = "Popup_Collect/ui_scroll_rewards/Viewport/Content";
+
         private void OnValidate()
         {
             if (uiButtonContinue == null)
-                uiButtonContinue = transform.Find("Popup_Collect/ui_button_continue")?.GetComponent<Button>();
+            {
+                uiButtonContinue = transform.Find(PATH_BUTTON_CONTINUE)?.GetComponent<Button>();
+            }
 
             if (rewardScrollContent == null)
-                rewardScrollContent = transform.Find("Popup_Collect/ui_scroll_rewards/Viewport/Content")?.GetComponent<Transform>();
+            {
+                rewardScrollContent = transform.Find(PATH_REWARD_SCROLL_CONTENT);
+            }
         }
 #endif
     }

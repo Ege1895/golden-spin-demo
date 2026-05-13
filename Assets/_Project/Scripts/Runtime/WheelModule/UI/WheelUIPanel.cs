@@ -305,19 +305,32 @@ namespace GoldenSpin.WheelModule
         }
 
 #if UNITY_EDITOR
+        private const string PATH_BUTTON_SPIN         = "ui_action_row/ui_button_spin";
+        private const string PATH_BUTTON_COLLECT      = "ui_action_row/ui_button_collect";
+        private const string PATH_IMAGE_SPIN_FRAME    = "ui_action_row/ui_button_spin/ui_image_frame";
+        private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
+
         private void OnValidate()
         {
             if (uiButtonSpin == null)
-                uiButtonSpin = transform.Find("ui_action_row/ui_button_spin")?.GetComponent<Button>();
+            {
+                uiButtonSpin = transform.Find(PATH_BUTTON_SPIN)?.GetComponent<Button>();
+            }
 
             if (uiButtonCollect == null)
-                uiButtonCollect = transform.Find("ui_action_row/ui_button_collect")?.GetComponent<Button>();
+            {
+                uiButtonCollect = transform.Find(PATH_BUTTON_COLLECT)?.GetComponent<Button>();
+            }
 
             if (uiImageSpinFrame == null)
-                uiImageSpinFrame = transform.Find("ui_action_row/ui_button_spin/ui_image_frame")?.GetComponent<Image>();
+            {
+                uiImageSpinFrame = transform.Find(PATH_IMAGE_SPIN_FRAME)?.GetComponent<Image>();
+            }
 
             if (uiImageCollectFrame == null)
-                uiImageCollectFrame = transform.Find("ui_action_row/ui_button_collect/ui_image_frame")?.GetComponent<Image>();
+            {
+                uiImageCollectFrame = transform.Find(PATH_IMAGE_COLLECT_FRAME)?.GetComponent<Image>();
+            }
         }
 #endif
     }
