@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using GoldenSpin.CoreModule;
-using GoldenSpin.UIModule;
 
 namespace GoldenSpin.UIModule
 {
@@ -22,7 +21,11 @@ namespace GoldenSpin.UIModule
 
         private void Start()
         {
-            if (zoneController == null || currencyController == null) return;
+            if (zoneController == null || currencyController == null)
+            {
+                return;
+            }
+
             ListenEvents();
             RefreshZone(zoneController.CurrentZoneDTO);
             RefreshCurrency(currencyController.CurrentAmount);
@@ -32,9 +35,14 @@ namespace GoldenSpin.UIModule
         private void ListenEvents()
         {
             if (zoneController != null)
+            {
                 zoneController.OnZoneChanged += RefreshZone;
+            }
+
             if (currencyController != null)
+            {
                 currencyController.OnCurrencyChanged += RefreshCurrency;
+            }
         }
 
         private void RefreshZone(ZoneDTO zone)
@@ -48,12 +56,12 @@ namespace GoldenSpin.UIModule
 
             string label = zone.Type switch
             {
-                ZoneType.Super => $"Zone {zone.ZoneNumber} 👑",
+                ZoneType.Super => $"SUPER Zone {zone.ZoneNumber}",
                 ZoneType.Safe  => $"Safe Zone {zone.ZoneNumber}",
                 _              => $"Zone {zone.ZoneNumber}",
             };
 
-            uiImageZoneDot.color    = dotColor;
+            uiImageZoneDot.color      = dotColor;
             uiTextZoneLabelValue.text = label;
         }
 
@@ -65,9 +73,14 @@ namespace GoldenSpin.UIModule
         private void UnsubscribeFromEvents()
         {
             if (zoneController != null)
+            {
                 zoneController.OnZoneChanged -= RefreshZone;
+            }
+
             if (currencyController != null)
+            {
                 currencyController.OnCurrencyChanged -= RefreshCurrency;
+            }
         }
 
         private void OnDestroy()
@@ -76,16 +89,26 @@ namespace GoldenSpin.UIModule
         }
 
 #if UNITY_EDITOR
+        private const string PATH_IMAGE_ZONE_DOT      = "ui_container_zone_badge/ui_image_zone_dot";
+        private const string PATH_TEXT_ZONE_LABEL     = "ui_container_zone_badge/ui_text_zone_label_value";
+        private const string PATH_TEXT_CURRENCY_AMOUNT = "ui_container_currency_pill/ui_text_currency_amount_value";
+
         private void OnValidate()
         {
             if (uiImageZoneDot == null)
-                uiImageZoneDot = transform.Find("ui_container_zone_badge/ui_image_zone_dot")?.GetComponent<Image>();
+            {
+                uiImageZoneDot = transform.Find(PATH_IMAGE_ZONE_DOT)?.GetComponent<Image>();
+            }
 
             if (uiTextZoneLabelValue == null)
-                uiTextZoneLabelValue = transform.Find("ui_container_zone_badge/ui_text_zone_label_value")?.GetComponent<TMP_Text>();
+            {
+                uiTextZoneLabelValue = transform.Find(PATH_TEXT_ZONE_LABEL)?.GetComponent<TMP_Text>();
+            }
 
             if (uiTextCurrencyAmountValue == null)
-                uiTextCurrencyAmountValue = transform.Find("ui_container_currency_pill/ui_text_currency_amount_value")?.GetComponent<TMP_Text>();
+            {
+                uiTextCurrencyAmountValue = transform.Find(PATH_TEXT_CURRENCY_AMOUNT)?.GetComponent<TMP_Text>();
+            }
         }
 #endif
     }

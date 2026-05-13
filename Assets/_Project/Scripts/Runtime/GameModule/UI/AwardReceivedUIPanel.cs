@@ -132,25 +132,43 @@ namespace GoldenSpin.GameModule
         }
 
 #if UNITY_EDITOR
+        private const string PATH_BUTTON_CONTINUE       = "Popup_AwardReceived/ui_button_continue";
+        private const string PATH_BUTTON_GIVE_UP        = "Popup_AwardReceived/ui_button_give_up";
+        private const string PATH_TEXT_COLLECT_TITLE    = "Popup_AwardReceived/ui_text_collect_title";
+        private const string PATH_TEXT_TOTAL_REWARDS    = "Popup_AwardReceived/ui_text_total_rewards_value";
+        private const string PATH_IMAGE_REWARD_ICON     = "Popup_AwardReceived/ui_image_reward_icon";
+
         private void OnValidate()
         {
             if (uiButtonContinue == null)
-                uiButtonContinue = transform.Find("Popup_AwardReceived/ui_button_continue")?.GetComponent<Button>();
+            {
+                uiButtonContinue = transform.Find(PATH_BUTTON_CONTINUE)?.GetComponent<Button>();
+            }
 
             if (uiButtonGiveUp == null)
-                uiButtonGiveUp = transform.Find("Popup_AwardReceived/ui_button_give_up")?.GetComponent<Button>();
+            {
+                uiButtonGiveUp = transform.Find(PATH_BUTTON_GIVE_UP)?.GetComponent<Button>();
+            }
 
             if (uiTextCollectTitle == null)
-                uiTextCollectTitle = transform.Find("Popup_AwardReceived/ui_text_collect_title")?.GetComponent<TMP_Text>();
+            {
+                uiTextCollectTitle = transform.Find(PATH_TEXT_COLLECT_TITLE)?.GetComponent<TMP_Text>();
+            }
 
             if (uiTextTotalRewardsValue == null)
-                uiTextTotalRewardsValue = transform.Find("Popup_AwardReceived/ui_text_total_rewards_value")?.GetComponent<TMP_Text>();
+            {
+                uiTextTotalRewardsValue = transform.Find(PATH_TEXT_TOTAL_REWARDS)?.GetComponent<TMP_Text>();
+            }
 
             if (uiImageRewardIcon == null)
-                uiImageRewardIcon = transform.Find("Popup_AwardReceived/ui_image_reward_icon")?.GetComponent<Image>();
+            {
+                uiImageRewardIcon = transform.Find(PATH_IMAGE_REWARD_ICON)?.GetComponent<Image>();
+            }
 
             if (rewardIconFitter == null)
-                rewardIconFitter = transform.Find("Popup_AwardReceived/ui_image_reward_icon")?.GetComponent<AspectRatioFitter>();
+            {
+                rewardIconFitter = transform.Find(PATH_IMAGE_REWARD_ICON)?.GetComponent<AspectRatioFitter>();
+            }
         }
 #endif
     }

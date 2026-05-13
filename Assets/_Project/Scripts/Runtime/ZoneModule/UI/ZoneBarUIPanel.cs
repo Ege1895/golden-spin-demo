@@ -102,16 +102,25 @@ namespace GoldenSpin.ZoneModule
         }
 
 #if UNITY_EDITOR
+        private const string PATH_ZONES_CONTAINER    = "ui_scroll_zones/Viewport/Content";
+        private const string PATH_TEXT_ZONE_CURRENT  = "ui_header/ui_text_zone_current_value";
+
         private void OnValidate()
         {
             if (zonesContainer == null)
-                zonesContainer = transform.Find("ui_scroll_zones/Viewport/Content");
+            {
+                zonesContainer = transform.Find(PATH_ZONES_CONTAINER);
+            }
 
             if (scrollContent == null)
-                scrollContent = transform.Find("ui_scroll_zones/Viewport/Content")?.GetComponent<RectTransform>();
+            {
+                scrollContent = transform.Find(PATH_ZONES_CONTAINER)?.GetComponent<RectTransform>();
+            }
 
             if (uiTextZoneCurrentValue == null)
-                uiTextZoneCurrentValue = transform.Find("ui_header/ui_text_zone_current_value")?.GetComponent<TMP_Text>();
+            {
+                uiTextZoneCurrentValue = transform.Find(PATH_TEXT_ZONE_CURRENT)?.GetComponent<TMP_Text>();
+            }
         }
 #endif
     }

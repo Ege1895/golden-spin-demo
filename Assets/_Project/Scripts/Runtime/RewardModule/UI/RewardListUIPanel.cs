@@ -79,13 +79,20 @@ namespace GoldenSpin.RewardModule
         }
 
 #if UNITY_EDITOR
+        private const string PATH_REWARDS_CONTAINER  = "ui_scroll_rewards/Viewport/Content";
+        private const string PATH_TEXT_REWARD_COUNT  = "ui_header/ui_text_reward_count_value";
+
         private void OnValidate()
         {
             if (rewardsContainer == null)
-                rewardsContainer = transform.Find("ui_scroll_rewards/Viewport/Content");
+            {
+                rewardsContainer = transform.Find(PATH_REWARDS_CONTAINER);
+            }
 
             if (uiTextRewardCountValue == null)
-                uiTextRewardCountValue = transform.Find("ui_header/ui_text_reward_count_value")?.GetComponent<TMP_Text>();
+            {
+                uiTextRewardCountValue = transform.Find(PATH_TEXT_REWARD_COUNT)?.GetComponent<TMP_Text>();
+            }
         }
 #endif
     }
