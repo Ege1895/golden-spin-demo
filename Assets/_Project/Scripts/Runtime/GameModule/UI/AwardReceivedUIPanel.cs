@@ -19,7 +19,7 @@ namespace GoldenSpin.GameModule
         private IZoneController zoneController;
 
         [SerializeField]
-        private Button uiButtonRevive;
+        private Button uiButtonContinue;
         [SerializeField]
         private Button uiButtonGiveUp;
 
@@ -36,7 +36,15 @@ namespace GoldenSpin.GameModule
         private const string TITLE = "TEBRİKLER!";
 
         private WheelSliceDTO pendingSpinResult;
-
+        
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_CONTINUE    = "Popup_AwardReceived/ui_button_continue";
+        private const string PATH_BUTTON_GIVE_UP     = "Popup_AwardReceived/ui_button_give_up";
+        private const string PATH_TEXT_COLLECT_TITLE = "Popup_AwardReceived/ui_text_collect_title";
+        private const string PATH_TEXT_TOTAL_REWARDS = "Popup_AwardReceived/ui_text_total_rewards_value";
+        private const string PATH_IMAGE_REWARD_ICON  = "Popup_AwardReceived/ui_image_reward_icon";
+#endif
+        
         private void Start()
         {
             ListenEvents();
@@ -44,7 +52,7 @@ namespace GoldenSpin.GameModule
 
         private void ListenEvents()
         {
-            uiButtonRevive.onClick.AddListener(OnContinueClicked);
+            uiButtonContinue.onClick.AddListener(OnContinueClicked);
             uiButtonGiveUp.onClick.AddListener(OnGiveUpClicked);
 
             gameController.OnStateChanged   += HandleStateChanged;
@@ -119,7 +127,7 @@ namespace GoldenSpin.GameModule
 
         private void UnsubscribeFromEvents()
         {
-            uiButtonRevive.onClick.RemoveListener(OnContinueClicked);
+            uiButtonContinue.onClick.RemoveListener(OnContinueClicked);
             uiButtonGiveUp.onClick.RemoveListener(OnGiveUpClicked);
 
             gameController.OnStateChanged   -= HandleStateChanged;
@@ -130,5 +138,40 @@ namespace GoldenSpin.GameModule
         {
             UnsubscribeFromEvents();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (uiButtonContinue == null)
+            {
+                uiButtonContinue = transform.Find(PATH_BUTTON_CONTINUE)?.GetComponent<Button>();
+            }
+
+            if (uiButtonGiveUp == null)
+            {
+                uiButtonGiveUp = transform.Find(PATH_BUTTON_GIVE_UP)?.GetComponent<Button>();
+            }
+
+            if (uiTextCollectTitle == null)
+            {
+                uiTextCollectTitle = transform.Find(PATH_TEXT_COLLECT_TITLE)?.GetComponent<TMP_Text>();
+            }
+
+            if (uiTextTotalRewardsValue == null)
+            {
+                uiTextTotalRewardsValue = transform.Find(PATH_TEXT_TOTAL_REWARDS)?.GetComponent<TMP_Text>();
+            }
+
+            if (uiImageRewardIcon == null)
+            {
+                uiImageRewardIcon = transform.Find(PATH_IMAGE_REWARD_ICON)?.GetComponent<Image>();
+            }
+
+            if (rewardIconFitter == null)
+            {
+                rewardIconFitter = transform.Find(PATH_IMAGE_REWARD_ICON)?.GetComponent<AspectRatioFitter>();
+            }
+        }
+#endif
     }
 }

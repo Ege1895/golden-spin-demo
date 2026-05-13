@@ -22,6 +22,11 @@ namespace GoldenSpin.RewardModule
         [SerializeField]
         private TMP_Text uiTextRewardCountValue;
 
+#if UNITY_EDITOR
+        private const string PATH_REWARDS_CONTAINER = "ui_scroll_rewards/Viewport/Content";
+        private const string PATH_TEXT_REWARD_COUNT = "ui_header/ui_text_reward_count_value";
+#endif
+
         private void Start()
         {
             rewardListItemFactory.SetParent(rewardsContainer);
@@ -32,7 +37,7 @@ namespace GoldenSpin.RewardModule
 
         private void ListenEvents()
         {
-            rewardController.OnRewardAdded += HandleRewardAdded;
+            rewardController.OnRewardAdded    += HandleRewardAdded;
             rewardController.OnRewardsCleared += HandleRewardsCleared;
         }
 
@@ -69,7 +74,7 @@ namespace GoldenSpin.RewardModule
 
         private void UnsubscribeFromEvents()
         {
-            rewardController.OnRewardAdded -= HandleRewardAdded;
+            rewardController.OnRewardAdded    -= HandleRewardAdded;
             rewardController.OnRewardsCleared -= HandleRewardsCleared;
         }
 
@@ -77,5 +82,20 @@ namespace GoldenSpin.RewardModule
         {
             UnsubscribeFromEvents();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (rewardsContainer == null)
+            {
+                rewardsContainer = transform.Find(PATH_REWARDS_CONTAINER);
+            }
+
+            if (uiTextRewardCountValue == null)
+            {
+                uiTextRewardCountValue = transform.Find(PATH_TEXT_REWARD_COUNT)?.GetComponent<TMP_Text>();
+            }
+        }
+#endif
     }
 }
