@@ -67,6 +67,14 @@ namespace GoldenSpin.GameModule
         public void OnSpinResultClosed()
         {
             zoneController.AdvanceZone();
+
+            if (zoneController.CurrentZone > ZoneConfig.MAX_ZONE_NUMBER)
+            {
+                SetState(GameState.Collecting);
+                rewardController.CollectRewards();
+                return;
+            }
+
             PrepareCurrentWheel();
             PrepareAndEnterIdle();
         }

@@ -27,6 +27,11 @@ namespace GoldenSpin.ZoneModule
 
         private readonly List<ZoneBarItem> visibleItems = new List<ZoneBarItem>();
 
+#if UNITY_EDITOR
+        private const string PATH_ZONES_CONTAINER   = "ui_scroll_zones/Viewport/Content";
+        private const string PATH_TEXT_ZONE_CURRENT = "ui_header/ui_text_zone_current_value";
+#endif
+        
         private void Start()
         {
             zoneBarItemFactory.SetParent(zonesContainer);
@@ -45,8 +50,8 @@ namespace GoldenSpin.ZoneModule
             zoneBarItemFactory.DestroyAll();
             visibleItems.Clear();
 
-            int currentZone = zoneController.CurrentZone;
-            int startZone   = Mathf.Max(ZoneConfig.STARTING_ZONE_NUMBER, currentZone - 1);
+            int currentZone  = zoneController.CurrentZone;
+            int startZone    = Mathf.Max(ZoneConfig.STARTING_ZONE_NUMBER, currentZone - 1);
             int visibleCount = UIConfig.ZONE_BAR_VISIBLE_COUNT;
 
             int normalRunEnd = Mathf.Min(
@@ -100,5 +105,25 @@ namespace GoldenSpin.ZoneModule
         {
             UnsubscribeFromEvents();
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (zonesContainer == null)
+            {
+                zonesContainer = transform.Find(PATH_ZONES_CONTAINER);
+            }
+
+            if (scrollContent == null)
+            {
+                scrollContent = transform.Find(PATH_ZONES_CONTAINER)?.GetComponent<RectTransform>();
+            }
+
+            if (uiTextZoneCurrentValue == null)
+            {
+                uiTextZoneCurrentValue = transform.Find(PATH_TEXT_ZONE_CURRENT)?.GetComponent<TMP_Text>();
+            }
+        }
+#endif
     }
 }

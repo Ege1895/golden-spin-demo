@@ -11,13 +11,20 @@ namespace GoldenSpin.GameModule
 {
     public class BombUIPanel : PopupUIPanel
     {
-        [Inject] private IGameController     gameController;
-        [Inject] private ICurrencyController currencyController;
+        [Inject] 
+        private IGameController     gameController;
+        
+        [Inject] 
+        private ICurrencyController currencyController;
 
-        [SerializeField] private Button   uiButtonGiveUp;
-        [SerializeField] private Button   uiButtonRevive;
-        [SerializeField] private Button   uiButtonRevivePaid;
-        [SerializeField] private TMP_Text uiTextRevivePaidCostValue;
+        [SerializeField] 
+        private Button uiButtonGiveUp;
+        [SerializeField] 
+        private Button uiButtonRevive;
+        [SerializeField] 
+        private Button uiButtonRevivePaid;
+        [SerializeField] 
+        private TMP_Text uiTextRevivePaidCostValue;
 
         [SerializeField]
         private TMP_Text uiTextBombTitle;
@@ -32,6 +39,12 @@ namespace GoldenSpin.GameModule
         private const int BOMB_ICON_PUNCH_VIBRATO = 5;
         private const float BOMB_ICON_PUNCH_ELASTIC = 0.5f;
 
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_GIVE_UP = "Popup_Bomb/ui_action_row/ui_button_give_up";
+        private const string PATH_BUTTON_REVIVE = "Popup_Bomb/ui_action_row/ui_button_revive";
+        private const string PATH_BUTTON_REVIVE_PAID = "Popup_Bomb/ui_action_row/ui_button_revive_paid";
+        private const string PATH_TEXT_REVIVE_PAID_COST = "Popup_Bomb/ui_action_row/ui_button_revive_paid/ui_text_revive_paid_cost_value";
+#endif
         private void Start()
         {
             ListenEvents();
@@ -121,16 +134,24 @@ namespace GoldenSpin.GameModule
         private void OnValidate()
         {
             if (uiButtonGiveUp == null)
-                uiButtonGiveUp = transform.Find("Popup_Bomb/ui_action_row/ui_button_give_up")?.GetComponent<Button>();
+            {
+                uiButtonGiveUp = transform.Find(PATH_BUTTON_GIVE_UP)?.GetComponent<Button>();
+            }
 
             if (uiButtonRevive == null)
-                uiButtonRevive = transform.Find("Popup_Bomb/ui_action_row/ui_button_revive")?.GetComponent<Button>();
+            {
+                uiButtonRevive = transform.Find(PATH_BUTTON_REVIVE)?.GetComponent<Button>();
+            }
 
             if (uiButtonRevivePaid == null)
-                uiButtonRevivePaid = transform.Find("Popup_Bomb/ui_action_row/ui_button_revive_paid")?.GetComponent<Button>();
+            {
+                uiButtonRevivePaid = transform.Find(PATH_BUTTON_REVIVE_PAID)?.GetComponent<Button>();
+            }
 
             if (uiTextRevivePaidCostValue == null)
-                uiTextRevivePaidCostValue = transform.Find("Popup_Bomb/ui_action_row/ui_button_revive_paid/ui_text_revive_paid_cost_value")?.GetComponent<TMP_Text>();
+            {
+                uiTextRevivePaidCostValue = transform.Find(PATH_TEXT_REVIVE_PAID_COST)?.GetComponent<TMP_Text>();
+            }
         }
 #endif
     }
