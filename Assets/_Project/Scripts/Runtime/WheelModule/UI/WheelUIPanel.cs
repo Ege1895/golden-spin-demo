@@ -13,6 +13,13 @@ namespace GoldenSpin.WheelModule
 {
     public class WheelUIPanel : BasePanel
     {
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_SPIN         = "ui_action_row/ui_button_spin";
+        private const string PATH_BUTTON_COLLECT      = "ui_action_row/ui_button_collect";
+        private const string PATH_IMAGE_SPIN_FRAME    = "ui_action_row/ui_button_spin/ui_image_frame";
+        private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
+#endif
+
         [Inject]
         private IGameController gameController;
 
@@ -305,11 +312,6 @@ namespace GoldenSpin.WheelModule
         }
 
 #if UNITY_EDITOR
-        private const string PATH_BUTTON_SPIN         = "ui_action_row/ui_button_spin";
-        private const string PATH_BUTTON_COLLECT      = "ui_action_row/ui_button_collect";
-        private const string PATH_IMAGE_SPIN_FRAME    = "ui_action_row/ui_button_spin/ui_image_frame";
-        private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
-
         private void OnValidate()
         {
             if (uiButtonSpin == null)

@@ -10,6 +10,11 @@ namespace GoldenSpin.ZoneModule
 {
     public class ZoneBarUIPanel : BasePanel
     {
+#if UNITY_EDITOR
+        private const string PATH_ZONES_CONTAINER   = "ui_scroll_zones/Viewport/Content";
+        private const string PATH_TEXT_ZONE_CURRENT = "ui_header/ui_text_zone_current_value";
+#endif
+
         [Inject]
         private IZoneController zoneController;
 
@@ -102,9 +107,6 @@ namespace GoldenSpin.ZoneModule
         }
 
 #if UNITY_EDITOR
-        private const string PATH_ZONES_CONTAINER    = "ui_scroll_zones/Viewport/Content";
-        private const string PATH_TEXT_ZONE_CURRENT  = "ui_header/ui_text_zone_current_value";
-
         private void OnValidate()
         {
             if (zonesContainer == null)
