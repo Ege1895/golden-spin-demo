@@ -4,19 +4,20 @@ using UnityEngine.UI;
 using Zenject;
 using DG.Tweening;
 using GoldenSpin.CoreModule;
+using GoldenSpin.ConfigurationModule;
 using GoldenSpin.UIModule;
 
 namespace GoldenSpin.GameModule
 {
     public class BombUIPanel : PopupUIPanel
     {
-        [Inject]
-        private IGameController gameController;
+        [Inject] private IGameController     gameController;
+        [Inject] private ICurrencyController currencyController;
 
-        [SerializeField]
-        private Button uiButtonGiveUp;
-        [SerializeField]
-        private Button uiButtonRevive;
+        [SerializeField] private Button   uiButtonGiveUp;
+        [SerializeField] private Button   uiButtonRevive;
+        [SerializeField] private Button   uiButtonRevivePaid;
+        [SerializeField] private TMP_Text uiTextRevivePaidCostValue;
 
         [SerializeField]
         private TMP_Text uiTextBombTitle;
@@ -40,14 +41,17 @@ namespace GoldenSpin.GameModule
         {
             uiButtonGiveUp.onClick.AddListener(OnGiveUpClicked);
             uiButtonRevive.onClick.AddListener(OnReviveClicked);
+            uiButtonRevivePaid.onClick.AddListener(OnRevivePaidClicked);
 
-            gameController.OnStateChanged += HandleStateChanged;
+            gameController.OnStateChanged        += HandleStateChanged;
+            currencyController.OnCurrencyChanged += RefreshPaidReviveButton;
         }
 
         protected override void OnShow()
         {
             base.OnShow();
             PlayBombEntryAnimation();
+            RefreshPaidReviveButton(currencyController.CurrentAmount);
         }
 
         private void PlayBombEntryAnimation()
@@ -73,6 +77,16 @@ namespace GoldenSpin.GameModule
             }
         }
 
+        private void RefreshPaidReviveButton(int amount)
+        {
+            bool canAfford = currencyController.CanAfford(CurrencyConfig.REVIVE_COST);
+            uiButtonRevivePaid.interactable = canAfford;
+            if (uiTextRevivePaidCostValue != null)
+            {
+                uiTextRevivePaidCostValue.text = CurrencyConfig.REVIVE_COST.ToString();
+            }
+        }
+
         private void OnGiveUpClicked()
         {
             Hide(() => gameController.RestartGame());
@@ -83,12 +97,19 @@ namespace GoldenSpin.GameModule
             Hide(() => gameController.ReviveAfterBomb());
         }
 
+        private void OnRevivePaidClicked()
+        {
+            Hide(() => gameController.ReviveWithCurrency());
+        }
+
         private void UnsubscribeFromEvents()
         {
             uiButtonGiveUp.onClick.RemoveListener(OnGiveUpClicked);
             uiButtonRevive.onClick.RemoveListener(OnReviveClicked);
+            uiButtonRevivePaid.onClick.RemoveListener(OnRevivePaidClicked);
 
-            gameController.OnStateChanged -= HandleStateChanged;
+            gameController.OnStateChanged        -= HandleStateChanged;
+            currencyController.OnCurrencyChanged -= RefreshPaidReviveButton;
         }
 
         private void OnDestroy()
@@ -100,14 +121,16 @@ namespace GoldenSpin.GameModule
         private void OnValidate()
         {
             if (uiButtonGiveUp == null)
-            {
-                uiButtonGiveUp = transform.Find("ui_button_give_up")?.GetComponent<Button>();
-            }
+                uiButtonGiveUp = transform.Find("Popup_Bomb/ui_action_row/ui_button_give_up")?.GetComponent<Button>();
 
             if (uiButtonRevive == null)
-            {
-                uiButtonRevive = transform.Find("ui_button_revive")?.GetComponent<Button>();
-            }
+                uiButtonRevive = transform.Find("Popup_Bomb/ui_action_row/ui_button_revive")?.GetComponent<Button>();
+
+            if (uiButtonRevivePaid == null)
+                uiButtonRevivePaid = transform.Find("Popup_Bomb/ui_action_row/ui_button_revive_paid")?.GetComponent<Button>();
+
+            if (uiTextRevivePaidCostValue == null)
+                uiTextRevivePaidCostValue = transform.Find("Popup_Bomb/ui_action_row/ui_button_revive_paid/ui_text_revive_paid_cost_value")?.GetComponent<TMP_Text>();
         }
 #endif
     }

@@ -17,12 +17,10 @@ namespace GoldenSpin.GameModule
         private IRewardController rewardController;
 
         [Inject]
-        private IWheelController wheelController;
+        private IZoneController zoneController;
 
         [SerializeField]
         private Button uiButtonRevive;
-        [SerializeField]
-        private Button uiButtonGiveUp;
 
         [SerializeField]
         private Transform rewardSummaryContainer;
@@ -31,20 +29,10 @@ namespace GoldenSpin.GameModule
         private TMP_Text uiTextCollectTitle;
         [SerializeField]
         private TMP_Text uiTextTotalRewardsValue;
-        [SerializeField]
-        private Image uiImageRewardIcon;
-
-        [SerializeField]
-        private AspectRatioFitter rewardIconFitter;
 
         private const float REWARD_COUNTER_DURATION = 1.5f;
         private const string SUMMARY_ITEM_NAME = "ui_text_summary_item";
-        private const string TITLE_SPIN_RESULT = "TEBRİKLER!";
-        private const string TITLE_COLLECT = "ÖDÜLLER";
-
-        private WheelSliceDTO pendingSpinResult;
-
-        private bool isSpinResult;
+        private const string TITLE = "ÖDÜLLER";
 
         private void Start()
         {
@@ -53,87 +41,46 @@ namespace GoldenSpin.GameModule
 
         private void ListenEvents()
         {
-            uiButtonRevive.onClick.AddListener(OnReviveClicked);
-            uiButtonGiveUp.onClick.AddListener(OnGiveUpClicked);
+            uiButtonRevive.onClick.AddListener(OnContinueClicked);
 
-            gameController.OnStateChanged += HandleStateChanged;
+            gameController.OnStateChanged       += HandleStateChanged;
             rewardController.OnRewardsCollected += HandleRewardsCollected;
-            wheelController.OnSpinCompleted += HandleSpinCompleted;
-        }
-
-        private void HandleSpinCompleted(WheelSliceDTO slice)
-        {
-            pendingSpinResult = slice;
         }
 
         private void HandleStateChanged(GameState state)
         {
-            if (state == GameState.SpinResult)
+            if (state == GameState.Restarting)
             {
-                isSpinResult = true;
-                PopulateSpinResult(pendingSpinResult);
-                Show();
-            }
-            else if (state == GameState.Restarting)
-            {
-                isSpinResult = false;
-                pendingSpinResult = null;
                 HideImmediate();
             }
         }
 
         private void HandleRewardsCollected(CollectedRewardDTO collectedDTO)
         {
-            isSpinResult = false;
-            PopulateRewardSummary(collectedDTO);
+            Populate(collectedDTO);
             Show();
-            PlayCollectAnimation();
+            PlayCollectAnimation(collectedDTO.Rewards.Count);
         }
 
-        private void PopulateSpinResult(WheelSliceDTO slice)
+        private void Populate(CollectedRewardDTO collectedDTO)
         {
-            ClearRewardSummary();
+            ClearSummary();
 
-            uiTextCollectTitle.text = TITLE_SPIN_RESULT;
-
-            bool hasReward = slice != null && slice.Reward != null;
-
-            if (uiImageRewardIcon != null)
+            if (uiTextCollectTitle != null)
             {
-                bool showIcon = hasReward && slice.Reward.Icon != null;
-                uiImageRewardIcon.gameObject.SetActive(showIcon);
-
-                if (showIcon)
-                {
-                    SetRewardIcon(slice.Reward.Icon);
-                }
+                uiTextCollectTitle.text  = TITLE;
+                uiTextCollectTitle.color = TierColors.For(zoneController.CurrentZoneDTO.SpinType);
             }
 
-            uiTextTotalRewardsValue.text = hasReward ? $"x{slice.Reward.Amount}" : string.Empty;
-        }
-
-        private void SetRewardIcon(Sprite sprite)
-        {
-            uiImageRewardIcon.sprite = sprite;
-
-            if (rewardIconFitter != null)
+            if (uiTextTotalRewardsValue != null)
             {
-                rewardIconFitter.aspectRatio = sprite.rect.width / sprite.rect.height;
-            }
-        }
-
-        private void PopulateRewardSummary(CollectedRewardDTO collectedDTO)
-        {
-            ClearRewardSummary();
-
-            uiTextCollectTitle.text = TITLE_COLLECT;
-
-            if (uiImageRewardIcon != null)
-            {
-                uiImageRewardIcon.gameObject.SetActive(false);
+                uiTextTotalRewardsValue.text = collectedDTO.Rewards.Count.ToString();
             }
 
-            uiTextTotalRewardsValue.text = collectedDTO.Rewards.Count.ToString();
+            if (rewardSummaryContainer == null)
+            {
+                return;
+            }
 
             foreach (RewardDTO reward in collectedDTO.Rewards)
             {
@@ -145,17 +92,26 @@ namespace GoldenSpin.GameModule
             }
         }
 
-        private void ClearRewardSummary()
+        private void ClearSummary()
         {
+            if (rewardSummaryContainer == null)
+            {
+                return;
+            }
+
             foreach (Transform child in rewardSummaryContainer)
             {
                 Object.Destroy(child.gameObject);
             }
         }
 
-        private void PlayCollectAnimation()
+        private void PlayCollectAnimation(int target)
         {
-            int target = rewardController.CollectedRewards.Count;
+            if (uiTextTotalRewardsValue == null)
+            {
+                return;
+            }
+
             float counter = 0f;
 
             DOTween.To(
@@ -170,51 +126,22 @@ namespace GoldenSpin.GameModule
             ).SetEase(Ease.OutExpo);
         }
 
-        private void OnReviveClicked()
-        {
-            if (isSpinResult)
-            {
-                Hide(() => gameController.OnSpinResultClosed());
-            }
-            else
-            {
-                Hide(() => gameController.RestartGame());
-            }
-        }
-
-        private void OnGiveUpClicked()
+        private void OnContinueClicked()
         {
             Hide(() => gameController.RestartGame());
         }
 
         private void UnsubscribeFromEvents()
         {
-            uiButtonRevive.onClick.RemoveListener(OnReviveClicked);
-            uiButtonGiveUp.onClick.RemoveListener(OnGiveUpClicked);
+            uiButtonRevive.onClick.RemoveListener(OnContinueClicked);
 
-            gameController.OnStateChanged -= HandleStateChanged;
+            gameController.OnStateChanged       -= HandleStateChanged;
             rewardController.OnRewardsCollected -= HandleRewardsCollected;
-            wheelController.OnSpinCompleted -= HandleSpinCompleted;
         }
 
         private void OnDestroy()
         {
             UnsubscribeFromEvents();
         }
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (uiButtonRevive == null)
-            {
-                uiButtonRevive = transform.Find("ui_button_revive")?.GetComponent<Button>();
-            }
-
-            if (uiButtonGiveUp == null)
-            {
-                uiButtonGiveUp = transform.Find("ui_button_give_up")?.GetComponent<Button>();
-            }
-        }
-#endif
     }
 }

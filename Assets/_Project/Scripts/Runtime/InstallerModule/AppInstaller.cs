@@ -1,6 +1,7 @@
 using UnityEngine;
 using Zenject;
 using GoldenSpin.CoreModule;
+using GoldenSpin.CurrencyModule;
 using GoldenSpin.ZoneModule;
 using GoldenSpin.RewardModule;
 using GoldenSpin.WheelModule;
@@ -29,8 +30,15 @@ namespace GoldenSpin.InstallerModule
         [SerializeField]
         private CollectUIPanel collectPanel;
 
+        [SerializeField]
+        private AwardReceivedUIPanel awardReceivedPanel;
+
+        [SerializeField]
+        private TopBarUIPanel topBarPanel;
+
         public override void InstallBindings()
         {
+            Container.BindInterfacesTo<CurrencyController>().AsSingle();
             Container.BindInterfacesTo<ZoneController>().AsSingle();
             Container.BindInterfacesTo<RewardController>().AsSingle();
             Container.BindInterfacesTo<WheelController>().AsSingle();
@@ -48,6 +56,8 @@ namespace GoldenSpin.InstallerModule
             Container.BindInstance(rewardListPanel).AsSingle();
             Container.BindInstance(bombPanel).AsSingle();
             Container.BindInstance(collectPanel).AsSingle();
+            Container.BindInstance(awardReceivedPanel).AsSingle();
+            Container.BindInstance(topBarPanel).AsSingle();
         }
     }
 }
