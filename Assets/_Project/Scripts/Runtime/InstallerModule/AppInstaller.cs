@@ -31,6 +31,9 @@ namespace GoldenSpin.InstallerModule
         private CollectUIPanel collectPanel;
 
         [SerializeField]
+        private AwardReceivedUIPanel awardReceivedPanel;
+
+        [SerializeField]
         private TopBarUIPanel topBarPanel;
 
         public override void InstallBindings()
@@ -53,6 +56,7 @@ namespace GoldenSpin.InstallerModule
             Container.BindInstance(rewardListPanel).AsSingle();
             Container.BindInstance(bombPanel).AsSingle();
             Container.BindInstance(collectPanel).AsSingle();
+            Container.BindInstance(awardReceivedPanel).AsSingle();
             Container.BindInstance(topBarPanel).AsSingle();
         }
     }
