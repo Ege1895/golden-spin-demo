@@ -8,6 +8,12 @@ namespace GoldenSpin.UIModule
 {
     public class TopBarUIPanel : BasePanel
     {
+#if UNITY_EDITOR
+        private const string PATH_IMAGE_ZONE_DOT       = "ui_container_zone_badge/ui_image_zone_dot";
+        private const string PATH_TEXT_ZONE_LABEL      = "ui_container_zone_badge/ui_text_zone_label_value";
+        private const string PATH_TEXT_CURRENCY_AMOUNT = "ui_container_currency_pill/ui_text_currency_amount_value";
+#endif
+
         [Inject] private IZoneController     zoneController;
         [Inject] private ICurrencyController currencyController;
 
@@ -89,10 +95,6 @@ namespace GoldenSpin.UIModule
         }
 
 #if UNITY_EDITOR
-        private const string PATH_IMAGE_ZONE_DOT      = "ui_container_zone_badge/ui_image_zone_dot";
-        private const string PATH_TEXT_ZONE_LABEL     = "ui_container_zone_badge/ui_text_zone_label_value";
-        private const string PATH_TEXT_CURRENCY_AMOUNT = "ui_container_currency_pill/ui_text_currency_amount_value";
-
         private void OnValidate()
         {
             if (uiImageZoneDot == null)

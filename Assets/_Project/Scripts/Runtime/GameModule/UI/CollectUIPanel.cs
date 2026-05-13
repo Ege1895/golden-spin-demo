@@ -13,6 +13,11 @@ namespace GoldenSpin.GameModule
 {
     public class CollectUIPanel : PopupUIPanel
     {
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_CONTINUE       = "Popup_Collect/ui_button_continue";
+        private const string PATH_REWARD_SCROLL_CONTENT = "Popup_Collect/ui_scroll_rewards/Viewport/Content";
+#endif
+
         [Inject]
         private IGameController gameController;
 
@@ -158,9 +163,6 @@ namespace GoldenSpin.GameModule
         }
 
 #if UNITY_EDITOR
-        private const string PATH_BUTTON_CONTINUE      = "Popup_Collect/ui_button_continue";
-        private const string PATH_REWARD_SCROLL_CONTENT = "Popup_Collect/ui_scroll_rewards/Viewport/Content";
-
         private void OnValidate()
         {
             if (uiButtonContinue == null)

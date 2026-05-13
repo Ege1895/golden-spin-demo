@@ -9,6 +9,14 @@ namespace GoldenSpin.GameModule
 {
     public class AwardReceivedUIPanel : PopupUIPanel
     {
+#if UNITY_EDITOR
+        private const string PATH_BUTTON_CONTINUE    = "Popup_AwardReceived/ui_button_continue";
+        private const string PATH_BUTTON_GIVE_UP     = "Popup_AwardReceived/ui_button_give_up";
+        private const string PATH_TEXT_COLLECT_TITLE = "Popup_AwardReceived/ui_text_collect_title";
+        private const string PATH_TEXT_TOTAL_REWARDS = "Popup_AwardReceived/ui_text_total_rewards_value";
+        private const string PATH_IMAGE_REWARD_ICON  = "Popup_AwardReceived/ui_image_reward_icon";
+#endif
+
         [Inject]
         private IGameController gameController;
 
@@ -132,12 +140,6 @@ namespace GoldenSpin.GameModule
         }
 
 #if UNITY_EDITOR
-        private const string PATH_BUTTON_CONTINUE       = "Popup_AwardReceived/ui_button_continue";
-        private const string PATH_BUTTON_GIVE_UP        = "Popup_AwardReceived/ui_button_give_up";
-        private const string PATH_TEXT_COLLECT_TITLE    = "Popup_AwardReceived/ui_text_collect_title";
-        private const string PATH_TEXT_TOTAL_REWARDS    = "Popup_AwardReceived/ui_text_total_rewards_value";
-        private const string PATH_IMAGE_REWARD_ICON     = "Popup_AwardReceived/ui_image_reward_icon";
-
         private void OnValidate()
         {
             if (uiButtonContinue == null)
