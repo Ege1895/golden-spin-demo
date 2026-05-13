@@ -55,7 +55,7 @@ namespace GoldenSpin.WheelModule
 
         private readonly List<WheelSliceItem> activeSliceItems = new List<WheelSliceItem>();
 
-        private const string TITLE_NORMAL = "NORMAL SPIN";
+        private const string TITLE_BRONZE = "BRONZE SPIN";
         private const string TITLE_SILVER = "SILVER SPIN";
         private const string TITLE_GOLDEN = "GOLDEN SPIN";
 
@@ -188,7 +188,7 @@ namespace GoldenSpin.WheelModule
             {
                 SpinType.Golden => TITLE_GOLDEN,
                 SpinType.Silver => TITLE_SILVER,
-                _ => TITLE_NORMAL,
+                _ => TITLE_BRONZE,
             };
         }
 

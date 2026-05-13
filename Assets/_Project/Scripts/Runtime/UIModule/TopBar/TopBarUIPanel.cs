@@ -22,6 +22,7 @@ namespace GoldenSpin.UIModule
 
         private void Start()
         {
+            if (zoneController == null || currencyController == null) return;
             ListenEvents();
             RefreshZone(zoneController.CurrentZoneDTO);
             RefreshCurrency(currencyController.CurrentAmount);
@@ -30,8 +31,10 @@ namespace GoldenSpin.UIModule
 
         private void ListenEvents()
         {
-            zoneController.OnZoneChanged      += RefreshZone;
-            currencyController.OnCurrencyChanged += RefreshCurrency;
+            if (zoneController != null)
+                zoneController.OnZoneChanged += RefreshZone;
+            if (currencyController != null)
+                currencyController.OnCurrencyChanged += RefreshCurrency;
         }
 
         private void RefreshZone(ZoneDTO zone)
@@ -61,8 +64,10 @@ namespace GoldenSpin.UIModule
 
         private void UnsubscribeFromEvents()
         {
-            zoneController.OnZoneChanged         -= RefreshZone;
-            currencyController.OnCurrencyChanged -= RefreshCurrency;
+            if (zoneController != null)
+                zoneController.OnZoneChanged -= RefreshZone;
+            if (currencyController != null)
+                currencyController.OnCurrencyChanged -= RefreshCurrency;
         }
 
         private void OnDestroy()
