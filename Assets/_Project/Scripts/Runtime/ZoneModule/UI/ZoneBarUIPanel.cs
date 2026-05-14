@@ -55,7 +55,7 @@ namespace GoldenSpin.ZoneModule
 
             int currentZone = zoneController.CurrentZone;
             int startZone = Mathf.Max(ZoneConfig.STARTING_ZONE_NUMBER, currentZone - ZONE_BAR_FIRST_SLOT_OFFSET);
-            int visibleCount = UIConfig.ZONE_BAR_VISIBLE_COUNT;
+            int visibleCount = ZoneConfig.ZONE_BAR_VISIBLE_COUNT;
 
             int normalRunEnd = Mathf.Min(
                 startZone + visibleCount - ZONE_BAR_LAST_SLOT_OFFSET,

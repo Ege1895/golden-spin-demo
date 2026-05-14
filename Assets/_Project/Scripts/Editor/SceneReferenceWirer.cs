@@ -375,8 +375,8 @@ namespace GoldenSpin.Editor
                 ?.SetValue(item, FindChild<UnityEngine.UI.Image>(root, "ui_image_zone_background"));
             t.GetField("uiTextZoneNumberValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
                 ?.SetValue(item, FindChild<TMPro.TextMeshProUGUI>(root, "ui_text_zone_number_value"));
-            t.GetField("uiImageZoneIcon", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                ?.SetValue(item, FindChild<UnityEngine.UI.Image>(root, "ui_image_zone_icon"));
+            t.GetField("uiImageZoneFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                ?.SetValue(item, FindChild<UnityEngine.UI.Image>(root, "ui_image_zone_frame"));
 
             EditorUtility.SetDirty(item);
             Debug.Log("[SceneReferenceWirer] ZoneBarItem wired.");

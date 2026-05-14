@@ -17,10 +17,11 @@ namespace GoldenSpin.UIModule
 
         public int ZoneNumber { get; private set; }
 
-        private const float HIGHLIGHT_SCALE = 1.4f;
+        private const float BACKGROUND_ALPHA = 0.15f;
+        private const float HIGHLIGHT_ALPHA = 0.85f;
         private const float HIGHLIGHT_DURATION = 0.2f;
-        private const float DEFAULT_SCALE = 1f;
-        private const float BACKGROUND_ALPHA = 0.35f;
+
+        private Color tierColor;
 
         public void Initialize(ZoneDTO zoneDTO)
         {
@@ -31,22 +32,30 @@ namespace GoldenSpin.UIModule
 
         public void SetHighlight(bool highlighted)
         {
-            float targetScale = highlighted ? HIGHLIGHT_SCALE : DEFAULT_SCALE;
-            transform.DOScale(targetScale, HIGHLIGHT_DURATION).SetEase(Ease.OutBack);
+            if (uiImageZoneBackground == null) { return; }
+
+            float targetAlpha = highlighted ? HIGHLIGHT_ALPHA : BACKGROUND_ALPHA;
+            Color targetColor = new Color(tierColor.r, tierColor.g, tierColor.b, targetAlpha);
+            DOTween.To(
+                () => uiImageZoneBackground.color,
+                c => uiImageZoneBackground.color = c,
+                targetColor,
+                HIGHLIGHT_DURATION
+            ).SetEase(Ease.OutQuad);
         }
 
         private void ApplyZoneTypeVisual(SpinType spinType)
         {
-            Color tier = TierColors.For(spinType);
+            tierColor = TierColors.For(spinType);
 
             if (uiImageZoneBackground != null)
             {
-                uiImageZoneBackground.color = new Color(tier.r, tier.g, tier.b, BACKGROUND_ALPHA);
+                uiImageZoneBackground.color = new Color(tierColor.r, tierColor.g, tierColor.b, BACKGROUND_ALPHA);
             }
 
             if (uiImageZoneFrame != null)
             {
-                uiImageZoneFrame.color = tier;
+                uiImageZoneFrame.color = tierColor;
             }
         }
     }
