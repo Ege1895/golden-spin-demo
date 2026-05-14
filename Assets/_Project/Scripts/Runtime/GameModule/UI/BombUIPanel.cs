@@ -30,8 +30,6 @@ namespace GoldenSpin.GameModule
         private TMP_Text uiTextBombTitle;
         [SerializeField]
         private TMP_Text uiTextBombSubtitle;
-        [SerializeField]
-        private TMP_Text uiTextCountdownValue;
 
         [SerializeField]
         private Image uiImageBombIcon;
@@ -162,13 +160,6 @@ namespace GoldenSpin.GameModule
 
         private void UpdateCountdownVisuals()
         {
-            int secondsLeft = Mathf.CeilToInt(countdownRemaining);
-
-            if (uiTextCountdownValue != null)
-            {
-                uiTextCountdownValue.text = string.Format(COUNTDOWN_FORMAT, secondsLeft);
-            }
-
             if (uiImageCountdownFill != null)
             {
                 uiImageCountdownFill.fillAmount = Mathf.Lerp(
@@ -237,8 +228,10 @@ namespace GoldenSpin.GameModule
         }
 
 #if UNITY_EDITOR
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
+
             if (uiButtonGiveUp == null)
             {
                 uiButtonGiveUp = transform.Find(PATH_BUTTON_GIVE_UP)?.GetComponent<Button>();
@@ -257,11 +250,6 @@ namespace GoldenSpin.GameModule
             if (uiTextRevivePaidCostValue == null)
             {
                 uiTextRevivePaidCostValue = transform.Find(PATH_TEXT_REVIVE_PAID_COST)?.GetComponent<TMP_Text>();
-            }
-
-            if (uiTextCountdownValue == null)
-            {
-                uiTextCountdownValue = transform.Find(PATH_TEXT_COUNTDOWN)?.GetComponent<TMP_Text>();
             }
 
             if (uiImageCountdownFill == null)

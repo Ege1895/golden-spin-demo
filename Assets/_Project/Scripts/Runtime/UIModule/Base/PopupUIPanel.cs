@@ -18,6 +18,11 @@ namespace GoldenSpin.UIModule
 
         private void PlayPopupAnimation()
         {
+            if (popupContainer == null && transform.childCount > 0)
+            {
+                popupContainer = transform.GetChild(0);
+            }
+
             if (popupContainer == null)
             {
                 return;
@@ -29,7 +34,7 @@ namespace GoldenSpin.UIModule
         }
 
 #if UNITY_EDITOR
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             if (popupContainer == null && transform.childCount > 0)
             {
