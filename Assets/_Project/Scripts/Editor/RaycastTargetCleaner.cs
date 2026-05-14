@@ -1,4 +1,3 @@
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,4 +25,3 @@ public class RaycastTargetCleaner : EditorWindow
         Debug.Log(string.Format(LOG_RESULT_FORMAT, images.Length, warningCount));
     }
 }
-#endif
