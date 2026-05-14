@@ -3,16 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using GoldenSpin.CoreModule;
 
-namespace GoldenSpin.UIModule
+namespace GoldenSpin.WheelModule
 {
     public class WheelSliceItem : MonoBehaviour
     {
         [SerializeField]
         private Image uiImageSliceIcon;
-        
+
         [SerializeField]
         private TMP_Text uiTextSliceLabelValue;
-        
+
         [SerializeField]
         private GameObject bombIndicator;
 

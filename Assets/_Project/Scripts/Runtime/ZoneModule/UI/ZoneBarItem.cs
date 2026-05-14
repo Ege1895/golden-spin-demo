@@ -3,8 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using GoldenSpin.CoreModule;
+using GoldenSpin.UIModule;
 
-namespace GoldenSpin.UIModule
+namespace GoldenSpin.ZoneModule
 {
     public class ZoneBarItem : MonoBehaviour
     {
@@ -32,10 +33,14 @@ namespace GoldenSpin.UIModule
 
         public void SetHighlight(bool highlighted)
         {
-            if (uiImageZoneBackground == null) { return; }
+            if (uiImageZoneBackground == null)
+            {
+                return;
+            }
 
             float targetAlpha = highlighted ? HIGHLIGHT_ALPHA : BACKGROUND_ALPHA;
             Color targetColor = new Color(tierColor.r, tierColor.g, tierColor.b, targetAlpha);
+
             DOTween.To(
                 () => uiImageZoneBackground.color,
                 c => uiImageZoneBackground.color = c,

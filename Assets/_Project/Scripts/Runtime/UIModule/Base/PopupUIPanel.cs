@@ -8,8 +8,8 @@ namespace GoldenSpin.UIModule
         [SerializeField]
         private Transform popupContainer;
 
-        private const float POPUP_DURATION   = 0.35f;
-        private const float POPUP_OVERSHOOT  = 1.15f;
+        private const float POPUP_DURATION = 0.35f;
+        private const float POPUP_OVERSHOOT = 1.15f;
 
         protected override void OnShow()
         {

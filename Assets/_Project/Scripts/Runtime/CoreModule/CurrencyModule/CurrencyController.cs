@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Zenject;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
@@ -8,6 +7,9 @@ namespace GoldenSpin.CurrencyModule
 {
     public class CurrencyController : ICurrencyController, IInitializable
     {
+        [Inject]
+        private readonly ISaveService saveService;
+
         private int currentAmount;
 
         public int CurrentAmount => currentAmount;
@@ -16,7 +18,7 @@ namespace GoldenSpin.CurrencyModule
 
         public void Initialize()
         {
-            currentAmount = PlayerPrefs.GetInt(CurrencyConfig.PREFS_KEY_GOLD, CurrencyConfig.STARTING_AMOUNT);
+            currentAmount = saveService.LoadInt(CurrencyConfig.PREFS_KEY_GOLD, CurrencyConfig.STARTING_AMOUNT);
             OnCurrencyChanged?.Invoke(currentAmount);
         }
 
@@ -47,8 +49,7 @@ namespace GoldenSpin.CurrencyModule
 
         private void Save()
         {
-            PlayerPrefs.SetInt(CurrencyConfig.PREFS_KEY_GOLD, currentAmount);
-            PlayerPrefs.Save();
+            saveService.SaveInt(CurrencyConfig.PREFS_KEY_GOLD, currentAmount);
         }
     }
 }

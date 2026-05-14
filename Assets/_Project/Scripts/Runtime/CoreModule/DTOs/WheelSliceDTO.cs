@@ -4,6 +4,7 @@ namespace GoldenSpin.CoreModule
     public class WheelSliceDTO
     {
         public SliceContentType ContentType;
+        public int Weight;
         public RewardDTO Reward;
     }
 }

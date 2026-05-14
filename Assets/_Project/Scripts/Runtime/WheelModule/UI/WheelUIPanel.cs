@@ -14,16 +14,12 @@ namespace GoldenSpin.WheelModule
     {
         [Inject]
         private IGameController gameController;
-
         [Inject]
         private IZoneController zoneController;
-
         [Inject]
         private IWheelController wheelController;
-
         [Inject]
         private ICurrencyController currencyController;
-
         [Inject]
         private WheelSliceItemFactory sliceItemFactory;
 
@@ -56,7 +52,7 @@ namespace GoldenSpin.WheelModule
         [SerializeField]
         private TMP_Text uiTextWheelTitle;
         [SerializeField]
-        private TMP_Text uiTextWheelSubtitle;
+        private TMP_Text uiTextWheelSubtitleValue;
         [SerializeField]
         private TMP_Text uiTextZoneCountValue;
         [SerializeField]
@@ -71,28 +67,31 @@ namespace GoldenSpin.WheelModule
         private const string TITLE_SILVER = "SILVER SPIN";
         private const string TITLE_GOLDEN = "GOLDEN SPIN";
         private const string ZONE_LABEL_PREFIX = "Zone ";
-        
+        private const string SUBTITLE_FORMAT = "Up To x{0} Rewards";
+        private const string AMOUNT_PREFIX = "x";
+
 #if UNITY_EDITOR
         private const string PATH_BUTTON_SPIN = "ui_action_row/ui_button_spin";
         private const string PATH_BUTTON_COLLECT = "ui_action_row/ui_button_collect";
-        private const string PATH_IMAGE_SPIN_FRAME = "ui_action_row/ui_button_spin/ui_image_frame";
         private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
         private const string PATH_IMAGE_STATE_ICON = "ui_container_zone_level_badge/ui_image_state_icon";
-        private const string PATH_TEXT_WHEEL_SUBTITLE = "ui_text_wheel_subtitle";
+        private const string PATH_TEXT_WHEEL_SUBTITLE = "ui_text_wheel_subtitle_value";
 #endif
-        
-        private const float SPIN_BACKGROUND_ALPHA = 0.1f;
 
-        private static readonly Color SPIN_FRAME_ACTIVE = new Color(0.165f, 0.498f, 0.831f, 1f); // #2A80D4
-        private static readonly Color SPIN_FRAME_DISABLED = new Color(0.165f, 0.165f, 0.243f, 1f); // #2A2A3E
-        private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f); // #252525
+        private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f);
 
         private int targetSliceIndex;
+        private int lastTickedSliceIndex;
+        private Tween spinTween;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            ListenEvents();
+        }
 
         private void Start()
         {
-            sliceItemFactory.SetParent(slicesContainer);
-            ListenEvents();
             ShowImmediate();
 
             RefreshZoneLevelBadge(zoneController.CurrentZoneDTO);
@@ -104,6 +103,8 @@ namespace GoldenSpin.WheelModule
                 BuildWheelSlices();
                 RefreshWheelBase(zoneController.CurrentZoneDTO.SpinType);
             }
+
+            UpdateButtonStates(gameController.CurrentState);
         }
 
         private void ListenEvents()
@@ -129,7 +130,7 @@ namespace GoldenSpin.WheelModule
 
             for (int i = 0; i < wheelController.CurrentSlices.Count; i++)
             {
-                WheelSliceItem item = sliceItemFactory.Create(wheelController.CurrentSlices[i]);
+                WheelSliceItem item = sliceItemFactory.Create(wheelController.CurrentSlices[i], slicesContainer);
                 item.transform.localRotation = Quaternion.Euler(0f, 0f, i * WheelConfig.SLICE_ANGLE);
                 activeSliceItems.Add(item);
             }
@@ -139,7 +140,7 @@ namespace GoldenSpin.WheelModule
         {
             foreach (WheelSliceItem item in activeSliceItems)
             {
-                sliceItemFactory.DestroyItem(item);
+                sliceItemFactory.Destroy(item);
             }
 
             activeSliceItems.Clear();
@@ -184,15 +185,67 @@ namespace GoldenSpin.WheelModule
             float totalRotation = WheelConfig.SPIN_MIN_ROTATIONS * WheelConfig.DEGREES_PER_ROTATION + targetAngle;
             float duration = Random.Range(WheelConfig.SPIN_MIN_DURATION, WheelConfig.SPIN_MAX_DURATION);
 
-            wheelTransform.DORotate(
-                new Vector3(0f, 0f, -totalRotation),
-                duration,
-                RotateMode.FastBeyond360
-            ).SetEase(Ease.OutQuart).OnComplete(() =>
+            lastTickedSliceIndex = -1;
+            spinTween?.Kill();
+
+            spinTween = wheelTransform
+                .DORotate(new Vector3(0f, 0f, -totalRotation), duration, RotateMode.FastBeyond360)
+                .SetEase(Ease.OutQuart)
+                .OnUpdate(HandleSpinTick)
+                .OnComplete(HandleSpinAnimationComplete);
+        }
+
+        private void HandleSpinTick()
+        {
+            float currentAngle = Mathf.Abs(wheelTransform.localEulerAngles.z);
+            int currentSliceIndex = Mathf.FloorToInt(currentAngle / WheelConfig.SLICE_ANGLE);
+
+            if (currentSliceIndex == lastTickedSliceIndex)
             {
-                WheelSliceDTO resultSlice = wheelController.CurrentSlices[targetSliceIndex];
-                gameController.OnSpinAnimationCompleted(resultSlice);
-            });
+                return;
+            }
+
+            lastTickedSliceIndex = currentSliceIndex;
+            PlayIndicatorRatchet();
+        }
+
+        private void PlayIndicatorRatchet()
+        {
+            GameObject indicator = GetActiveIndicatorObject();
+
+            if (indicator == null)
+            {
+                return;
+            }
+
+            indicator.transform.DOComplete();
+            indicator.transform.DOPunchRotation(
+                new Vector3(0f, 0f, WheelConfig.RATCHET_PUNCH_DEGREES),
+                WheelConfig.RATCHET_PUNCH_DURATION,
+                WheelConfig.RATCHET_PUNCH_VIBRATO,
+                WheelConfig.RATCHET_PUNCH_ELASTICITY
+            );
+        }
+
+        private GameObject GetActiveIndicatorObject()
+        {
+            if (wheelBaseGoldIndicatorObject != null && wheelBaseGoldIndicatorObject.activeSelf)
+            {
+                return wheelBaseGoldIndicatorObject;
+            }
+
+            if (wheelBaseSilverIndicatorObject != null && wheelBaseSilverIndicatorObject.activeSelf)
+            {
+                return wheelBaseSilverIndicatorObject;
+            }
+
+            return wheelBaseBronzeIndicatorObject;
+        }
+
+        private void HandleSpinAnimationComplete()
+        {
+            WheelSliceDTO resultSlice = wheelController.CurrentSlices[targetSliceIndex];
+            gameController.OnSpinAnimationCompleted(resultSlice);
         }
 
         private void RefreshWheelBase(SpinType spinType)
@@ -240,6 +293,11 @@ namespace GoldenSpin.WheelModule
 
         private void RefreshZoneLevelBadge(ZoneDTO zone)
         {
+            if (zone == null)
+            {
+                return;
+            }
+
             if (uiTextZoneCountValue != null)
             {
                 uiTextZoneCountValue.text = $"{ZONE_LABEL_PREFIX}{zone.ZoneNumber}";
@@ -261,13 +319,13 @@ namespace GoldenSpin.WheelModule
 
         private void RefreshWheelSubtitle(SpinType spinType, int multiplier)
         {
-            if (uiTextWheelSubtitle == null)
+            if (uiTextWheelSubtitleValue == null)
             {
                 return;
             }
 
-            uiTextWheelSubtitle.text = $"Up To x{multiplier} Rewards";
-            uiTextWheelSubtitle.color = TierColors.For(spinType);
+            uiTextWheelSubtitleValue.text = string.Format(SUBTITLE_FORMAT, multiplier);
+            uiTextWheelSubtitleValue.color = TierColors.For(spinType);
         }
 
         private void UpdateButtonStates(GameState state)
@@ -278,10 +336,10 @@ namespace GoldenSpin.WheelModule
             uiButtonSpin.interactable = isIdle;
             uiButtonCollect.interactable = canCollect;
 
-            RefreshButtonFrameStates(isIdle, canCollect, zoneController.CurrentZoneDTO.SpinType);
+            RefreshButtonFrameStates(canCollect, zoneController.CurrentZoneDTO.SpinType);
         }
 
-        private void RefreshButtonFrameStates(bool spinActive, bool collectActive, SpinType spinType)
+        private void RefreshButtonFrameStates(bool collectActive, SpinType spinType)
         {
             if (uiImageCollectFrame != null)
             {
@@ -309,6 +367,8 @@ namespace GoldenSpin.WheelModule
             wheelController.OnWheelPrepared -= HandleWheelPrepared;
             wheelController.OnSpinStarted -= HandleSpinStarted;
             currencyController.OnCurrencyChanged -= RefreshGoldBadge;
+
+            spinTween?.Kill();
         }
 
         private void OnDestroy()
@@ -339,9 +399,9 @@ namespace GoldenSpin.WheelModule
                 uiImageStateIcon = transform.Find(PATH_IMAGE_STATE_ICON)?.GetComponent<Image>();
             }
 
-            if (uiTextWheelSubtitle == null)
+            if (uiTextWheelSubtitleValue == null)
             {
-                uiTextWheelSubtitle = transform.Find(PATH_TEXT_WHEEL_SUBTITLE)?.GetComponent<TMP_Text>();
+                uiTextWheelSubtitleValue = transform.Find(PATH_TEXT_WHEEL_SUBTITLE)?.GetComponent<TMP_Text>();
             }
         }
 #endif
