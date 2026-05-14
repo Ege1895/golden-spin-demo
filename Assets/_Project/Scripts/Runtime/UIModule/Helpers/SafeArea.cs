@@ -7,17 +7,20 @@ namespace GoldenSpin.UIModule
     {
         private RectTransform rectTransform;
         private Rect lastSafeArea;
+        private ScreenOrientation lastOrientation;
 
         private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
+            lastOrientation = Screen.orientation;
             Apply();
         }
 
         private void Update()
         {
-            if (Screen.safeArea != lastSafeArea)
+            if (Screen.safeArea != lastSafeArea || Screen.orientation != lastOrientation)
             {
+                lastOrientation = Screen.orientation;
                 Apply();
             }
         }
