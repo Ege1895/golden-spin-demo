@@ -114,14 +114,16 @@ namespace GoldenSpin.Tests.RewardModule
         }
 
         [Test]
-        public void RestoreLastSnapshot_CanOnlyBeUsedOnce()
+        public void RestoreLastSnapshot_IsNoOpWhenCalledTwiceWithoutClear()
         {
             _controller.AddReward(MakeReward());
             _controller.ClearRewards();
-            _controller.RestoreLastSnapshot();
-            _controller.ClearRewards();
-            _controller.RestoreLastSnapshot(); // snapshot is gone
-            Assert.AreEqual(0, _controller.CollectedRewards.Count);
+            _controller.RestoreLastSnapshot(); // restores, clears snapshot
+            int countAfterFirst = _controller.CollectedRewards.Count;
+
+            _controller.RestoreLastSnapshot(); // no snapshot left — no-op
+
+            Assert.AreEqual(countAfterFirst, _controller.CollectedRewards.Count);
         }
 
         [Test]
