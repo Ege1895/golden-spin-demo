@@ -60,6 +60,8 @@ namespace GoldenSpin.WheelModule
         [SerializeField]
         private TMP_Text uiTextWheelTitle;
         [SerializeField]
+        private TMP_Text uiTextWheelSubtitle;
+        [SerializeField]
         private TMP_Text uiTextZoneCountValue;
         [SerializeField]
         private TMP_Text uiTextGoldBadgeValue;
@@ -80,6 +82,7 @@ namespace GoldenSpin.WheelModule
         private const string PATH_IMAGE_SPIN_FRAME = "ui_action_row/ui_button_spin/ui_image_frame";
         private const string PATH_IMAGE_COLLECT_FRAME = "ui_action_row/ui_button_collect/ui_image_frame";
         private const string PATH_IMAGE_STATE_ICON = "ui_container_zone_level_badge/ui_image_state_icon";
+        private const string PATH_TEXT_WHEEL_SUBTITLE = "ui_text_wheel_subtitle";
 #endif
         
         private const float SPIN_BACKGROUND_ALPHA = 0.1f;
@@ -98,6 +101,7 @@ namespace GoldenSpin.WheelModule
 
             RefreshZoneLevelBadge(zoneController.CurrentZoneDTO);
             RefreshGoldBadge(currencyController.CurrentAmount);
+            RefreshWheelSubtitle(zoneController.GetCurrentZoneMultiplier());
 
             if (wheelController.CurrentSlices.Count > 0)
             {
@@ -161,6 +165,7 @@ namespace GoldenSpin.WheelModule
             RefreshSpinBackground(zoneDTO.SpinType);
             RefreshZoneLevelBadge(zoneDTO);
             RefreshTierColors(zoneDTO.SpinType);
+            RefreshWheelSubtitle(zoneController.GetCurrentZoneMultiplier());
             UpdateButtonStates(gameController.CurrentState);
         }
 
@@ -169,6 +174,7 @@ namespace GoldenSpin.WheelModule
             wheelTransform.localRotation = Quaternion.identity;
             BuildWheelSlices();
             RefreshWheelBase(spinType);
+            RefreshWheelSubtitle(zoneController.GetCurrentZoneMultiplier());
             Show();
         }
 
@@ -271,6 +277,16 @@ namespace GoldenSpin.WheelModule
             }
         }
 
+        private void RefreshWheelSubtitle(int multiplier)
+        {
+            if (uiTextWheelSubtitle == null)
+            {
+                return;
+            }
+
+            uiTextWheelSubtitle.text = $"Up To x{multiplier} Rewards";
+        }
+
         private void UpdateButtonStates(GameState state)
         {
             bool isIdle = state == GameState.Idle;
@@ -348,6 +364,11 @@ namespace GoldenSpin.WheelModule
             if (uiImageStateIcon == null)
             {
                 uiImageStateIcon = transform.Find(PATH_IMAGE_STATE_ICON)?.GetComponent<Image>();
+            }
+
+            if (uiTextWheelSubtitle == null)
+            {
+                uiTextWheelSubtitle = transform.Find(PATH_TEXT_WHEEL_SUBTITLE)?.GetComponent<TMP_Text>();
             }
         }
 #endif
