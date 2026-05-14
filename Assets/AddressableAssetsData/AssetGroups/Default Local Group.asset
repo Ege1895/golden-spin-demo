@@ -37,11 +37,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 541b578c18ca34b8eb724b4f7cc448dc
-    m_Address: loop_spin
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4c1a5548f62b349eab5778c69e5d3f0d
     m_Address: sfx_bomb_explosion
     m_ReadOnly: 0
