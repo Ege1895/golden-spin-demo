@@ -9,7 +9,9 @@ namespace GoldenSpin.CoreModule
 
         void PlayLoop(string addressableKey);
 
-        void StopLoop();
+        void DuckMusic();
+
+        void RestoreMusic();
 
         void SetSfxEnabled(bool enabled);
 

@@ -38,29 +38,26 @@ namespace GoldenSpin.AudioModule
         {
             if (state == GameState.GameOver)
             {
-                audioService.StopLoop();
+                audioService.DuckMusic();
                 audioService.PlaySfx(AudioConfig.SFX_BOMB_EXPLOSION);
                 return;
             }
 
-            if (state == GameState.Restarting || state == GameState.Idle)
+            if (state == GameState.Idle)
             {
-                if (state == GameState.Idle)
-                {
-                    audioService.PlayLoop(AudioConfig.LOOP_BACKGROUND);
-                }
+                audioService.RestoreMusic();
             }
         }
 
         private void HandleSpinStarted(int sliceIndex)
         {
             audioService.PlaySfx(AudioConfig.SFX_SPIN_START);
-            audioService.PlayLoop(AudioConfig.LOOP_SPIN);
+            audioService.DuckMusic();
         }
 
         private void HandleSpinCompleted(WheelSliceDTO slice)
         {
-            audioService.PlayLoop(AudioConfig.LOOP_BACKGROUND);
+            audioService.RestoreMusic();
 
             if (slice == null || slice.ContentType == SliceContentType.Bomb)
             {

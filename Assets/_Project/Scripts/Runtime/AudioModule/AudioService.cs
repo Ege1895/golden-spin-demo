@@ -77,12 +77,17 @@ namespace GoldenSpin.AudioModule
             loopSource.volume = 0f;
             loopSource.Play();
 
-            FadeLoopTo(IsMusicEnabled ? AudioConfig.DEFAULT_MUSIC_VOLUME : 0f);
+            FadeLoopTo(IsMusicEnabled ? AudioConfig.DEFAULT_MUSIC_VOLUME : 0f, AudioConfig.LOOP_FADE_DURATION);
         }
 
-        public void StopLoop()
+        public void DuckMusic()
         {
-            FadeLoopTo(0f, OnLoopFadeOutComplete);
+            FadeLoopTo(IsMusicEnabled ? AudioConfig.MUSIC_DUCK_VOLUME : 0f, AudioConfig.MUSIC_DUCK_FADE_DURATION);
+        }
+
+        public void RestoreMusic()
+        {
+            FadeLoopTo(IsMusicEnabled ? AudioConfig.DEFAULT_MUSIC_VOLUME : 0f, AudioConfig.MUSIC_DUCK_FADE_DURATION);
         }
 
         public void SetSfxEnabled(bool enabled)
@@ -101,7 +106,7 @@ namespace GoldenSpin.AudioModule
                 return;
             }
 
-            FadeLoopTo(enabled ? AudioConfig.DEFAULT_MUSIC_VOLUME : 0f);
+            FadeLoopTo(enabled ? AudioConfig.DEFAULT_MUSIC_VOLUME : 0f, AudioConfig.LOOP_FADE_DURATION);
         }
 
         private void LoadSettings()
@@ -157,16 +162,10 @@ namespace GoldenSpin.AudioModule
             return clip;
         }
 
-        private void FadeLoopTo(float targetVolume)
-        {
-            FadeLoopTo(targetVolume, null);
-        }
-
-        private void FadeLoopTo(float targetVolume, TweenCallback onComplete)
+        private void FadeLoopTo(float targetVolume, float duration)
         {
             if (loopSource == null)
             {
-                onComplete?.Invoke();
                 return;
             }
 
@@ -175,25 +174,8 @@ namespace GoldenSpin.AudioModule
                 () => loopSource.volume,
                 v => loopSource.volume = v,
                 targetVolume,
-                AudioConfig.LOOP_FADE_DURATION
+                duration
             );
-
-            if (onComplete != null)
-            {
-                loopFadeTween.OnComplete(onComplete);
-            }
-        }
-
-        private void OnLoopFadeOutComplete()
-        {
-            if (loopSource == null)
-            {
-                return;
-            }
-
-            loopSource.Stop();
-            loopSource.clip = null;
-            activeLoopKey = null;
         }
 
         private void OnDestroy()
