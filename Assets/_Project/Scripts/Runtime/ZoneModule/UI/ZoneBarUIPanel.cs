@@ -8,7 +8,7 @@ using GoldenSpin.UIModule;
 
 namespace GoldenSpin.ZoneModule
 {
-    public class ZoneBarUIPanel : BasePanel
+    public class ZoneBarUIPanel : MonoBehaviour
     {
         [Inject]
         private IZoneController zoneController;
@@ -41,7 +41,6 @@ namespace GoldenSpin.ZoneModule
             zoneBarItemFactory.SetParent(zonesContainer);
             ListenEvents();
             BuildZoneBar();
-            ShowImmediate();
         }
 
         private void ListenEvents()

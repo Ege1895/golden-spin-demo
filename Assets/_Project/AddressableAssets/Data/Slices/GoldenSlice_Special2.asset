@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GoldenSlice_Special2
   m_EditorClassIdentifier: GoldenSpin::GoldenSpin.WheelModule.WheelSliceSO
   ContentType: 0
-  Reward: {fileID: 11400000, guid: 28b828019b5254bb4bdc771f9f7755a9, type: 2}
+  Reward: {fileID: 11400000, guid: 94a968c5f9d3418789b1ef4951997816, type: 2}

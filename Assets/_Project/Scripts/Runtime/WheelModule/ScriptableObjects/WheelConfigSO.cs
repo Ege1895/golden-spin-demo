@@ -9,7 +9,7 @@ namespace GoldenSpin.WheelModule
     {
         public SpinType SpinType;
         
-        [Tooltip("Editor'dan slice içeriklerini buradan değiştir")]
+        [Tooltip("Change slice contents from the editor")]
         public List<WheelSliceSO> Slices;
     }
 }
