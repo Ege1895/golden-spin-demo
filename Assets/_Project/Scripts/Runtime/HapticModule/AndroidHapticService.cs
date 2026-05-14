@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 using GoldenSpin.CoreModule;
@@ -76,21 +77,30 @@ namespace GoldenSpin.HapticModule
         private void InitializeVibrator()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            using (AndroidJavaClass versionClass = new AndroidJavaClass(HapticConfig.ANDROID_API_VERSION_CLASS))
+            try
             {
-                int sdkInt = versionClass.GetStatic<int>(HapticConfig.ANDROID_SDK_INT_FIELD);
-                useApi26 = sdkInt >= HapticConfig.ANDROID_SDK_OREO;
-            }
+                using (AndroidJavaClass versionClass = new AndroidJavaClass(HapticConfig.ANDROID_API_VERSION_CLASS))
+                {
+                    int sdkInt = versionClass.GetStatic<int>(HapticConfig.ANDROID_SDK_INT_FIELD);
+                    useApi26 = sdkInt >= HapticConfig.ANDROID_SDK_OREO;
+                }
 
-            using (AndroidJavaClass unityPlayer = new AndroidJavaClass(HapticConfig.UNITY_PLAYER_CLASS))
-            {
-                AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>(HapticConfig.UNITY_ACTIVITY_FIELD);
-                vibrator = activity.Call<AndroidJavaObject>(HapticConfig.CONTEXT_GET_SYSTEM_SERVICE, HapticConfig.SERVICE_VIBRATOR);
-            }
+                using (AndroidJavaClass unityPlayer = new AndroidJavaClass(HapticConfig.UNITY_PLAYER_CLASS))
+                {
+                    AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>(HapticConfig.UNITY_ACTIVITY_FIELD);
+                    vibrator = activity.Call<AndroidJavaObject>(HapticConfig.CONTEXT_GET_SYSTEM_SERVICE, HapticConfig.SERVICE_VIBRATOR);
+                }
 
-            if (useApi26)
+                if (useApi26)
+                {
+                    vibrationEffectClass = new AndroidJavaClass(HapticConfig.VIBRATION_EFFECT_CLASS);
+                }
+
+                Debug.Log($"[HapticService] Initialized — API26: {useApi26}, vibrator: {vibrator != null}");
+            }
+            catch (Exception e)
             {
-                vibrationEffectClass = new AndroidJavaClass(HapticConfig.VIBRATION_EFFECT_CLASS);
+                Debug.LogWarning($"[HapticService] InitializeVibrator failed: {e.Message}");
             }
 #endif
         }
@@ -98,19 +108,30 @@ namespace GoldenSpin.HapticModule
         private void Vibrate(long durationMs, int amplitude)
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            if (vibrator == null || !vibrator.Call<bool>(HapticConfig.METHOD_HAS_VIBRATOR))
+            try
             {
-                return;
-            }
+                if (vibrator == null || !vibrator.Call<bool>(HapticConfig.METHOD_HAS_VIBRATOR))
+                {
+                    return;
+                }
 
-            if (useApi26 && vibrationEffectClass != null)
+                if (useApi26 && vibrationEffectClass != null)
+                {
+                    bool hasAmplitudeControl = vibrator.Call<bool>(HapticConfig.METHOD_HAS_AMPLITUDE_CONTROL);
+                    int finalAmplitude = hasAmplitudeControl ? amplitude : HapticConfig.DEFAULT_AMPLITUDE;
+
+                    AndroidJavaObject effect = vibrationEffectClass.CallStatic<AndroidJavaObject>(
+                        HapticConfig.METHOD_CREATE_ONE_SHOT, durationMs, finalAmplitude);
+                    vibrator.Call(HapticConfig.METHOD_VIBRATE, effect);
+                    return;
+                }
+
+                vibrator.Call(HapticConfig.METHOD_VIBRATE, durationMs);
+            }
+            catch (Exception e)
             {
-                AndroidJavaObject effect = vibrationEffectClass.CallStatic<AndroidJavaObject>(HapticConfig.METHOD_CREATE_ONE_SHOT, durationMs, amplitude);
-                vibrator.Call(HapticConfig.METHOD_VIBRATE, effect);
-                return;
+                Debug.LogWarning($"[HapticService] Vibrate failed: {e.Message}");
             }
-
-            vibrator.Call(HapticConfig.METHOD_VIBRATE, durationMs);
 #endif
         }
     }
