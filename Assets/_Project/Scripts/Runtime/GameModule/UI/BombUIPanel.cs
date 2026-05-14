@@ -13,6 +13,7 @@ namespace GoldenSpin.GameModule
     {
         [Inject]
         private IGameController gameController;
+        
         [Inject]
         private ICurrencyController currencyController;
 
@@ -39,13 +40,14 @@ namespace GoldenSpin.GameModule
 
         private const float BOMB_ICON_PUNCH_SCALE = 0.3f;
         private const float BOMB_ICON_PUNCH_DURATION = 0.4f;
-        private const int BOMB_ICON_PUNCH_VIBRATO = 5;
         private const float BOMB_ICON_PUNCH_ELASTIC = 0.5f;
-
         private const float SHOW_DELAY_AFTER_EXPLOSION = 0.45f;
         private const float COUNTDOWN_DURATION_SECONDS = 5f;
         private const float COUNTDOWN_FILL_FULL = 1f;
         private const float COUNTDOWN_FILL_EMPTY = 0f;
+        
+        private const int BOMB_ICON_PUNCH_VIBRATO = 5;
+        
         private const string COUNTDOWN_FORMAT = "{0}";
 
 #if UNITY_EDITOR
@@ -59,7 +61,9 @@ namespace GoldenSpin.GameModule
 
         private Tween showDelayTween;
         private Tween countdownTween;
+        
         private float countdownRemaining;
+        
         private bool autoGiveUpTriggered;
 
         protected override void Awake()

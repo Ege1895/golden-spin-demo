@@ -8,12 +8,15 @@ namespace GoldenSpin.RewardModule
     public class RewardController : IRewardController, IInitializable
     {
         private readonly List<RewardDTO> collectedRewards = new List<RewardDTO>();
+        
         private CollectedRewardDTO lastClearedSnapshot;
 
         public IReadOnlyList<RewardDTO> CollectedRewards => collectedRewards;
 
         public event Action<RewardDTO> OnRewardAdded;
+        
         public event Action<CollectedRewardDTO> OnRewardsCleared;
+        
         public event Action<CollectedRewardDTO> OnRewardsCollected;
 
         public void Initialize()

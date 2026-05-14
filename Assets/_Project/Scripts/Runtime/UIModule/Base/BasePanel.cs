@@ -11,6 +11,7 @@ namespace GoldenSpin.UIModule
         private CanvasGroup canvasGroup;
 
         private Tween fadeTween;
+        
         private bool isVisible;
 
         public bool IsVisible => isVisible;

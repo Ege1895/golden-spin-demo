@@ -14,10 +14,13 @@ namespace GoldenSpin.GameModule
     {
         [Inject]
         private IGameController gameController;
+        
         [Inject]
         private IRewardController rewardController;
+        
         [Inject]
         private IZoneController zoneController;
+        
         [Inject]
         private RewardListItemFactory rewardListItemFactory;
 
@@ -31,12 +34,13 @@ namespace GoldenSpin.GameModule
         private TMP_Text uiTextCollectTitle;
         [SerializeField]
         private TMP_Text uiTextTotalRewardsValue;
-
-        private const float REWARD_COUNTER_DURATION = 1.5f;
-        private const string TITLE = "REWARDS";
-
+        
         private readonly List<RewardListItem> summaryItems = new List<RewardListItem>();
 
+        private const float REWARD_COUNTER_DURATION = 1.5f;
+        
+        private const string TITLE = "REWARDS";
+        
 #if UNITY_EDITOR
         private const string PATH_BUTTON_CONTINUE = "Popup_Collect/ui_button_continue";
         private const string PATH_REWARD_SCROLL_CONTENT = "Popup_Collect/ui_scroll_rewards/Viewport/Content";

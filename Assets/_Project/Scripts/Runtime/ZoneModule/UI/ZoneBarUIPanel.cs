@@ -27,9 +27,10 @@ namespace GoldenSpin.ZoneModule
 
         private readonly List<ZoneBarItem> visibleItems = new List<ZoneBarItem>();
 
-        private const string ZONE_PROGRESS_FORMAT = "{0} / {1}";
         private const int ZONE_BAR_LAST_SLOT_OFFSET = 2;
         private const int ZONE_BAR_FIRST_SLOT_OFFSET = 1;
+        
+        private const string ZONE_PROGRESS_FORMAT = "{0} / {1}";
 
 #if UNITY_EDITOR
         private const string PATH_ZONES_CONTAINER = "ui_scroll_zones/Viewport/Content";

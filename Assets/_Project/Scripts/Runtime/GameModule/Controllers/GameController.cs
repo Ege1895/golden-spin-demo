@@ -10,12 +10,16 @@ namespace GoldenSpin.GameModule
     {
         [Inject]
         private readonly IZoneController zoneController;
+        
         [Inject]
         private readonly IWheelController wheelController;
+        
         [Inject]
         private readonly IRewardController rewardController;
+        
         [Inject]
         private readonly ICurrencyController currencyController;
+        
         [Inject]
         private readonly IAnalyticsService analyticsService;
 
