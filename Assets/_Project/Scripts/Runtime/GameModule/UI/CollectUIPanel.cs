@@ -34,7 +34,7 @@ namespace GoldenSpin.GameModule
         private TMP_Text uiTextTotalRewardsValue;
 
         private const float REWARD_COUNTER_DURATION = 1.5f;
-        private const string TITLE = "ÖDÜLLER";
+        private const string TITLE = "REWARDS";
 
         private readonly List<RewardListItem> summaryItems = new List<RewardListItem>();
 
