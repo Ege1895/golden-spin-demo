@@ -90,11 +90,6 @@ namespace GoldenSpin.WheelModule
         private const string PATH_TEXT_WHEEL_SUBTITLE = "ui_text_wheel_subtitle_value";
 #endif
 
-        private const float RESULT_PULSE_PUNCH_SCALE = 0.35f;
-        private const float RESULT_PULSE_ELASTICITY = 0.4f;
-
-        private const int RESULT_PULSE_VIBRATO = 4;
-        
         private int targetSliceIndex;
         private int lastTickedSliceIndex;
         private Tween spinTween;
@@ -262,31 +257,29 @@ namespace GoldenSpin.WheelModule
 
         private void HandleSpinAnimationComplete()
         {
-            PulseResultSlice();
+            PlayWinAnimation();
 
             resultDelayTween?.Kill();
             resultDelayTween = DOVirtual.DelayedCall(UIConfig.WHEEL_RESULT_HIGHLIGHT_SEC, NotifySpinResult);
         }
 
-        private void PulseResultSlice()
+        private void PlayWinAnimation()
         {
             if (targetSliceIndex < 0 || targetSliceIndex >= activeSliceItems.Count)
             {
                 return;
             }
 
-            Transform sliceTransform = activeSliceItems[targetSliceIndex].transform;
-            sliceTransform.DOComplete();
-            sliceTransform.DOPunchScale(
-                Vector3.one * RESULT_PULSE_PUNCH_SCALE,
-                UIConfig.WHEEL_RESULT_HIGHLIGHT_SEC,
-                RESULT_PULSE_VIBRATO,
-                RESULT_PULSE_ELASTICITY
-            );
+            activeSliceItems[targetSliceIndex].PlayWinAnimation();
         }
 
         private void NotifySpinResult()
         {
+            if (targetSliceIndex >= 0 && targetSliceIndex < activeSliceItems.Count)
+            {
+                activeSliceItems[targetSliceIndex].StopWinAnimation();
+            }
+
             WheelSliceDTO resultSlice = wheelController.CurrentSlices[targetSliceIndex];
             gameController.OnSpinAnimationCompleted(resultSlice);
         }
