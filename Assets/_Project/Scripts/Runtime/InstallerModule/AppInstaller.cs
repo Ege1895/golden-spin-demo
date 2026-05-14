@@ -1,9 +1,12 @@
 using UnityEngine;
 using Zenject;
 using GoldenSpin.AnalyticsModule;
+using GoldenSpin.AudioModule;
+using GoldenSpin.ConfigurationModule;
 using GoldenSpin.CoreModule;
 using GoldenSpin.CurrencyModule;
 using GoldenSpin.GameModule;
+using GoldenSpin.HapticModule;
 using GoldenSpin.RewardModule;
 using GoldenSpin.SaveModule;
 using GoldenSpin.UIModule;
@@ -26,11 +29,15 @@ namespace GoldenSpin.InstallerModule
         [SerializeField]
         private BombUIPanel bombPanel;
         [SerializeField]
+        private BombExplosionUIPanel bombExplosionPanel;
+        [SerializeField]
         private CollectUIPanel collectPanel;
         [SerializeField]
         private AwardReceivedUIPanel awardReceivedPanel;
         [SerializeField]
         private TopBarUIPanel topBarPanel;
+        [SerializeField]
+        private SplashUIPanel splashPanel;
 
         public override void InstallBindings()
         {
@@ -45,6 +52,21 @@ namespace GoldenSpin.InstallerModule
         {
             Container.Bind<ISaveService>().To<PlayerPrefsSaveService>().AsSingle();
             Container.Bind<IAnalyticsService>().To<DebugAnalyticsService>().AsSingle();
+            Container.BindInterfacesTo<AudioService>()
+                .FromNewComponentOnNewGameObject()
+                .WithGameObjectName(AudioConfig.AUDIO_SERVICE_GO_NAME)
+                .AsSingle()
+                .NonLazy();
+            BindHapticService();
+        }
+
+        private void BindHapticService()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            Container.BindInterfacesTo<AndroidHapticService>().AsSingle();
+#else
+            Container.Bind<IHapticService>().To<NullHapticService>().AsSingle();
+#endif
         }
 
         private void BindControllers()
@@ -54,6 +76,8 @@ namespace GoldenSpin.InstallerModule
             Container.BindInterfacesTo<RewardController>().AsSingle();
             Container.BindInterfacesTo<WheelController>().AsSingle();
             Container.BindInterfacesTo<GameController>().AsSingle();
+            Container.BindInterfacesTo<AudioFeedbackController>().AsSingle();
+            Container.BindInterfacesTo<HapticFeedbackController>().AsSingle();
         }
 
         private void BindFactories()
@@ -72,9 +96,19 @@ namespace GoldenSpin.InstallerModule
             Container.BindInstance(collectPanel).AsSingle();
             Container.BindInstance(awardReceivedPanel).AsSingle();
 
+            if (bombExplosionPanel != null)
+            {
+                Container.BindInstance(bombExplosionPanel).AsSingle();
+            }
+
             if (topBarPanel != null)
             {
                 Container.BindInstance(topBarPanel).AsSingle();
+            }
+
+            if (splashPanel != null)
+            {
+                Container.BindInstance(splashPanel).AsSingle();
             }
         }
 

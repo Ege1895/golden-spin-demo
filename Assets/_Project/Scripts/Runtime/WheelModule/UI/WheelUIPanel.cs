@@ -21,6 +21,10 @@ namespace GoldenSpin.WheelModule
         [Inject]
         private ICurrencyController currencyController;
         [Inject]
+        private IAudioService audioService;
+        [Inject]
+        private IHapticService hapticService;
+        [Inject]
         private WheelSliceItemFactory sliceItemFactory;
 
         [SerializeField]
@@ -80,9 +84,14 @@ namespace GoldenSpin.WheelModule
 
         private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f);
 
+        private const float RESULT_PULSE_PUNCH_SCALE = 0.35f;
+        private const int RESULT_PULSE_VIBRATO = 4;
+        private const float RESULT_PULSE_ELASTICITY = 0.4f;
+
         private int targetSliceIndex;
         private int lastTickedSliceIndex;
         private Tween spinTween;
+        private Tween resultDelayTween;
 
         protected override void Awake()
         {
@@ -207,6 +216,8 @@ namespace GoldenSpin.WheelModule
 
             lastTickedSliceIndex = currentSliceIndex;
             PlayIndicatorRatchet();
+            audioService.PlaySfx(AudioConfig.SFX_SLICE_TICK);
+            hapticService.Trigger(HapticPattern.Tick);
         }
 
         private void PlayIndicatorRatchet()
@@ -243,6 +254,31 @@ namespace GoldenSpin.WheelModule
         }
 
         private void HandleSpinAnimationComplete()
+        {
+            PulseResultSlice();
+
+            resultDelayTween?.Kill();
+            resultDelayTween = DOVirtual.DelayedCall(UIConfig.WHEEL_RESULT_HIGHLIGHT_SEC, NotifySpinResult);
+        }
+
+        private void PulseResultSlice()
+        {
+            if (targetSliceIndex < 0 || targetSliceIndex >= activeSliceItems.Count)
+            {
+                return;
+            }
+
+            Transform sliceTransform = activeSliceItems[targetSliceIndex].transform;
+            sliceTransform.DOComplete();
+            sliceTransform.DOPunchScale(
+                Vector3.one * RESULT_PULSE_PUNCH_SCALE,
+                UIConfig.WHEEL_RESULT_HIGHLIGHT_SEC,
+                RESULT_PULSE_VIBRATO,
+                RESULT_PULSE_ELASTICITY
+            );
+        }
+
+        private void NotifySpinResult()
         {
             WheelSliceDTO resultSlice = wheelController.CurrentSlices[targetSliceIndex];
             gameController.OnSpinAnimationCompleted(resultSlice);
@@ -369,6 +405,7 @@ namespace GoldenSpin.WheelModule
             currencyController.OnCurrencyChanged -= RefreshGoldBadge;
 
             spinTween?.Kill();
+            resultDelayTween?.Kill();
         }
 
         private void OnDestroy()
