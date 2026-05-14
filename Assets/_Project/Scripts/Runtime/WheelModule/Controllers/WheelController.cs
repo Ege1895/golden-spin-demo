@@ -32,10 +32,11 @@ namespace GoldenSpin.WheelModule
             currentSlices.Clear();
 
             WheelConfigSO config = GetWheelConfig(spinType);
+            int effectiveMultiplier = zoneMultiplier * GetSpinTypeMultiplier(spinType);
 
             foreach (WheelSliceSO sliceSO in config.Slices)
             {
-                currentSlices.Add(sliceSO.ToDTO(zoneMultiplier));
+                currentSlices.Add(sliceSO.ToDTO(effectiveMultiplier));
             }
 
             OnWheelPrepared?.Invoke(spinType);
@@ -106,6 +107,19 @@ namespace GoldenSpin.WheelModule
                     return zoneConfigSO.SilverWheelConfig;
                 default:
                     return zoneConfigSO.NormalWheelConfig;
+            }
+        }
+
+        private int GetSpinTypeMultiplier(SpinType spinType)
+        {
+            switch (spinType)
+            {
+                case SpinType.Golden:
+                    return RewardConfig.GOLDEN_SPIN_REWARD_MULTIPLIER;
+                case SpinType.Silver:
+                    return RewardConfig.SILVER_SPIN_REWARD_MULTIPLIER;
+                default:
+                    return RewardConfig.NORMAL_SPIN_REWARD_MULTIPLIER;
             }
         }
     }
