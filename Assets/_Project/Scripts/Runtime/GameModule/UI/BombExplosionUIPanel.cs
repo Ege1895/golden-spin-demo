@@ -73,9 +73,19 @@ namespace GoldenSpin.GameModule
             uiImageScreenFlash.color = FLASH_HIDDEN_COLOR;
 
             Sequence flashSequence = DOTween.Sequence();
-            flashSequence.Append(uiImageScreenFlash.DOColor(FLASH_PEAK_COLOR, FLASH_FADE_IN_DURATION));
-            flashSequence.Append(uiImageScreenFlash.DOColor(FLASH_HIDDEN_COLOR, FLASH_FADE_OUT_DURATION));
+            flashSequence.Append(TweenFlashColor(FLASH_PEAK_COLOR, FLASH_FADE_IN_DURATION));
+            flashSequence.Append(TweenFlashColor(FLASH_HIDDEN_COLOR, FLASH_FADE_OUT_DURATION));
             flashSequence.OnComplete(HideFlash);
+        }
+
+        private Tween TweenFlashColor(Color target, float duration)
+        {
+            return DOTween.To(
+                () => uiImageScreenFlash.color,
+                value => uiImageScreenFlash.color = value,
+                target,
+                duration
+            );
         }
 
         private void HideFlash()

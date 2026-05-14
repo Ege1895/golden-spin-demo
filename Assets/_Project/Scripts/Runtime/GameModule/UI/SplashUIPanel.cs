@@ -21,6 +21,7 @@ namespace GoldenSpin.GameModule
         private const float LOGO_PUNCH_ELASTICITY = 0.6f;
         private const float SPLASH_VISIBLE_DURATION = 1.2f;
         private const float SPLASH_TEXT_DOT_INTERVAL = 0.25f;
+        private const float LOADING_TEXT_FADE_TARGET = 0.3f;
 
 #if UNITY_EDITOR
         private const string PATH_IMAGE_LOGO = "ui_image_logo";
@@ -66,8 +67,11 @@ namespace GoldenSpin.GameModule
             }
 
             uiTextLoadingValue.text = LOADING_TEXT;
-            loadingTween = uiTextLoadingValue
-                .DOFade(0.3f, SPLASH_TEXT_DOT_INTERVAL)
+            loadingTween = DOTween
+                .To(() => uiTextLoadingValue.alpha,
+                    value => uiTextLoadingValue.alpha = value,
+                    LOADING_TEXT_FADE_TARGET,
+                    SPLASH_TEXT_DOT_INTERVAL)
                 .SetLoops(-1, LoopType.Yoyo);
         }
 

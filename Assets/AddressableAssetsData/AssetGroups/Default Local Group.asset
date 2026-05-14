@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Default Local Group
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
   m_GUID: bcc8e6a4dc4a14b63acde72c20028b30
   m_SerializeEntries:
   - m_GUID: 7b5d820d4ec7a415ca13eaf622c5cf22
@@ -27,6 +29,51 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dec28ea27568a46a296bfb59ef9c0628
     m_Address: RewardListItem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7f4d51c322324f3f948959db34c9778
+    m_Address: loop_background
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 541b578c18ca34b8eb724b4f7cc448dc
+    m_Address: loop_spin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4c1a5548f62b349eab5778c69e5d3f0d
+    m_Address: sfx_bomb_explosion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 980b9cfc3f7c5492c829d243e5b0c739
+    m_Address: sfx_big_win
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27ae79aa753774c20a7cd16688bcf7b1
+    m_Address: sfx_slice_tick
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c356ac2b7e404d58bd68a33e52504b6
+    m_Address: sfx_spin_win
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d8009661f6e24dd9b89d81016b7c8d1
+    m_Address: sfx_spin_start
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c590a327113e3490b8c56f551240295c
+    m_Address: sfx_reward_collected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d1b36fc470154e9fa2e474263873cc4
+    m_Address: sfx_button_click
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
