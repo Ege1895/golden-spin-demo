@@ -5,6 +5,7 @@ using UnityEngine;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
 using GoldenSpin.WheelModule;
+using GoldenSpin.ZoneModule;
 using GoldenSpin.Tests.TestDoubles;
 
 namespace GoldenSpin.Tests.WheelModule
