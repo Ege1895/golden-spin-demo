@@ -12,7 +12,7 @@ namespace GoldenSpin.UIModule
 
         private Tween fadeTween;
         
-        private bool  isVisible;
+        private bool isVisible;
 
         public bool IsVisible => isVisible;
 
@@ -25,8 +25,8 @@ namespace GoldenSpin.UIModule
 
             if (canvasGroup != null)
             {
-                canvasGroup.alpha          = 0f;
-                canvasGroup.interactable   = false;
+                canvasGroup.alpha = 0f;
+                canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
             }
         }
@@ -41,8 +41,8 @@ namespace GoldenSpin.UIModule
             isVisible = true;
             gameObject.SetActive(true);
             fadeTween?.Kill();
-            canvasGroup.alpha          = 0f;
-            canvasGroup.interactable   = true;
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
             fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1f, UIConfig.PANEL_FADE_DURATION).SetEase(Ease.OutQuad);
             OnShow();
@@ -56,7 +56,7 @@ namespace GoldenSpin.UIModule
             }
 
             isVisible = false;
-            canvasGroup.interactable   = false;
+            canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
             fadeTween?.Kill();
             fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, UIConfig.PANEL_FADE_DURATION)
@@ -74,7 +74,7 @@ namespace GoldenSpin.UIModule
             }
 
             isVisible = false;
-            canvasGroup.interactable   = false;
+            canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
             fadeTween?.Kill();
             fadeTween = DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, UIConfig.PANEL_FADE_DURATION)
@@ -117,8 +117,8 @@ namespace GoldenSpin.UIModule
 
             if (canvasGroup != null)
             {
-                canvasGroup.alpha          = visible ? 1f : 0f;
-                canvasGroup.interactable   = visible;
+                canvasGroup.alpha = visible ? 1f : 0f;
+                canvasGroup.interactable = visible;
                 canvasGroup.blocksRaycasts = visible;
             }
         }

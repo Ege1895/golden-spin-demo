@@ -15,6 +15,7 @@ namespace GoldenSpin.Tests.GameModule
         private WheelControllerTestDouble _wheel;
         private RewardControllerTestDouble _reward;
         private CurrencyControllerTestDouble _currency;
+        private AnalyticsServiceTestDouble _analytics;
 
         [SetUp]
         public void SetUp()
@@ -23,13 +24,46 @@ namespace GoldenSpin.Tests.GameModule
             _wheel = new WheelControllerTestDouble();
             _reward = new RewardControllerTestDouble();
             _currency = new CurrencyControllerTestDouble(100);
+            _analytics = new AnalyticsServiceTestDouble();
 
             _controller = new GameController();
             Inject("zoneController", _zone);
             Inject("wheelController", _wheel);
             Inject("rewardController", _reward);
             Inject("currencyController", _currency);
+            Inject("analyticsService", _analytics);
             _controller.Initialize();
+        }
+
+        [Test]
+        public void Initialize_TracksGameStartedEvent()
+        {
+            Assert.Contains(AnalyticsConfig.EVENT_GAME_STARTED, _analytics.TrackedEvents);
+        }
+
+        [Test]
+        public void RequestSpin_TracksSpinRequestedEvent()
+        {
+            _analytics.TrackedEvents.Clear();
+            _controller.RequestSpin();
+            Assert.Contains(AnalyticsConfig.EVENT_SPIN_REQUESTED, _analytics.TrackedEvents);
+        }
+
+        [Test]
+        public void OnSpinAnimationCompleted_WithBomb_TracksBombEvent()
+        {
+            _analytics.TrackedEvents.Clear();
+            _controller.RequestSpin();
+            _controller.OnSpinAnimationCompleted(new WheelSliceDTO { ContentType = SliceContentType.Bomb });
+            Assert.Contains(AnalyticsConfig.EVENT_SPIN_COMPLETED_BOMB, _analytics.TrackedEvents);
+        }
+
+        [Test]
+        public void OnSpinAnimationCompleted_WithReward_TracksRewardEvent()
+        {
+            _analytics.TrackedEvents.Clear();
+            SpinAndGetReward();
+            Assert.Contains(AnalyticsConfig.EVENT_SPIN_COMPLETED_REWARD, _analytics.TrackedEvents);
         }
 
         [Test]

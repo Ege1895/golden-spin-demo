@@ -6,7 +6,9 @@ namespace GoldenSpin.UIModule
     public class SafeArea : MonoBehaviour
     {
         private RectTransform rectTransform;
+        
         private Rect lastSafeArea;
+        
         private ScreenOrientation lastOrientation;
 
         private void Awake()

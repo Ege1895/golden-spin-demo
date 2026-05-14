@@ -4,7 +4,6 @@ namespace GoldenSpin.CoreModule
     {
         Idle,
         Spinning,
-        Result,
         SpinResult,
         GameOver,
         Collecting,

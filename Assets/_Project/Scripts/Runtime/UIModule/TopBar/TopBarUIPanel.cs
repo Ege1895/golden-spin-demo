@@ -10,7 +10,7 @@ namespace GoldenSpin.UIModule
     {
         [Inject]
         private IZoneController zoneController;
-
+        
         [Inject]
         private ICurrencyController currencyController;
 
@@ -22,10 +22,6 @@ namespace GoldenSpin.UIModule
         [SerializeField]
         private TMP_Text uiTextCurrencyAmountValue;
 
-        private static readonly Color ColorNormal = new Color(0.72f, 0.39f, 0.10f);
-        private static readonly Color ColorSafe = new Color(0.60f, 0.60f, 0.93f);
-        private static readonly Color ColorSuper = new Color(1.00f, 0.84f, 0.00f);
-
         private const string ZONE_LABEL_SUPER_PREFIX = "SUPER Zone ";
         private const string ZONE_LABEL_SAFE_PREFIX = "Safe Zone ";
         private const string ZONE_LABEL_PREFIX = "Zone ";
@@ -36,14 +32,14 @@ namespace GoldenSpin.UIModule
         private const string PATH_TEXT_CURRENCY_AMOUNT = "ui_container_currency_pill/ui_text_currency_amount_value";
 #endif
 
+        protected override void Awake()
+        {
+            base.Awake();
+            ListenEvents();
+        }
+
         private void Start()
         {
-            if (zoneController == null || currencyController == null)
-            {
-                return;
-            }
-
-            ListenEvents();
             RefreshZone(zoneController.CurrentZoneDTO);
             RefreshCurrency(currencyController.CurrentAmount);
             ShowImmediate();
@@ -51,26 +47,18 @@ namespace GoldenSpin.UIModule
 
         private void ListenEvents()
         {
-            if (zoneController != null)
-            {
-                zoneController.OnZoneChanged += RefreshZone;
-            }
-
-            if (currencyController != null)
-            {
-                currencyController.OnCurrencyChanged += RefreshCurrency;
-            }
+            zoneController.OnZoneChanged += RefreshZone;
+            currencyController.OnCurrencyChanged += RefreshCurrency;
         }
 
         private void RefreshZone(ZoneDTO zone)
         {
-            Color dotColor = zone.Type switch
+            if (zone == null)
             {
-                ZoneType.Super => ColorSuper,
-                ZoneType.Safe => ColorSafe,
-                _ => ColorNormal,
-            };
+                return;
+            }
 
+            Color dotColor = TierColors.For(zone.Type);
             string label = zone.Type switch
             {
                 ZoneType.Super => $"{ZONE_LABEL_SUPER_PREFIX}{zone.ZoneNumber}",
@@ -89,15 +77,8 @@ namespace GoldenSpin.UIModule
 
         private void UnsubscribeFromEvents()
         {
-            if (zoneController != null)
-            {
-                zoneController.OnZoneChanged -= RefreshZone;
-            }
-
-            if (currencyController != null)
-            {
-                currencyController.OnCurrencyChanged -= RefreshCurrency;
-            }
+            zoneController.OnZoneChanged -= RefreshZone;
+            currencyController.OnCurrencyChanged -= RefreshCurrency;
         }
 
         private void OnDestroy()

@@ -1,7 +1,9 @@
+using System.Reflection;
 using NUnit.Framework;
-using UnityEngine;
 using GoldenSpin.ConfigurationModule;
+using GoldenSpin.CoreModule;
 using GoldenSpin.CurrencyModule;
+using GoldenSpin.Tests.TestDoubles;
 
 namespace GoldenSpin.Tests.CurrencyModule
 {
@@ -9,19 +11,14 @@ namespace GoldenSpin.Tests.CurrencyModule
     public class CurrencyControllerTests
     {
         private CurrencyController _controller;
+        private FakeSaveService _saveService;
 
         [SetUp]
         public void SetUp()
         {
-            PlayerPrefs.DeleteKey(CurrencyConfig.PREFS_KEY_GOLD);
-            _controller = new CurrencyController();
+            _saveService = new FakeSaveService();
+            _controller = BuildController(_saveService);
             _controller.Initialize();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            PlayerPrefs.DeleteKey(CurrencyConfig.PREFS_KEY_GOLD);
         }
 
         [Test]
@@ -33,19 +30,20 @@ namespace GoldenSpin.Tests.CurrencyModule
         [Test]
         public void Initialize_LoadsPreviouslySavedAmount()
         {
-            PlayerPrefs.SetInt(CurrencyConfig.PREFS_KEY_GOLD, 42);
-            var c = new CurrencyController();
-            c.Initialize();
-            Assert.AreEqual(42, c.CurrentAmount);
+            FakeSaveService preloaded = new FakeSaveService();
+            preloaded.SaveInt(CurrencyConfig.PREFS_KEY_GOLD, 42);
+            CurrencyController controller = BuildController(preloaded);
+            controller.Initialize();
+            Assert.AreEqual(42, controller.CurrentAmount);
         }
 
         [Test]
         public void Initialize_FiresOnCurrencyChanged()
         {
             int received = -1;
-            var c = new CurrencyController();
-            c.OnCurrencyChanged += a => received = a;
-            c.Initialize();
+            CurrencyController controller = BuildController(new FakeSaveService());
+            controller.OnCurrencyChanged += a => received = a;
+            controller.Initialize();
             Assert.AreEqual(CurrencyConfig.STARTING_AMOUNT, received);
         }
 
@@ -120,17 +118,26 @@ namespace GoldenSpin.Tests.CurrencyModule
         }
 
         [Test]
-        public void TrySpend_PersistsAmountToPlayerPrefs()
+        public void TrySpend_PersistsAmountThroughSaveService()
         {
             _controller.TrySpend(10);
-            Assert.AreEqual(_controller.CurrentAmount, PlayerPrefs.GetInt(CurrencyConfig.PREFS_KEY_GOLD));
+            Assert.AreEqual(_controller.CurrentAmount, _saveService.LoadInt(CurrencyConfig.PREFS_KEY_GOLD, 0));
         }
 
         [Test]
-        public void Add_PersistsAmountToPlayerPrefs()
+        public void Add_PersistsAmountThroughSaveService()
         {
             _controller.Add(50);
-            Assert.AreEqual(_controller.CurrentAmount, PlayerPrefs.GetInt(CurrencyConfig.PREFS_KEY_GOLD));
+            Assert.AreEqual(_controller.CurrentAmount, _saveService.LoadInt(CurrencyConfig.PREFS_KEY_GOLD, 0));
+        }
+
+        private static CurrencyController BuildController(ISaveService saveService)
+        {
+            CurrencyController controller = new CurrencyController();
+            typeof(CurrencyController)
+                .GetField("saveService", BindingFlags.NonPublic | BindingFlags.Instance)
+                ?.SetValue(controller, saveService);
+            return controller;
         }
     }
 }

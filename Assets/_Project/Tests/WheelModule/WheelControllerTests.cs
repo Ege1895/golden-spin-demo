@@ -13,6 +13,9 @@ namespace GoldenSpin.Tests.WheelModule
     [TestFixture]
     public class WheelControllerTests
     {
+        private const int REWARD_SLICE_COUNT = 7;
+        private const int BASE_AMOUNT_PER_SLOT = 10;
+
         private WheelController _controller;
         private RewardControllerTestDouble _reward;
         private ZoneConfigSO _zoneConfigSO;
@@ -79,16 +82,22 @@ namespace GoldenSpin.Tests.WheelModule
         public void PrepareWheel_SilverConfig_HasNoBomb()
         {
             _controller.PrepareWheel(SpinType.Silver, 1);
+
             foreach (WheelSliceDTO slice in _controller.CurrentSlices)
+            {
                 Assert.AreNotEqual(SliceContentType.Bomb, slice.ContentType);
+            }
         }
 
         [Test]
         public void PrepareWheel_GoldenConfig_HasNoBomb()
         {
             _controller.PrepareWheel(SpinType.Golden, 1);
+
             foreach (WheelSliceDTO slice in _controller.CurrentSlices)
+            {
                 Assert.AreNotEqual(SliceContentType.Bomb, slice.ContentType);
+            }
         }
 
         [Test]
@@ -96,8 +105,15 @@ namespace GoldenSpin.Tests.WheelModule
         {
             _controller.PrepareWheel(SpinType.Normal, 1);
             bool hasBomb = false;
+
             foreach (WheelSliceDTO slice in _controller.CurrentSlices)
-                if (slice.ContentType == SliceContentType.Bomb) hasBomb = true;
+            {
+                if (slice.ContentType == SliceContentType.Bomb)
+                {
+                    hasBomb = true;
+                }
+            }
+
             Assert.IsTrue(hasBomb);
         }
 
@@ -150,7 +166,7 @@ namespace GoldenSpin.Tests.WheelModule
         {
             WheelSliceDTO received = null;
             _controller.OnSpinCompleted += s => received = s;
-            var slice = new WheelSliceDTO { ContentType = SliceContentType.Reward, Reward = new RewardDTO { Amount = 10 } };
+            WheelSliceDTO slice = new WheelSliceDTO { ContentType = SliceContentType.Reward, Reward = new RewardDTO { Amount = 10 } };
             _controller.ProcessSpinResult(slice);
             Assert.AreEqual(10, received?.Reward.Amount);
         }
@@ -165,6 +181,27 @@ namespace GoldenSpin.Tests.WheelModule
         public void GetTargetAngleForSlice_ReturnsCorrectAngle()
         {
             Assert.AreEqual(WheelConfig.SLICE_ANGLE, _controller.GetTargetAngleForSlice(1));
+        }
+
+        [Test]
+        public void DetermineResultSliceIndex_RespectsZeroWeights()
+        {
+            BlockNonFirstSliceWeights();
+            _controller.PrepareWheel(SpinType.Normal, 1);
+
+            for (int i = 0; i < 20; i++)
+            {
+                int index = _controller.DetermineResultSliceIndex();
+                Assert.AreEqual(0, index);
+            }
+        }
+
+        private void BlockNonFirstSliceWeights()
+        {
+            for (int i = 0; i < _zoneConfigSO.NormalWheelConfig.Slices.Count; i++)
+            {
+                _zoneConfigSO.NormalWheelConfig.Slices[i].Weight = i == 0 ? 1 : WheelConfig.MIN_SLICE_WEIGHT;
+            }
         }
 
         private static ZoneConfigSO BuildZoneConfigSO()
@@ -182,12 +219,14 @@ namespace GoldenSpin.Tests.WheelModule
             config.SpinType = spinType;
             config.Slices = new List<WheelSliceSO>();
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < REWARD_SLICE_COUNT; i++)
             {
                 WheelSliceSO slice = ScriptableObject.CreateInstance<WheelSliceSO>();
                 slice.ContentType = SliceContentType.Reward;
+                slice.Weight = WheelConfig.DEFAULT_SLICE_WEIGHT;
+
                 RewardSO reward = ScriptableObject.CreateInstance<RewardSO>();
-                reward.BaseAmount = 10 * (i + 1);
+                reward.BaseAmount = BASE_AMOUNT_PER_SLOT * (i + 1);
                 slice.Reward = reward;
                 config.Slices.Add(slice);
             }
@@ -196,6 +235,7 @@ namespace GoldenSpin.Tests.WheelModule
             {
                 WheelSliceSO bomb = ScriptableObject.CreateInstance<WheelSliceSO>();
                 bomb.ContentType = SliceContentType.Bomb;
+                bomb.Weight = WheelConfig.DEFAULT_SLICE_WEIGHT;
                 config.Slices.Add(bomb);
             }
 

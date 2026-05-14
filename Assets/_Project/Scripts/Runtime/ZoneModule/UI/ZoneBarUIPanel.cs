@@ -27,19 +27,23 @@ namespace GoldenSpin.ZoneModule
 
         private readonly List<ZoneBarItem> visibleItems = new List<ZoneBarItem>();
 
-        private const string ZONE_PROGRESS_FORMAT = "{0} / {1}";
         private const int ZONE_BAR_LAST_SLOT_OFFSET = 2;
         private const int ZONE_BAR_FIRST_SLOT_OFFSET = 1;
+        
+        private const string ZONE_PROGRESS_FORMAT = "{0} / {1}";
 
 #if UNITY_EDITOR
         private const string PATH_ZONES_CONTAINER = "ui_scroll_zones/Viewport/Content";
         private const string PATH_TEXT_ZONE_CURRENT = "ui_header/ui_text_zone_current_value";
 #endif
 
+        private void Awake()
+        {
+            ListenEvents();
+        }
+
         private void Start()
         {
-            zoneBarItemFactory.SetParent(zonesContainer);
-            ListenEvents();
             BuildZoneBar();
         }
 
@@ -50,8 +54,7 @@ namespace GoldenSpin.ZoneModule
 
         private void BuildZoneBar()
         {
-            zoneBarItemFactory.DestroyAll();
-            visibleItems.Clear();
+            DestroyAllItems();
 
             int currentZone = zoneController.CurrentZone;
             int startZone = Mathf.Max(ZoneConfig.STARTING_ZONE_NUMBER, currentZone - ZONE_BAR_FIRST_SLOT_OFFSET);
@@ -75,13 +78,23 @@ namespace GoldenSpin.ZoneModule
         private void AddItem(int zoneNumber, int currentZone)
         {
             ZoneDTO zoneDTO = zoneController.GetZoneDTO(zoneNumber);
-            ZoneBarItem item = zoneBarItemFactory.Create(zoneDTO);
+            ZoneBarItem item = zoneBarItemFactory.Create(zoneDTO, zonesContainer);
             visibleItems.Add(item);
 
             if (zoneNumber == currentZone)
             {
                 item.SetHighlight(true);
             }
+        }
+
+        private void DestroyAllItems()
+        {
+            foreach (ZoneBarItem item in visibleItems)
+            {
+                zoneBarItemFactory.Destroy(item);
+            }
+
+            visibleItems.Clear();
         }
 
         private void RefreshProgressText(int currentZone)
@@ -107,6 +120,7 @@ namespace GoldenSpin.ZoneModule
         private void OnDestroy()
         {
             UnsubscribeFromEvents();
+            DestroyAllItems();
         }
 
 #if UNITY_EDITOR

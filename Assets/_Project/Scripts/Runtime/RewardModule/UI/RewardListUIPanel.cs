@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -22,9 +23,13 @@ namespace GoldenSpin.RewardModule
         [SerializeField]
         private TMP_Text uiTextRewardCountValue;
 
+        private readonly List<RewardListItem> activeItems = new List<RewardListItem>();
+        
+        private const int SHAKE_VIBRATO = 8;
+        
         private const float SHAKE_DURATION = 0.4f;
         private const float SHAKE_STRENGTH = 8f;
-        private const int SHAKE_VIBRATO = 8;
+        
         private const string ITEM_COUNT_SINGLE = "1 Item";
         private const string ITEM_COUNT_PLURAL_FORMAT = "{0} Items";
 
@@ -33,10 +38,28 @@ namespace GoldenSpin.RewardModule
         private const string PATH_TEXT_REWARD_COUNT = "ui_header/ui_text_reward_count_value";
 #endif
 
+        private void Awake()
+        {
+            EnsureInteractable();
+            ListenEvents();
+        }
+
+        private void EnsureInteractable()
+        {
+            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+
+            if (canvasGroup == null)
+            {
+                return;
+            }
+
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
+
         private void Start()
         {
-            rewardListItemFactory.SetParent(rewardsContainer);
-            ListenEvents();
             RefreshCountText();
         }
 
@@ -50,7 +73,8 @@ namespace GoldenSpin.RewardModule
         {
             DOVirtual.DelayedCall(UIConfig.REWARD_ITEM_APPEAR_DELAY, () =>
             {
-                rewardListItemFactory.Create(reward);
+                RewardListItem item = rewardListItemFactory.Create(reward, rewardsContainer);
+                activeItems.Add(item);
                 RefreshCountText();
             });
         }
@@ -61,9 +85,19 @@ namespace GoldenSpin.RewardModule
                 .DOShakePosition(SHAKE_DURATION, new Vector3(SHAKE_STRENGTH, SHAKE_STRENGTH, 0f), SHAKE_VIBRATO)
                 .OnComplete(() =>
                 {
-                    rewardListItemFactory.DestroyAll();
+                    DestroyAllItems();
                     RefreshCountText();
                 });
+        }
+
+        private void DestroyAllItems()
+        {
+            foreach (RewardListItem item in activeItems)
+            {
+                rewardListItemFactory.Destroy(item);
+            }
+
+            activeItems.Clear();
         }
 
         private void RefreshCountText()
@@ -86,6 +120,7 @@ namespace GoldenSpin.RewardModule
         private void OnDestroy()
         {
             UnsubscribeFromEvents();
+            DestroyAllItems();
         }
 
 #if UNITY_EDITOR

@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.AddressableAssets;
 using Zenject;
 using DG.Tweening;
 using GoldenSpin.CoreModule;
-using GoldenSpin.ConfigurationModule;
+using GoldenSpin.RewardModule;
 using GoldenSpin.UIModule;
 
 namespace GoldenSpin.GameModule
@@ -15,12 +14,15 @@ namespace GoldenSpin.GameModule
     {
         [Inject]
         private IGameController gameController;
-
+        
         [Inject]
         private IRewardController rewardController;
-
+        
         [Inject]
         private IZoneController zoneController;
+        
+        [Inject]
+        private RewardListItemFactory rewardListItemFactory;
 
         [SerializeField]
         private Button uiButtonContinue;
@@ -32,19 +34,21 @@ namespace GoldenSpin.GameModule
         private TMP_Text uiTextCollectTitle;
         [SerializeField]
         private TMP_Text uiTextTotalRewardsValue;
-
-        private const float REWARD_COUNTER_DURATION = 1.5f;
-        private const string TITLE = "REWARDS";
-
+        
         private readonly List<RewardListItem> summaryItems = new List<RewardListItem>();
 
+        private const float REWARD_COUNTER_DURATION = 1.5f;
+        
+        private const string TITLE = "REWARDS";
+        
 #if UNITY_EDITOR
         private const string PATH_BUTTON_CONTINUE = "Popup_Collect/ui_button_continue";
         private const string PATH_REWARD_SCROLL_CONTENT = "Popup_Collect/ui_scroll_rewards/Viewport/Content";
 #endif
 
-        private void Start()
+        protected override void Awake()
         {
+            base.Awake();
             ListenEvents();
         }
 
@@ -94,29 +98,16 @@ namespace GoldenSpin.GameModule
 
             foreach (RewardDTO reward in collectedDTO.Rewards)
             {
-                CreateSummaryItem(reward);
+                RewardListItem item = rewardListItemFactory.Create(reward, rewardScrollContent);
+                summaryItems.Add(item);
             }
-        }
-
-        private void CreateSummaryItem(RewardDTO reward)
-        {
-            GameObject go = Addressables
-                .InstantiateAsync(AddressableConfig.REWARD_LIST_ITEM_PREFAB, rewardScrollContent, false)
-                .WaitForCompletion();
-
-            RewardListItem item = go.GetComponent<RewardListItem>();
-            item.Initialize(reward);
-            summaryItems.Add(item);
         }
 
         private void ClearSummary()
         {
             foreach (RewardListItem item in summaryItems)
             {
-                if (item != null)
-                {
-                    Addressables.ReleaseInstance(item.gameObject);
-                }
+                rewardListItemFactory.Destroy(item);
             }
 
             summaryItems.Clear();

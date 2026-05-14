@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
@@ -42,7 +43,7 @@ namespace GoldenSpin.WheelModule
 
         public int DetermineResultSliceIndex()
         {
-            int resultIndex = Random.Range(0, currentSlices.Count);
+            int resultIndex = PickWeightedIndex();
             OnSpinStarted?.Invoke(resultIndex);
             return resultIndex;
         }
@@ -54,16 +55,45 @@ namespace GoldenSpin.WheelModule
             if (resultSlice.ContentType == SliceContentType.Reward)
             {
                 rewardController.AddReward(resultSlice.Reward);
+                return;
             }
-            else
-            {
-                rewardController.ClearRewards();
-            }
+
+            rewardController.ClearRewards();
         }
 
         public float GetTargetAngleForSlice(int sliceIndex)
         {
             return sliceIndex * WheelConfig.SLICE_ANGLE;
+        }
+
+        private int PickWeightedIndex()
+        {
+            int totalWeight = 0;
+
+            for (int i = 0; i < currentSlices.Count; i++)
+            {
+                totalWeight += Mathf.Max(WheelConfig.MIN_SLICE_WEIGHT, currentSlices[i].Weight);
+            }
+
+            if (totalWeight <= 0)
+            {
+                return Random.Range(0, currentSlices.Count);
+            }
+
+            int roll = Random.Range(0, totalWeight);
+            int cumulative = 0;
+
+            for (int i = 0; i < currentSlices.Count; i++)
+            {
+                cumulative += Mathf.Max(WheelConfig.MIN_SLICE_WEIGHT, currentSlices[i].Weight);
+
+                if (roll < cumulative)
+                {
+                    return i;
+                }
+            }
+
+            return currentSlices.Count - 1;
         }
 
         private WheelConfigSO GetWheelConfig(SpinType spinType)
