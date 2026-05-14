@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: GoldenSpin::GoldenSpin.WheelModule.RewardSO
   Type: 3
   Label: Gold
-  BaseAmount: 200
+  BaseAmount: 10
   SpriteKey: gold_icon
   Icon: {fileID: 21300000, guid: e5577e4b7ad514866a1aaabb797f7f3c, type: 3}

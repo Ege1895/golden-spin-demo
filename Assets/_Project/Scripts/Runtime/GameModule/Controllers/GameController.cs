@@ -145,6 +145,8 @@ namespace GoldenSpin.GameModule
         {
             SetState(GameState.Collecting);
 
+            GrantGoldRewards();
+
             Dictionary<string, object> parameters = new Dictionary<string, object>
             {
                 { AnalyticsConfig.PARAM_TOTAL_REWARDS, rewardController.CollectedRewards.Count }
@@ -152,6 +154,17 @@ namespace GoldenSpin.GameModule
             analyticsService.Track(AnalyticsConfig.EVENT_REWARDS_COLLECTED, parameters);
 
             rewardController.CollectRewards();
+        }
+
+        private void GrantGoldRewards()
+        {
+            foreach (RewardDTO reward in rewardController.CollectedRewards)
+            {
+                if (reward.Type == RewardType.Gold)
+                {
+                    currencyController.Add(reward.Amount);
+                }
+            }
         }
 
         private void PrepareCurrentWheel()
