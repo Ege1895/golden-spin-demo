@@ -28,8 +28,9 @@ namespace GoldenSpin.GameModule
         private const float FLASH_FADE_OUT_DURATION = 0.4f;
         private const float CAMERA_SHAKE_DURATION = 0.5f;
         private const float CAMERA_SHAKE_STRENGTH = 0.35f;
-        private const int CAMERA_SHAKE_VIBRATO = 18;
         private const float CAMERA_SHAKE_RANDOMNESS = 90f;
+        
+        private const int CAMERA_SHAKE_VIBRATO = 18;
 
 #if UNITY_EDITOR
         private const string PATH_IMAGE_SCREEN_FLASH = "ui_image_screen_flash";

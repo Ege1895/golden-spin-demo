@@ -12,7 +12,6 @@ namespace GoldenSpin.ConfigurationModule
         public const string EVENT_BOMB_REVIVE_PAID = "bomb_revive_paid";
         public const string EVENT_BOMB_GIVE_UP = "bomb_give_up";
         public const string EVENT_GAME_RESTARTED = "game_restarted";
-
         public const string PARAM_ZONE_NUMBER = "zone";
         public const string PARAM_SPIN_TYPE = "spin_type";
         public const string PARAM_REWARD_TYPE = "reward_type";

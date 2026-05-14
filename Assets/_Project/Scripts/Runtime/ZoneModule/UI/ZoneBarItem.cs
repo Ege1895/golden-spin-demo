@@ -11,6 +11,7 @@ namespace GoldenSpin.ZoneModule
     {
         [SerializeField]
         private TMP_Text uiTextZoneNumberValue;
+        
         [SerializeField]
         private Image uiImageZoneBackground;
         [SerializeField]

@@ -14,15 +14,17 @@ namespace GoldenSpin.GameModule
         [SerializeField]
         private TMP_Text uiTextLoadingValue;
 
-        private const string LOADING_TEXT = "LOADING...";
         private const float LOGO_PUNCH_SCALE = 0.15f;
         private const float LOGO_PUNCH_DURATION = 0.6f;
-        private const int LOGO_PUNCH_VIBRATO = 4;
         private const float LOGO_PUNCH_ELASTICITY = 0.6f;
         private const float SPLASH_VISIBLE_DURATION = 1.2f;
         private const float SPLASH_TEXT_DOT_INTERVAL = 0.25f;
         private const float LOADING_TEXT_FADE_TARGET = 0.3f;
+        
+        private const int LOGO_PUNCH_VIBRATO = 4;
 
+        private const string LOADING_TEXT = "LOADING...";
+        
 #if UNITY_EDITOR
         private const string PATH_IMAGE_LOGO = "ui_image_logo";
         private const string PATH_TEXT_LOADING = "ui_text_loading_value";

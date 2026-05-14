@@ -20,6 +20,7 @@ namespace GoldenSpin.RewardModule
 
         private const float APPEAR_SCALE_START = 0f;
         private const float APPEAR_SCALE_END = 1f;
+        
         private const string LABEL_FORMAT = "{0}  <color={1}>x{2}</color>";
         private const string REWARD_AMOUNT_COLOR = "#FFD900";
 

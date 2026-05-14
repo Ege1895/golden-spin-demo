@@ -9,12 +9,16 @@ namespace GoldenSpin.AudioModule
     {
         [Inject]
         private readonly IAudioService audioService;
+        
         [Inject]
         private readonly IGameController gameController;
+        
         [Inject]
         private readonly IWheelController wheelController;
+        
         [Inject]
         private readonly IRewardController rewardController;
+        
 
         public void Initialize()
         {

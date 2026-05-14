@@ -14,16 +14,22 @@ namespace GoldenSpin.WheelModule
     {
         [Inject]
         private IGameController gameController;
+        
         [Inject]
         private IZoneController zoneController;
+        
         [Inject]
         private IWheelController wheelController;
+        
         [Inject]
         private ICurrencyController currencyController;
+        
         [Inject]
         private IAudioService audioService;
+        
         [Inject]
         private IHapticService hapticService;
+        
         [Inject]
         private WheelSliceItemFactory sliceItemFactory;
 
@@ -67,6 +73,8 @@ namespace GoldenSpin.WheelModule
 
         private readonly List<WheelSliceItem> activeSliceItems = new List<WheelSliceItem>();
 
+        private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f);
+
         private const string TITLE_BRONZE = "BRONZE SPIN";
         private const string TITLE_SILVER = "SILVER SPIN";
         private const string TITLE_GOLDEN = "GOLDEN SPIN";
@@ -82,12 +90,11 @@ namespace GoldenSpin.WheelModule
         private const string PATH_TEXT_WHEEL_SUBTITLE = "ui_text_wheel_subtitle_value";
 #endif
 
-        private static readonly Color COLLECT_FRAME_DISABLED = new Color(0.145f, 0.145f, 0.145f, 1f);
-
         private const float RESULT_PULSE_PUNCH_SCALE = 0.35f;
-        private const int RESULT_PULSE_VIBRATO = 4;
         private const float RESULT_PULSE_ELASTICITY = 0.4f;
 
+        private const int RESULT_PULSE_VIBRATO = 4;
+        
         private int targetSliceIndex;
         private int lastTickedSliceIndex;
         private Tween spinTween;

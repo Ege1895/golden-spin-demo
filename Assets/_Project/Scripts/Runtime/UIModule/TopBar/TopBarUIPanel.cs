@@ -10,6 +10,7 @@ namespace GoldenSpin.UIModule
     {
         [Inject]
         private IZoneController zoneController;
+        
         [Inject]
         private ICurrencyController currencyController;
 

@@ -6,8 +6,11 @@ namespace GoldenSpin.CoreModule
     public class RewardDTO
     {
         public RewardType Type;
-        public string Label;
-        public int Amount;
+        
         public Sprite Icon;
+        
+        public string Label;
+        
+        public int Amount;
     }
 }

@@ -22,22 +22,21 @@ namespace GoldenSpin.InstallerModule
 
         [SerializeField]
         private WheelUIPanel wheelPanel;
+        
         [SerializeField]
         private ZoneBarUIPanel zoneBarPanel;
+        
         [SerializeField]
         private RewardListUIPanel rewardListPanel;
+        
         [SerializeField]
         private BombUIPanel bombPanel;
-        [SerializeField]
-        private BombExplosionUIPanel bombExplosionPanel;
+        
         [SerializeField]
         private CollectUIPanel collectPanel;
+        
         [SerializeField]
         private AwardReceivedUIPanel awardReceivedPanel;
-        [SerializeField]
-        private TopBarUIPanel topBarPanel;
-        [SerializeField]
-        private SplashUIPanel splashPanel;
 
         public override void InstallBindings()
         {
@@ -95,21 +94,6 @@ namespace GoldenSpin.InstallerModule
             Container.BindInstance(bombPanel).AsSingle();
             Container.BindInstance(collectPanel).AsSingle();
             Container.BindInstance(awardReceivedPanel).AsSingle();
-
-            if (bombExplosionPanel != null)
-            {
-                Container.BindInstance(bombExplosionPanel).AsSingle();
-            }
-
-            if (topBarPanel != null)
-            {
-                Container.BindInstance(topBarPanel).AsSingle();
-            }
-
-            if (splashPanel != null)
-            {
-                Container.BindInstance(splashPanel).AsSingle();
-            }
         }
 
         private void BindConfigs()

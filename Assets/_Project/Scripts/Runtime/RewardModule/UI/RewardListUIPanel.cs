@@ -24,10 +24,12 @@ namespace GoldenSpin.RewardModule
         private TMP_Text uiTextRewardCountValue;
 
         private readonly List<RewardListItem> activeItems = new List<RewardListItem>();
-
+        
+        private const int SHAKE_VIBRATO = 8;
+        
         private const float SHAKE_DURATION = 0.4f;
         private const float SHAKE_STRENGTH = 8f;
-        private const int SHAKE_VIBRATO = 8;
+        
         private const string ITEM_COUNT_SINGLE = "1 Item";
         private const string ITEM_COUNT_PLURAL_FORMAT = "{0} Items";
 

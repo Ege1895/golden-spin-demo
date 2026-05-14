@@ -15,11 +15,14 @@ namespace GoldenSpin.AudioModule
         private readonly ISaveService saveService;
 
         private readonly List<AudioSource> sfxSources = new List<AudioSource>();
+        
         private readonly Dictionary<string, AudioClip> clipCache = new Dictionary<string, AudioClip>();
 
         private AudioSource loopSource;
-        private string activeLoopKey;
+        
         private Tween loopFadeTween;
+        
+        private string activeLoopKey;
 
         public bool IsSfxEnabled { get; private set; } = true;
         public bool IsMusicEnabled { get; private set; } = true;

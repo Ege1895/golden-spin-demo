@@ -11,8 +11,10 @@ namespace GoldenSpin.GameModule
     {
         [Inject]
         private IGameController gameController;
+        
         [Inject]
         private IWheelController wheelController;
+        
         [Inject]
         private IZoneController zoneController;
 
@@ -28,14 +30,15 @@ namespace GoldenSpin.GameModule
 
         [SerializeField]
         private Image uiImageRewardIcon;
+        
         [SerializeField]
         private AspectRatioFitter rewardIconFitter;
-
+        
+        private WheelSliceDTO pendingSpinResult;
+        
         private const string TITLE = "CONGRATULATIONS!";
         private const string AMOUNT_FORMAT = "x{0}";
-
-        private WheelSliceDTO pendingSpinResult;
-
+        
 #if UNITY_EDITOR
         private const string PATH_BUTTON_CONTINUE = "Popup_AwardReceived/ui_button_continue";
         private const string PATH_BUTTON_GIVE_UP = "Popup_AwardReceived/ui_button_give_up";

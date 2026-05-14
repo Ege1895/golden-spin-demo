@@ -8,8 +8,10 @@ namespace GoldenSpin.HapticModule
     {
         [Inject]
         private readonly IHapticService hapticService;
+        
         [Inject]
         private readonly IGameController gameController;
+        
         [Inject]
         private readonly IWheelController wheelController;
 
