@@ -8,7 +8,6 @@ namespace GoldenSpin.CoreModule
         public RewardType Type;
         public string Label;
         public int Amount;
-        public string SpriteKey;
         public Sprite Icon;
     }
 }

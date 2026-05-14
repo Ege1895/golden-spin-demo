@@ -5,7 +5,7 @@ using DG.Tweening;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
 
-namespace GoldenSpin.UIModule
+namespace GoldenSpin.RewardModule
 {
     public class RewardListItem : MonoBehaviour
     {
@@ -20,12 +20,12 @@ namespace GoldenSpin.UIModule
 
         private const float APPEAR_SCALE_START = 0f;
         private const float APPEAR_SCALE_END = 1f;
-        
+        private const string LABEL_FORMAT = "{0}  <color={1}>x{2}</color>";
         private const string REWARD_AMOUNT_COLOR = "#FFD900";
 
         public void Initialize(RewardDTO dto)
         {
-            uiTextRewardLabelValue.text = $"{dto.Label}  <color={REWARD_AMOUNT_COLOR}>x{dto.Amount}</color>";
+            uiTextRewardLabelValue.text = string.Format(LABEL_FORMAT, dto.Label, REWARD_AMOUNT_COLOR, dto.Amount);
 
             if (dto.Icon != null)
             {

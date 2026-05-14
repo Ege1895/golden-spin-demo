@@ -82,7 +82,9 @@ namespace GoldenSpin.Tests.ZoneModule
         public void IsCurrentZoneSafeToLeave_ReturnsTrueOnSafeZone()
         {
             for (int i = 0; i < ZoneConfig.SAFE_ZONE_INTERVAL - 1; i++)
+            {
                 _controller.AdvanceZone();
+            }
             Assert.IsTrue(_controller.IsCurrentZoneSafeToLeave());
         }
 
@@ -90,7 +92,9 @@ namespace GoldenSpin.Tests.ZoneModule
         public void IsCurrentZoneSafeToLeave_ReturnsFalseOnZoneAfterSafe()
         {
             for (int i = 0; i < ZoneConfig.SAFE_ZONE_INTERVAL; i++)
+            {
                 _controller.AdvanceZone();
+            }
             Assert.IsFalse(_controller.IsCurrentZoneSafeToLeave());
         }
 
@@ -98,7 +102,9 @@ namespace GoldenSpin.Tests.ZoneModule
         public void IsCurrentZoneSafeToLeave_ReturnsTrueOnSuperZone()
         {
             for (int i = 0; i < ZoneConfig.SUPER_ZONE_INTERVAL - 1; i++)
+            {
                 _controller.AdvanceZone();
+            }
             Assert.IsTrue(_controller.IsCurrentZoneSafeToLeave());
         }
 
@@ -114,7 +120,9 @@ namespace GoldenSpin.Tests.ZoneModule
         public void GetCurrentZoneMultiplier_ReturnsGoldenMultiplierOnSuperZone()
         {
             for (int i = 0; i < ZoneConfig.SUPER_ZONE_INTERVAL - 1; i++)
+            {
                 _controller.AdvanceZone();
+            }
             Assert.AreEqual(RewardConfig.GOLDEN_ZONE_MULTIPLIER, _controller.GetCurrentZoneMultiplier());
         }
 

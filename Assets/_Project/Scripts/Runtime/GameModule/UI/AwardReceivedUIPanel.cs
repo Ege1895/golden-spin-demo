@@ -11,10 +11,8 @@ namespace GoldenSpin.GameModule
     {
         [Inject]
         private IGameController gameController;
-
         [Inject]
         private IWheelController wheelController;
-
         [Inject]
         private IZoneController zoneController;
 
@@ -34,6 +32,7 @@ namespace GoldenSpin.GameModule
         private AspectRatioFitter rewardIconFitter;
 
         private const string TITLE = "CONGRATULATIONS!";
+        private const string AMOUNT_FORMAT = "x{0}";
 
         private WheelSliceDTO pendingSpinResult;
 
@@ -45,8 +44,9 @@ namespace GoldenSpin.GameModule
         private const string PATH_IMAGE_REWARD_ICON = "Popup_AwardReceived/ui_image_reward_icon";
 #endif
 
-        private void Start()
+        protected override void Awake()
         {
+            base.Awake();
             ListenEvents();
         }
 
@@ -70,8 +70,10 @@ namespace GoldenSpin.GameModule
             {
                 Populate(pendingSpinResult);
                 Show();
+                return;
             }
-            else if (state == GameState.Restarting)
+
+            if (state == GameState.Restarting)
             {
                 pendingSpinResult = null;
                 HideImmediate();
@@ -101,7 +103,7 @@ namespace GoldenSpin.GameModule
 
             if (uiTextTotalRewardsValue != null)
             {
-                uiTextTotalRewardsValue.text = hasReward ? $"x{slice.Reward.Amount}" : string.Empty;
+                uiTextTotalRewardsValue.text = hasReward ? string.Format(AMOUNT_FORMAT, slice.Reward.Amount) : string.Empty;
             }
         }
 

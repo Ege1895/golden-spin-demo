@@ -13,7 +13,6 @@ namespace GoldenSpin.GameModule
     {
         [Inject]
         private IGameController gameController;
-
         [Inject]
         private ICurrencyController currencyController;
 
@@ -23,7 +22,7 @@ namespace GoldenSpin.GameModule
         private Button uiButtonRevive;
         [SerializeField]
         private Button uiButtonRevivePaid;
-        
+
         [SerializeField]
         private TMP_Text uiTextRevivePaidCostValue;
         [SerializeField]
@@ -46,8 +45,9 @@ namespace GoldenSpin.GameModule
         private const string PATH_TEXT_REVIVE_PAID_COST = "Popup_Bomb/ui_action_row/ui_button_revive_paid/ui_text_revive_paid_cost_value";
 #endif
 
-        private void Start()
+        protected override void Awake()
         {
+            base.Awake();
             ListenEvents();
         }
 
@@ -84,8 +84,10 @@ namespace GoldenSpin.GameModule
             if (state == GameState.GameOver)
             {
                 Show();
+                return;
             }
-            else if (state == GameState.Restarting)
+
+            if (state == GameState.Restarting)
             {
                 HideImmediate();
             }

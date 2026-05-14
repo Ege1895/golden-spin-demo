@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Zenject;
 using GoldenSpin.CoreModule;
 using GoldenSpin.ConfigurationModule;
@@ -15,6 +16,8 @@ namespace GoldenSpin.GameModule
         private readonly IRewardController rewardController;
         [Inject]
         private readonly ICurrencyController currencyController;
+        [Inject]
+        private readonly IAnalyticsService analyticsService;
 
         public GameState CurrentState { get; private set; }
 
@@ -30,7 +33,9 @@ namespace GoldenSpin.GameModule
             zoneController.ResetZone();
             rewardController.ClearRewards();
             PrepareCurrentWheel();
-            PrepareAndEnterIdle();
+            EnterIdle();
+
+            analyticsService.Track(AnalyticsConfig.EVENT_GAME_STARTED);
         }
 
         public void RequestSpin()
@@ -41,6 +46,7 @@ namespace GoldenSpin.GameModule
             }
 
             SetState(GameState.Spinning);
+            TrackSpinRequested();
             wheelController.DetermineResultSliceIndex();
         }
 
@@ -51,32 +57,32 @@ namespace GoldenSpin.GameModule
                 return;
             }
 
-            SetState(GameState.Result);
             wheelController.ProcessSpinResult(resultSlice);
 
             if (resultSlice.ContentType == SliceContentType.Bomb)
             {
                 SetState(GameState.GameOver);
+                TrackBomb();
+                return;
             }
-            else
-            {
-                SetState(GameState.SpinResult);
-            }
+
+            SetState(GameState.SpinResult);
+            TrackReward(resultSlice.Reward);
         }
 
         public void OnSpinResultClosed()
         {
             zoneController.AdvanceZone();
+            TrackZoneAdvanced();
 
             if (zoneController.CurrentZone > ZoneConfig.MAX_ZONE_NUMBER)
             {
-                SetState(GameState.Collecting);
-                rewardController.CollectRewards();
+                CollectAndExit();
                 return;
             }
 
             PrepareCurrentWheel();
-            PrepareAndEnterIdle();
+            EnterIdle();
         }
 
         public void RequestCollect()
@@ -91,20 +97,21 @@ namespace GoldenSpin.GameModule
                 return;
             }
 
-            SetState(GameState.Collecting);
-            rewardController.CollectRewards();
+            CollectAndExit();
         }
 
         public void RestartGame()
         {
             SetState(GameState.Restarting);
+            analyticsService.Track(AnalyticsConfig.EVENT_GAME_RESTARTED);
             StartGame();
         }
 
         public void ReviveAfterBomb()
         {
+            analyticsService.Track(AnalyticsConfig.EVENT_BOMB_REVIVE_AD);
             PrepareCurrentWheel();
-            PrepareAndEnterIdle();
+            EnterIdle();
         }
 
         public void ReviveWithCurrency()
@@ -119,9 +126,28 @@ namespace GoldenSpin.GameModule
                 return;
             }
 
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { AnalyticsConfig.PARAM_REVIVE_COST, CurrencyConfig.REVIVE_COST }
+            };
+            analyticsService.Track(AnalyticsConfig.EVENT_BOMB_REVIVE_PAID, parameters);
+
             rewardController.RestoreLastSnapshot();
             PrepareCurrentWheel();
-            PrepareAndEnterIdle();
+            EnterIdle();
+        }
+
+        private void CollectAndExit()
+        {
+            SetState(GameState.Collecting);
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { AnalyticsConfig.PARAM_TOTAL_REWARDS, rewardController.CollectedRewards.Count }
+            };
+            analyticsService.Track(AnalyticsConfig.EVENT_REWARDS_COLLECTED, parameters);
+
+            rewardController.CollectRewards();
         }
 
         private void PrepareCurrentWheel()
@@ -130,7 +156,7 @@ namespace GoldenSpin.GameModule
             wheelController.PrepareWheel(zone.SpinType, zoneController.GetCurrentZoneMultiplier());
         }
 
-        private void PrepareAndEnterIdle()
+        private void EnterIdle()
         {
             SetState(GameState.Idle);
         }
@@ -139,6 +165,50 @@ namespace GoldenSpin.GameModule
         {
             CurrentState = newState;
             OnStateChanged?.Invoke(newState);
+        }
+
+        private void TrackSpinRequested()
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { AnalyticsConfig.PARAM_ZONE_NUMBER, zoneController.CurrentZone },
+                { AnalyticsConfig.PARAM_SPIN_TYPE, zoneController.CurrentZoneDTO.SpinType.ToString() }
+            };
+            analyticsService.Track(AnalyticsConfig.EVENT_SPIN_REQUESTED, parameters);
+        }
+
+        private void TrackReward(RewardDTO reward)
+        {
+            if (reward == null)
+            {
+                return;
+            }
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { AnalyticsConfig.PARAM_ZONE_NUMBER, zoneController.CurrentZone },
+                { AnalyticsConfig.PARAM_REWARD_TYPE, reward.Type.ToString() },
+                { AnalyticsConfig.PARAM_REWARD_AMOUNT, reward.Amount }
+            };
+            analyticsService.Track(AnalyticsConfig.EVENT_SPIN_COMPLETED_REWARD, parameters);
+        }
+
+        private void TrackBomb()
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { AnalyticsConfig.PARAM_ZONE_NUMBER, zoneController.CurrentZone }
+            };
+            analyticsService.Track(AnalyticsConfig.EVENT_SPIN_COMPLETED_BOMB, parameters);
+        }
+
+        private void TrackZoneAdvanced()
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+            {
+                { AnalyticsConfig.PARAM_ZONE_NUMBER, zoneController.CurrentZone }
+            };
+            analyticsService.Track(AnalyticsConfig.EVENT_ZONE_ADVANCED, parameters);
         }
     }
 }

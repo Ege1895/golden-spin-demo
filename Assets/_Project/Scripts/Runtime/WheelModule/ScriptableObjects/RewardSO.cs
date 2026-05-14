@@ -8,22 +8,18 @@ namespace GoldenSpin.WheelModule
     public class RewardSO : ScriptableObject
     {
         public RewardType Type;
-
         public string Label;
-        public string SpriteKey;
         public Sprite Icon;
-
         public int BaseAmount;
 
         public RewardDTO ToDTO(int zoneMultiplier = RewardConfig.DEFAULT_ZONE_MULTIPLIER)
         {
             return new RewardDTO
             {
-                Type      = Type,
-                Label     = Label,
-                Amount    = BaseAmount * zoneMultiplier,
-                SpriteKey = SpriteKey,
-                Icon      = Icon
+                Type   = Type,
+                Label  = Label,
+                Amount = BaseAmount * zoneMultiplier,
+                Icon   = Icon
             };
         }
     }
