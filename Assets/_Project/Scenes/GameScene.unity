@@ -2843,7 +2843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ccc4cf47bf24681b357e28b22b9100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GoldenSpin::GoldenSpin.GameModule.AwardReceivedUIPanel
-  canvasGroup: {fileID: 0}
+  canvasGroup: {fileID: 249113983}
   popupContainer: {fileID: 1574613884}
   uiButtonContinue: {fileID: 1836859364}
   uiButtonGiveUp: {fileID: 1316015094}
@@ -10849,7 +10849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2354319cb4c43fcad30539b8abdb5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GoldenSpin::GoldenSpin.GameModule.BombUIPanel
-  canvasGroup: {fileID: 0}
+  canvasGroup: {fileID: 1121189751}
   popupContainer: {fileID: 1373343431}
   uiButtonGiveUp: {fileID: 1725519096}
   uiButtonRevive: {fileID: 697284160}
@@ -12689,7 +12689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bdcfaa29104f434a8bf03dbc8a2fa83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GoldenSpin::GoldenSpin.WheelModule.WheelUIPanel
-  canvasGroup: {fileID: 0}
+  canvasGroup: {fileID: 1349997230}
   wheelTransform: {fileID: 2035857505}
   slicesContainer: {fileID: 652478166}
   wheelBaseBronzeObject: {fileID: 2131549178}
@@ -15510,8 +15510,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -184118.2, y: 0}
-  m_SizeDelta: {x: 0, y: 242}
+  m_AnchoredPosition: {x: -203993.33, y: 0}
+  m_SizeDelta: {x: 14, y: 242}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1577397287
 MonoBehaviour:
@@ -18516,7 +18516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1848969567
 RectTransform:
   m_ObjectHideFlags: 0

@@ -11,10 +11,10 @@ namespace GoldenSpin.GameModule
     {
         [Inject]
         private IGameController gameController;
-        
+
         [Inject]
         private IWheelController wheelController;
-        
+
         [Inject]
         private IZoneController zoneController;
 
@@ -145,8 +145,9 @@ namespace GoldenSpin.GameModule
         }
 
 #if UNITY_EDITOR
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
             if (uiButtonContinue == null)
             {
                 uiButtonContinue = transform.Find(PATH_BUTTON_CONTINUE)?.GetComponent<Button>();
