@@ -1,0 +1,27 @@
+<linker>
+    <!-- Zenject / Extenject - uses heavy reflection for DI -->
+    <assembly fullname="Zenject" preserve="all"/>
+    <assembly fullname="Zenject-usage" preserve="all"/>
+    <assembly fullname="Extenject" preserve="all"/>
+
+    <!-- Game assembly -->
+    <assembly fullname="GoldenSpin" preserve="all"/>
+
+    <!-- Unity modules used via reflection -->
+    <assembly fullname="UnityEngine" preserve="all"/>
+    <assembly fullname="UnityEngine.CoreModule" preserve="all"/>
+    <assembly fullname="UnityEngine.UI" preserve="all"/>
+    <assembly fullname="UnityEngine.AudioModule" preserve="all"/>
+    <assembly fullname="UnityEngine.AnimationModule" preserve="all"/>
+    <assembly fullname="UnityEngine.ParticleSystemModule" preserve="all"/>
+    <assembly fullname="UnityEngine.AddressableAssets" preserve="all"/>
+    <assembly fullname="Unity.ResourceManager" preserve="all"/>
+    <assembly fullname="Unity.Addressables" preserve="all"/>
+
+    <!-- TMPro -->
+    <assembly fullname="Unity.TextMeshPro" preserve="all"/>
+
+    <!-- DOTween -->
+    <assembly fullname="DOTween" preserve="all"/>
+    <assembly fullname="DOTweenPro" preserve="all"/>
+</linker>
