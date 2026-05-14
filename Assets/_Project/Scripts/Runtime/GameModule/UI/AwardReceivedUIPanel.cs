@@ -33,7 +33,7 @@ namespace GoldenSpin.GameModule
         [SerializeField]
         private AspectRatioFitter rewardIconFitter;
 
-        private const string TITLE = "TEBRİKLER!";
+        private const string TITLE = "CONGRATULATIONS!";
 
         private WheelSliceDTO pendingSpinResult;
 

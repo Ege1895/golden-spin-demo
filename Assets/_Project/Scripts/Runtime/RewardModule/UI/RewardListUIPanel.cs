@@ -8,7 +8,7 @@ using GoldenSpin.UIModule;
 
 namespace GoldenSpin.RewardModule
 {
-    public class RewardListUIPanel : BasePanel
+    public class RewardListUIPanel : MonoBehaviour
     {
         [Inject]
         private IRewardController rewardController;
@@ -38,7 +38,6 @@ namespace GoldenSpin.RewardModule
             rewardListItemFactory.SetParent(rewardsContainer);
             ListenEvents();
             RefreshCountText();
-            ShowImmediate();
         }
 
         private void ListenEvents()

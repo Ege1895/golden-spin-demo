@@ -33,9 +33,6 @@ namespace GoldenSpin.InstallerModule
         [SerializeField]
         private AwardReceivedUIPanel awardReceivedPanel;
 
-        [SerializeField]
-        private TopBarUIPanel topBarPanel;
-
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<CurrencyController>().AsSingle();
@@ -57,7 +54,6 @@ namespace GoldenSpin.InstallerModule
             Container.BindInstance(bombPanel).AsSingle();
             Container.BindInstance(collectPanel).AsSingle();
             Container.BindInstance(awardReceivedPanel).AsSingle();
-            Container.BindInstance(topBarPanel).AsSingle();
         }
     }
 }

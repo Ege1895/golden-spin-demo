@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7b1e4a2d1824ed79f250cb80f33c25, type: 3}
+  m_Name: Pistol_Ammo2_RewardSO
+  m_EditorClassIdentifier: GoldenSpin::GoldenSpin.WheelModule.RewardSO
+  Type: 2
+  Label: Pistol Ammo
+  BaseAmount: 50
+  SpriteKey: pistol_ammo2
+  Icon: {fileID: 21300000, guid: 65a762b0cd21247358f157e142959bb9, type: 3}
