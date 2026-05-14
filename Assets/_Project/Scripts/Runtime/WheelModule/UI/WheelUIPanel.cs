@@ -51,11 +51,7 @@ namespace GoldenSpin.WheelModule
         private Button uiButtonCollect;
 
         [SerializeField]
-        private Image uiImageSpinFrame;
-        [SerializeField]
         private Image uiImageCollectFrame;
-        [SerializeField]
-        private Image uiImageSpinBackground;
 
         [SerializeField]
         private TMP_Text uiTextWheelTitle;
@@ -101,7 +97,7 @@ namespace GoldenSpin.WheelModule
 
             RefreshZoneLevelBadge(zoneController.CurrentZoneDTO);
             RefreshGoldBadge(currencyController.CurrentAmount);
-            RefreshWheelSubtitle(zoneController.GetCurrentZoneMultiplier());
+            RefreshWheelSubtitle(zoneController.CurrentZoneDTO.SpinType, zoneController.GetCurrentZoneMultiplier());
 
             if (wheelController.CurrentSlices.Count > 0)
             {
@@ -124,7 +120,6 @@ namespace GoldenSpin.WheelModule
 
         protected override void OnShow()
         {
-            RefreshSpinBackground(zoneController.CurrentZoneDTO.SpinType);
             UpdateButtonStates(gameController.CurrentState);
         }
 
@@ -162,10 +157,9 @@ namespace GoldenSpin.WheelModule
 
         private void HandleZoneChanged(ZoneDTO zoneDTO)
         {
-            RefreshSpinBackground(zoneDTO.SpinType);
             RefreshZoneLevelBadge(zoneDTO);
             RefreshTierColors(zoneDTO.SpinType);
-            RefreshWheelSubtitle(zoneController.GetCurrentZoneMultiplier());
+            RefreshWheelSubtitle(zoneDTO.SpinType, zoneController.GetCurrentZoneMultiplier());
             UpdateButtonStates(gameController.CurrentState);
         }
 
@@ -174,7 +168,7 @@ namespace GoldenSpin.WheelModule
             wheelTransform.localRotation = Quaternion.identity;
             BuildWheelSlices();
             RefreshWheelBase(spinType);
-            RefreshWheelSubtitle(zoneController.GetCurrentZoneMultiplier());
+            RefreshWheelSubtitle(spinType, zoneController.GetCurrentZoneMultiplier());
             Show();
         }
 
@@ -212,7 +206,6 @@ namespace GoldenSpin.WheelModule
             wheelBaseGoldIndicatorObject?.SetActive(spinType == SpinType.Golden);
 
             RefreshWheelTitle(spinType);
-            RefreshSpinBackground(spinType);
             RefreshTierColors(spinType);
         }
 
@@ -231,17 +224,6 @@ namespace GoldenSpin.WheelModule
             };
 
             uiTextWheelTitle.color = TierColors.For(spinType);
-        }
-
-        private void RefreshSpinBackground(SpinType spinType)
-        {
-            if (uiImageSpinBackground == null)
-            {
-                return;
-            }
-
-            Color tier = TierColors.For(spinType);
-            uiImageSpinBackground.color = new Color(tier.r, tier.g, tier.b, SPIN_BACKGROUND_ALPHA);
         }
 
         private void RefreshTierColors(SpinType spinType)
@@ -277,7 +259,7 @@ namespace GoldenSpin.WheelModule
             }
         }
 
-        private void RefreshWheelSubtitle(int multiplier)
+        private void RefreshWheelSubtitle(SpinType spinType, int multiplier)
         {
             if (uiTextWheelSubtitle == null)
             {
@@ -285,6 +267,7 @@ namespace GoldenSpin.WheelModule
             }
 
             uiTextWheelSubtitle.text = $"Up To x{multiplier} Rewards";
+            uiTextWheelSubtitle.color = TierColors.For(spinType);
         }
 
         private void UpdateButtonStates(GameState state)
@@ -300,11 +283,6 @@ namespace GoldenSpin.WheelModule
 
         private void RefreshButtonFrameStates(bool spinActive, bool collectActive, SpinType spinType)
         {
-            if (uiImageSpinFrame != null)
-            {
-                uiImageSpinFrame.color = spinActive ? SPIN_FRAME_ACTIVE : SPIN_FRAME_DISABLED;
-            }
-
             if (uiImageCollectFrame != null)
             {
                 uiImageCollectFrame.color = collectActive ? TierColors.For(spinType) : COLLECT_FRAME_DISABLED;
@@ -349,11 +327,6 @@ namespace GoldenSpin.WheelModule
             if (uiButtonCollect == null)
             {
                 uiButtonCollect = transform.Find(PATH_BUTTON_COLLECT)?.GetComponent<Button>();
-            }
-
-            if (uiImageSpinFrame == null)
-            {
-                uiImageSpinFrame = transform.Find(PATH_IMAGE_SPIN_FRAME)?.GetComponent<Image>();
             }
 
             if (uiImageCollectFrame == null)
