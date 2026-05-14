@@ -40,7 +40,22 @@ namespace GoldenSpin.RewardModule
 
         private void Awake()
         {
+            EnsureInteractable();
             ListenEvents();
+        }
+
+        private void EnsureInteractable()
+        {
+            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
+
+            if (canvasGroup == null)
+            {
+                return;
+            }
+
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
         }
 
         private void Start()

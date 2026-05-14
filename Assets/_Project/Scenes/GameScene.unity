@@ -10857,7 +10857,6 @@ MonoBehaviour:
   uiTextRevivePaidCostValue: {fileID: 944551357}
   uiTextBombTitle: {fileID: 1502107620}
   uiTextBombSubtitle: {fileID: 1175049393}
-  uiTextCountdownValue: {fileID: 0}
   uiImageBombIcon: {fileID: 131765034}
   uiImageCountdownFill: {fileID: 0}
 --- !u!225 &1121189751
@@ -15510,8 +15509,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -203993.33, y: 0}
-  m_SizeDelta: {x: 14, y: 242}
+  m_AnchoredPosition: {x: -206500.3, y: 0}
+  m_SizeDelta: {x: 0, y: 242}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1577397287
 MonoBehaviour:
@@ -18516,7 +18515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1848969567
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18765,7 +18764,6 @@ MonoBehaviour:
   uiTextRevivePaidCostValue: {fileID: 517751142}
   uiTextBombTitle: {fileID: 2084137229}
   uiTextBombSubtitle: {fileID: 1455526137}
-  uiTextCountdownValue: {fileID: 0}
   uiImageBombIcon: {fileID: 1254338925}
   uiImageCountdownFill: {fileID: 0}
 --- !u!225 &1870259363

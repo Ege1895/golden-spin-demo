@@ -26,5 +26,7 @@ namespace GoldenSpin.ConfigurationModule
         public const string METHOD_VIBRATE = "vibrate";
         public const string VIBRATION_EFFECT_CLASS = "android.os.VibrationEffect";
         public const string METHOD_CREATE_ONE_SHOT = "createOneShot";
+        public const string METHOD_HAS_AMPLITUDE_CONTROL = "hasAmplitudeControl";
+        public const int DEFAULT_AMPLITUDE = -1;
     }
 }
