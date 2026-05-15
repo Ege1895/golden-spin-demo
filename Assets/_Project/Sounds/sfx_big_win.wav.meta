@@ -8,7 +8,7 @@ AudioImporter:
     sampleRateSetting: 2
     sampleRateOverride: 22050
     compressionFormat: 1
-    quality: 0.7
+    quality: 0.5
     conversionMode: 0
   platformSettingOverrides:
     Android:
@@ -16,7 +16,7 @@ AudioImporter:
       sampleRateSetting: 2
       sampleRateOverride: 22050
       compressionFormat: 1
-      quality: 0.7
+      quality: 0.5
       conversionMode: 0
   forceToMono: 1
   normalize: 1

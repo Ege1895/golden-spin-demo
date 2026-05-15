@@ -40,7 +40,7 @@ SpriteAtlasAsset:
       m_ResizeAlgorithm: 0
       m_TextureFormat: 50
       m_TextureCompression: 1
-      m_CompressionQuality: 50
+      m_CompressionQuality: 30
       m_CrunchedCompression: 1
       m_AllowsAlphaSplitting: 0
       m_Overridden: 1
