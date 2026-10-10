@@ -111,3 +111,13 @@ InitTestScene*.unity*
 
 # macOS
 .DS_Store
+
+# JetBrains Rider / IDE settings
+.idea/
+
+# Claude Code local files
+/.claude/
+
+# Local build outputs (APK is published via GitHub Releases)
+/APK/
+/Android Build/

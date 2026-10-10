@@ -217,7 +217,7 @@ doğrulamak amacıyla hazırlanmıştır.
 Repository içerisinde:
 
 * Unity 2021 LTS proje dosyaları
-* Release APK build'i
+* Release APK build'i ([GitHub Releases](https://github.com/Ege1895/golden-spin-demo/releases/latest))
 * Gameplay videosu
 * 20:9 / 16:9 / 4:3 aspect ratio ekran görüntüleri
 
